@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 // Protect: Verifies Access Token
-const protect = async (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   let token;
 
   try {
@@ -38,11 +38,11 @@ const protect = async (req, res, next) => {
 };
 
 // Admin Middleware
-const admin = (req, res, next) => {
+const adminMiddleware = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
     return next();
   }
   return res.status(403).json({ message: "Not authorized as admin" });
 };
 
-module.exports = { protect, admin };
+module.exports = { authMiddleware, adminMiddleware };
