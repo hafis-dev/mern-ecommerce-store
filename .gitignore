@@ -1,24 +1,73 @@
-# Node modules
-node_modules/
+# =========================
+# Node / Backend
+# =========================
 backend/node_modules/
-
-# Environment files
-.env
 backend/.env
+backend/.env.local
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+backend/dist/
+backend/.cache/
 
-# Logs
-npm-debug.log*
-yarn-debug.log*
-pnpm-debug.log*
 
-# Build files
-build/
-dist/
+# =========================
+# React / Vite Frontend
+# =========================
+frontend/node_modules/
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+frontend/.env.development
+frontend/dist/
+frontend/build/
+frontend/.vite/
+frontend/.cache/
 
-# Uploads
-uploads/
+# Vite extra cache
+frontend/.vite/deps/
+frontend/.vite/cache/
 
-# OS / Editor files
+# Root env safety
+.env
+.env.local
+
+
+
+# =========================
+# General System Files
+# =========================
 .DS_Store
 Thumbs.db
+
+
+# =========================
+# Logs
+# =========================
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+# =========================
+# IDE / Editor
+# =========================
 .vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+# =========================
+# Optional Extras
+# =========================
+*.local
+*.cache
+*.pid
+*.seed
+*.tgz
