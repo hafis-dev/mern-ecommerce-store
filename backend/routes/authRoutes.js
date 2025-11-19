@@ -1,11 +1,18 @@
-const {  refreshToken, logoutUser, forgotPassword, registerUser, loginUser } = require('../controllers/authController');
+const {  refreshToken, logoutUser, forgotPassword, registerUser, loginUser,resetPassword } = require('../controllers/authController');
+const { protect } = require('../middleware/authMiddleware');
 
 const router = require('express').Router();
 
 router.post('/register',registerUser);
 
-router.post('/login', loginUser); 
-router.post("/refresh", refreshToken); 
-router.post("/logout",logoutUser);
-router.post('/forgotPassword',forgotPassword)
+// Auth Routes
+router.post("/login", loginUser);
+router.post("/refresh-token", refreshToken); 
+router.post("/logout", protect, logoutUser);
+
+// Password Reset / Forgot Password
+router.post("/forgot-password", forgotPassword);
+
+router.post("/reset-password", resetPassword);
+
 module.exports = router;

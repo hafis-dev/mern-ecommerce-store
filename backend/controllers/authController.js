@@ -1,8 +1,8 @@
 // ...existing code...
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
-const validator = require('validator')
-const Otp = require('../models/Otp');
+const validator = require("validator");
+const Otp = require("../models/Otp");
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -145,10 +145,18 @@ exports.forgotPassword = async (req, res) => {
   const { emailOrPhone } = req.body;
 
   try {
+    // 1. Presence check
+    if (
+      !emailOrPhone ||
+      typeof emailOrPhone !== "string" ||
+      emailOrPhone.trim() === ""
+    ) {
+      return res.status(400).json({ message: "Email or phone is required" });
+    }
     // Validate format
     if (
       !validator.isEmail(emailOrPhone) &&
-      !validator.isMobilePhone(emailOrPhone)
+      !validator.isMobilePhone(emailOrPhone, "en-IN")
     ) {
       return res.status(400).json({ message: "Invalid email or phone format" });
     }
@@ -173,7 +181,6 @@ exports.forgotPassword = async (req, res) => {
     await Otp.create({
       emailOrPhone,
       otp: hashedOTP,
-      expiresAt: Date.now() + 10 * 60 * 1000, // 10 minutes
     });
 
     // Send OTP
@@ -189,6 +196,74 @@ exports.forgotPassword = async (req, res) => {
 
     return res.status(200).json({ message: "OTP sent successfully" });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    
+    console.error("Forgot Password Error:", error);
+    return res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+
+// @desc    Reset Password using OTP
+// @route   POST /api/auth/reset-password
+// @access  Public
+exports.resetPassword = async (req, res) => {
+  const { emailOrPhone, otp, newPassword } = req.body;
+
+  try {
+    // 1. Presence check
+    if (!emailOrPhone || !otp || !newPassword) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    // OPTIONAL: Password strength check
+    if (newPassword.length < 6) {
+      return res
+        .status(400)
+        .json({ message: "Password must be at least 6 characters" });
+    }
+
+    // 2. Get OTP (anti-enumeration logic)
+    const otpRecord = await Otp.findOne({ emailOrPhone });
+
+    if (!otpRecord) {
+      return res.status(400).json({ message: "Invalid OTP or expired" });
+    }
+
+    // 3. Validate OTP
+    const isMatch = await bcrypt.compare(otp, otpRecord.otp);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid OTP or expired" });
+    }
+
+    // 4. Fetch user (NEVER reveal if user does not exist)
+    const user = await User.findOne({
+      $or: [{ email: emailOrPhone }, { phone: emailOrPhone }],
+    });
+
+    if (!user) {
+      // Still delete OTP to prevent reuse
+      await Otp.deleteOne({ emailOrPhone });
+
+      // Do NOT reveal user existence
+      return res.status(200).json({
+        message: "Password reset successful",
+      });
+    }
+
+    // 5. Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    // 6. Delete OTP after successful reset
+    await Otp.deleteOne({ emailOrPhone });
+
+    return res.status(200).json({
+      message: "Password reset successful",
+    });
+  } catch (error) {
+    console.error("resetPassword error:", error);
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
