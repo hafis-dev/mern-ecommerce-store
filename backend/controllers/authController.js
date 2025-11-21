@@ -119,7 +119,7 @@ exports.refreshToken = async (req, res) => {
 
   try {
     // Verify refresh token
-    const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
 
     // Generate new access token
     const accessToken = generateAccessToken(decoded.id);
@@ -196,12 +196,10 @@ exports.forgotPassword = async (req, res) => {
 
     return res.status(200).json({ message: "OTP sent successfully" });
   } catch (error) {
-    
     console.error("Forgot Password Error:", error);
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
-
 
 // @desc    Reset Password using OTP
 // @route   POST /api/auth/reset-password
@@ -266,4 +264,3 @@ exports.resetPassword = async (req, res) => {
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
-

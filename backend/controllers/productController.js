@@ -101,8 +101,8 @@ exports.getProducts = async (req, res) => {
       limit = 10,
       category,
       sort,
-      min,
-      max,
+      minPrice,
+      maxPrice,
       search,
       ...attrs
     } = req.query;
@@ -120,10 +120,10 @@ exports.getProducts = async (req, res) => {
     // ---------------------------
     // PRICE FILTER (min & max)
     // ---------------------------
-    if (min || max) {
+    if (minPrice || maxPrice) {
       query.price = {};
-      if (min) query.price.$gte = Number(min);
-      if (max) query.price.$lte = Number(max);
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
     }
 
     // ---------------------------
@@ -320,5 +320,39 @@ exports.deleteProduct = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Server error", error: err.message });
+  }
+};
+
+
+// ==============================
+// GET FEATURED PRODUCTS
+// ==============================
+exports.getFeaturedProducts = async (req, res) => {
+  try {
+    const products = await Product.find({ isFeatured: true })
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+    return res.json({ products });
+  } catch (err) {
+    console.error("getFeaturedProducts error:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+// ==============================
+// GET NEW ARRIVAL PRODUCTS
+// ==============================
+exports.getNewArrivalProducts = async (req, res) => {
+  try {
+    const products = await Product.find({ isNewArrival: true })
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+    return res.json({ products });
+  } catch (err) {
+    console.error("getNewArrivalProducts error:", err);
+    return res.status(500).json({ message: "Server error" });
   }
 };

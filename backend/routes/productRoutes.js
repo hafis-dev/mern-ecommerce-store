@@ -8,6 +8,8 @@ const {
   getProductById,
   updateProduct,
   deleteProduct,
+  getFeaturedProducts,
+  getNewArrivalProducts,
 } = require("../controllers/productController");
 
 const {
@@ -19,8 +21,9 @@ const {
 // PUBLIC ROUTES
 // ==============================
 router.get("/", getProducts); // Get all (with filters)
+router.get('/featured',getFeaturedProducts);
+router.get('/new',getNewArrivalProducts)
 router.get("/:id", getProductById); // Get one product
-
 // ==============================
 // ADMIN ROUTES
 // ==============================

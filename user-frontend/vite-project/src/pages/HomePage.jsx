@@ -1,8 +1,14 @@
 import React from 'react'
+import FeaturedSection from '../components/FeaturedSection'
+import NewArrivalSection from '../components/NewArrivalSection'
+import { Container } from 'react-bootstrap'
 
 function HomePage() {
   return (
-    <div>HomePage</div>
+    <Container>
+      <FeaturedSection/>
+      <NewArrivalSection/>
+    </Container>
   )
 }
 
