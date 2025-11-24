@@ -1,0 +1,35 @@
+.footer {
+    background: transparent;
+    color: #1b1a19;
+    border-top: 1px solid #dbd9d9;
+    padding-top: 10px;
+}
+
+.brandTitle {
+    color: #908681;
+}
+
+.brandTagline {
+    color: #6d5a4e;
+    font-size: 14px;
+}
+
+.sectionTitle {
+    color: #908681;
+    font-weight: 700;
+}
+
+.linkItem {
+    color: #1b1a19;
+    text-decoration: none;
+}
+
+.contactText {
+    color: #1b1a19;
+}
+
+.bottomLine {
+    border-top: 1px solid #dbd9d9;
+    padding-top: 10px;
+    color: #6d5a4e;
+}

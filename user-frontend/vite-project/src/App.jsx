@@ -14,10 +14,12 @@ import OrderHistoryPage from './pages/OrderHistoryPage'
 import { Container } from 'react-bootstrap'
 import Footer from './components/Footer'
 import AboutPage from './pages/AboutPage'
+import ScrollToTop from './routes/ScrollToTop'
 
 function App() {
   return (
     <BrowserRouter>
+    <ScrollToTop/>
       <AppNavbar />
       <Container className="px-0 mt-5 pt-3">
       <Routes>

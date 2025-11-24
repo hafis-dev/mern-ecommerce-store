@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import styles from "./navbarSearch.module.css";
 
 const NavbarSearch = () => {
     const [search, setSearch] = useState("");
@@ -18,28 +19,19 @@ const NavbarSearch = () => {
                 e.preventDefault();
                 handleSearch();
             }}
-            className="d-flex"
+            className={styles.searchForm}
         >
             <input
                 type="text"
-                className="form-control me-2"
-                style={{
-                    backgroundColor: "#dbd9d9",
-                    border: "1px solid #beb7b3",
-                    color: "#1b1a19",
-                }}
+                className={`form-control me-2 ${styles.searchInput}`}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search products..."
             />
+
             <button
-                className="btn"
+                className={styles.searchButton}
                 type="submit"
-                style={{
-                    backgroundColor: "#6d5a4e",
-                    color: "#fafafb",
-                    border: "none",
-                }}
             >
                 Search
             </button>

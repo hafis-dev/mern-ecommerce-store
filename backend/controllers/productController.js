@@ -142,6 +142,7 @@ exports.getProducts = async (req, res) => {
       query.$or = [
         { name: { $regex: s, $options: "i" } },
         { description: { $regex: s, $options: "i" } },
+        { description: { $regex: s, $options: "i" } },
       ];
     }
 

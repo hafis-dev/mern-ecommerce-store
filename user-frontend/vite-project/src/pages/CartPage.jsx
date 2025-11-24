@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { CartContext } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import CartCard from "../components/CartCard";
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Container } from "react-bootstrap";
 import styles from "./cartPage.module.css";
 
 const CartPage = () => {
@@ -20,8 +20,8 @@ const CartPage = () => {
   );
 
   return (
-    <div className={`${styles.cartContainer} pt-5 mt-lg-0 mt-md-4 mt-sm-3`}>
-      <h2 className={styles.cartTitle}>Your Cart ({cartCount})</h2>
+    <Container className={`${styles.cartContainer} pt-5 mt-lg-0 mt-md-4 mt-sm-3`}>
+      <h2 className={`${styles.cartTitle} mt-4`}>Your Cart ({cartCount})</h2>
 
       {cart.length === 0 && (
         <h3 className={styles.emptyText}>No items in cart</h3>
@@ -59,7 +59,7 @@ const CartPage = () => {
           </Button>
         </Card>
       )}
-    </div>
+    </Container>
   );
 };
 

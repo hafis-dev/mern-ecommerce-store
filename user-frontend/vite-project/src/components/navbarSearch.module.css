@@ -1,0 +1,45 @@
+:root {
+    --c1: #fafafb;
+    --c2: #dbd9d9;
+    --c3: #beb7b3;
+    --c4: #908681;
+    --c5: #6d5a4e;
+    --c6: #1b1a19;
+}
+
+.searchForm {
+    display: flex;
+}
+
+.searchInput {
+    border-radius: 0px !important;
+    background-color: var(--c2);
+    border: 1px solid var(--c3);
+    color: var(--c6);
+}
+.searchInput:focus {
+    outline: none !important;
+    border-color: var(--c5) !important;
+    /* Your theme color */
+    box-shadow: none !important;
+    /* Remove blue glow */
+    background-color: var(--c2);
+    color: var(--c6);
+}
+.searchInput::placeholder {
+    color: var(--c4);
+}
+
+.searchButton {
+    background-color: var(--c5);
+    color: var(--c1);
+    border: none;
+    border-radius: 0px;
+    padding: 0 15px;
+}
+
+.searchButton:hover {
+    background-color: var(--c4);
+    color: var(--c1);
+    border: none;
+}

@@ -33,8 +33,12 @@
     font-weight: 600;
     font-size: 16px !important;
     color: #1b1a19;
-    margin-bottom: 0px !important;
+    margin-bottom: 0 !important;
     letter-spacing: 0.2px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Product price */

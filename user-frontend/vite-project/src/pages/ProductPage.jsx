@@ -33,10 +33,12 @@ const ProductPage = () => {
             try {
                 const res = await api.get(`/products/${id}`);
                 setProduct(res.data.product);
+                
                 setSelectedImage(res.data.product.images?.[0]);
             } catch (err) {
                 console.log("Failed to load product", err);
             }
+            
         };
         fetchProduct();
     }, [id]);
@@ -75,11 +77,28 @@ const ProductPage = () => {
                 </Col>
 
                 {/* RIGHT SECTION */}
-                <Col md={6}>
-                    <h2 className={styles.productName}>{product.name}</h2>
+                <Col md={6} className="d-flex flex-column justify-content-between">
+
+                    <h2 className={`mt-1 ${styles.brandName}`}>{product.attributes?.brand}</h2>
+                    <h2 className={`mt-1 ${styles.productName}`}>{product.name}</h2>
                     <h4 className={styles.productPrice}>₹{product.price}</h4>
                     <p className={styles.productDescription}>{product.description}</p>
-                    <div className={styles.btnHighligts}>
+                    {/* ATTRIBUTES LIST */}
+                    {product.attributes && (
+                        <ul className={styles.attributeList}>
+                            {Object.entries(product.attributes).map(([key, value]) => (
+                                <li key={key}>
+                                    <span className={styles.attrKey}>
+                                        {key.charAt(0).toUpperCase() + key.slice(1)}:
+                                    </span>{" "}
+                                    <span className={styles.attrValue}>{value}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+
+
+                   
                     {isInCart ? (
                         <Button
                             type="button"
@@ -100,36 +119,43 @@ const ProductPage = () => {
                         </Button>
                     )}
 
-                    {/* HIGHLIGHTS */}
-                    <div className={styles.highlights}>
-                        <p className={styles.highlightItem}>
-                            <FontAwesomeIcon icon={faShieldHalved} /> &nbsp;
-                            <strong>100% Original Product</strong> – Quality checked and verified.
-                        </p>
-
-                        <p className={styles.highlightItem}>
-                            <FontAwesomeIcon icon={faTruckFast} /> &nbsp;
-                            <strong>Fast Delivery</strong> – Usually delivered within 3–5 days.
-                        </p>
-
-                        <p className={styles.highlightItem}>
-                            <FontAwesomeIcon icon={faCreditCard} /> &nbsp;
-                            <strong>Online Payment Only</strong> – Secure checkout available.
-                        </p>
-
-                        <p className={styles.highlightItem}>
-                            <FontAwesomeIcon icon={faRotateLeft} /> &nbsp;
-                            <strong>Easy Return & Exchange</strong> within 7 days.
-                        </p>
-
-                        <p className={styles.highlightItem}>
-                            <FontAwesomeIcon icon={faLock} /> &nbsp;
-                            <strong>Secure Payment</strong> – End-to-end encrypted checkout.
-                        </p>
-                    </div>
-                    </div>
+                    
+                   
                 </Col>
+                
             </Row>
+            
+            <Container className="pt-5 ps-0 mt-5 ">
+                <h4 className={styles.highlightHeading}>Product Highlights</h4>
+
+                {/* HIGHLIGHTS */}
+                <div className={styles.highlights}>
+                    <p className={styles.highlightItem}>
+                        <FontAwesomeIcon icon={faShieldHalved} /> &nbsp;
+                        <strong>100% Original Product</strong> – Quality checked and verified.
+                    </p>
+
+                    <p className={styles.highlightItem}>
+                        <FontAwesomeIcon icon={faTruckFast} /> &nbsp;
+                        <strong>Fast Delivery</strong> – Usually delivered within 3–5 days.
+                    </p>
+
+                    <p className={styles.highlightItem}>
+                        <FontAwesomeIcon icon={faCreditCard} /> &nbsp;
+                        <strong>Online Payment Only</strong> – Secure checkout available.
+                    </p>
+
+                    <p className={styles.highlightItem}>
+                        <FontAwesomeIcon icon={faRotateLeft} /> &nbsp;
+                        <strong>Easy Return & Exchange</strong> within 7 days.
+                    </p>
+
+                    <p className={styles.highlightItem}>
+                        <FontAwesomeIcon icon={faLock} /> &nbsp;
+                        <strong>Secure Payment</strong> – End-to-end encrypted checkout.
+                    </p>
+                </div>
+            </Container>
         </Container>
     );
 };

@@ -6,7 +6,7 @@ import {
     NavDropdown,
     Badge,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";   // 🔥 Use NavLink
 import NavbarSearch from "./NavbarSearch";
 import { AuthContext } from "../context/AuthContext";
 import { CartContext } from "../context/CartContext";
@@ -22,32 +22,37 @@ const AppNavbar = () => {
     const { user, logout } = useContext(AuthContext);
     const { cartCount } = useContext(CartContext);
 
+    // 🔥 Helper for active class
+    const setActive = ({ isActive }) =>
+        isActive ? `${styles.navlink} ${styles.active}` : styles.navlink;
+
     return (
         <Navbar
-            className={`${styles.navbar} container`}
+            className={`${styles.navbar} container  pb-1`}
             expand="lg"
             fixed="top"
         >
-            <Container className="pt-2">
+            <Container className="pt-2 ">
+
                 {/* LOGO */}
-                <Navbar.Brand as={Link} to="/" className={styles.brand}>
-                    MyShop
+                <Navbar.Brand as={NavLink} to="/" className={styles.brand}>
+                    Everloft
                 </Navbar.Brand>
 
                 {/* MOBILE LINKS */}
-                <Nav className="me-auto gap-3 d-flex flex-row d-lg-none">
-                    <Nav.Link as={Link} to="/" className={styles.navlink}>
+                <Nav className="me-auto gap-2 d-flex flex-row d-lg-none">
+                    <Nav.Link as={NavLink} to="/" className={setActive}>
                         HOME
                     </Nav.Link>
 
-                    <Nav.Link as={Link} to="/products" className={styles.navlink}>
+                    <Nav.Link as={NavLink} to="/products" className={setActive}>
                         COLLECTION
                     </Nav.Link>
                 </Nav>
 
                 {/* MOBILE CART */}
                 <Nav.Link
-                    as={Link}
+                    as={NavLink}
                     to="/cart"
                     className={`position-relative ms-auto me-4 fw-semibold d-lg-none ${styles.mobileCart}`}
                 >
@@ -76,21 +81,17 @@ const AppNavbar = () => {
                 >
                     {/* LEFT MENU (DESKTOP) */}
                     <Nav className="me-auto d-none d-lg-flex">
-                        <Nav.Link as={Link} to="/" className={styles.navlink}>
+                        <Nav.Link as={NavLink} to="/" className={setActive}>
                             HOME
                         </Nav.Link>
 
-                        <Nav.Link as={Link} to="/products" className={styles.navlink}>
+                        <Nav.Link as={NavLink} to="/products" className={setActive}>
                             COLLECTION
                         </Nav.Link>
 
-                        <Nav.Link as={Link} to="/about" className={styles.navlink}>
+                        <Nav.Link as={NavLink} to="/about" className={setActive}>
                             ABOUT
                         </Nav.Link>
-
-                        {/* <Nav.Link as={Link} to="/contact" className={styles.navlink}>
-                            CONTACT
-                        </Nav.Link> */}
                     </Nav>
 
                     {/* DESKTOP SEARCH */}
@@ -100,21 +101,13 @@ const AppNavbar = () => {
 
                     {/* MOBILE MENU */}
                     <Nav className="d-lg-none">
-                        <Nav.Link as={Link} to="/about" className={styles.navlink}>
+                        <Nav.Link as={NavLink} to="/about" className={setActive}>
                             ABOUT
                         </Nav.Link>
 
-                        {/* <Nav.Link as={Link} to="/contact" className={styles.navlink}>
-                            CONTACT
-                        </Nav.Link> */}
-
                         {user ? (
                             <>
-                                <Nav.Link
-                                    as={Link}
-                                    to="/orders"
-                                    className={styles.navlink}
-                                >
+                                <Nav.Link as={NavLink} to="/orders" className={setActive}>
                                     MY ORDERS
                                 </Nav.Link>
                                 <Nav.Link onClick={logout} className={styles.navlink}>
@@ -122,7 +115,7 @@ const AppNavbar = () => {
                                 </Nav.Link>
                             </>
                         ) : (
-                            <Nav.Link as={Link} to="/login" className={styles.navlink}>
+                            <Nav.Link as={NavLink} to="/login" className={setActive}>
                                 LOGIN
                             </Nav.Link>
                         )}
@@ -132,7 +125,7 @@ const AppNavbar = () => {
                     <Nav className="d-none d-lg-flex align-items-center">
                         {/* CART DESKTOP */}
                         <Nav.Link
-                            as={Link}
+                            as={NavLink}
                             to="/cart"
                             className={`position-relative fw-semibold me-2 ${styles.navlink}`}
                         >
@@ -149,11 +142,10 @@ const AppNavbar = () => {
 
                         {/* PROFILE DROPDOWN */}
                         <NavDropdown
-                            className={styles.noCaret}
                             align="end"
                             title={
                                 user ? (
-                                    `Hi, ${user.username}`
+                                    ` ${user.username}`
                                 ) : (
                                     <FontAwesomeIcon
                                         icon={faCircleUser}
@@ -165,7 +157,11 @@ const AppNavbar = () => {
                         >
                             {user ? (
                                 <>
-                                    <NavDropdown.Item as={Link} to="/orders" className={styles.dropdownItem}>
+                                    <NavDropdown.Item
+                                        as={NavLink}
+                                        to="/orders"
+                                        className={styles.dropdownItem}
+                                    >
                                         MY ORDERS
                                     </NavDropdown.Item>
 
@@ -176,7 +172,11 @@ const AppNavbar = () => {
                                     </NavDropdown.Item>
                                 </>
                             ) : (
-                                    <NavDropdown.Item as={Link} to="/login" className={styles.dropdownItem}>
+                                <NavDropdown.Item
+                                    as={NavLink}
+                                    to="/login"
+                                    className={styles.dropdownItem}
+                                >
                                     LOGIN
                                 </NavDropdown.Item>
                             )}

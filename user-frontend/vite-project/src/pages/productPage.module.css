@@ -22,7 +22,8 @@
 
 .thumbnail {
     width: 100%;
-    height: 120px;          /* IMPORTANT */
+    height: 120px;
+    /* IMPORTANT */
     object-fit: contain;
     background: #fff;
     border: 1px solid var(--c2);
@@ -48,15 +49,26 @@
     align-items: center;
     justify-content: center;
 }
+
 .mainImg {
     width: 100%;
     height: 100%;
     object-fit: contain;
     /* FULL PRODUCT VISIBLE */
 }
+
+/* Product Details Section */
+.brandName {
+    padding-top: 20px;
+    font-size: 20px;
+    color: var(--c3);
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
 /* Product Details Section */
 .productName {
-    font-size: 28px;
+    font-size: 24px;
     color: var(--c6);
     font-weight: 700;
     letter-spacing: 0.3px;
@@ -70,21 +82,78 @@
 }
 
 .productDescription {
-    max-width:75%;
+    max-width: 75%;
     margin-top: 18px;
     font-size: 16px;
     color: var(--c4);
     line-height: 1.7;
 }
 
+/* ============================= */
+/*  ATTRIBUTE SECTION (THEMED)   */
+/* ============================= */
+
+.attributeList {
+    margin-top: 20px;
+    padding-left: 22px;
+    list-style-type: disc;
+
+    /* same font as page */
+    font-family: "Urbanist", sans-serif;
+
+    /* text color similar to description */
+    color: var(--c6);
+}
+
+/* Each attribute item */
+.attributeList li {
+    margin-bottom: 8px;
+    padding: 3px 5px;
+    border-radius: 8px;
+    list-style-type: none;
+    /* Background + border theme */
+    background: var(--c1);
+    border-left: 4px solid var(--c5);
+
+    /* smooth hover */
+    transition: 0.25s ease-in-out;
+}
+
+/* Hover effect */
+.attributeList li:hover {
+    background: var(--c2);
+}
+
+/* Attribute key (label) */
+.attrKey {
+    font-weight: 700;
+    /* like product name weight */
+    color: var(--c5);
+    /* theme brown */
+    font-size: 15.5px;
+    letter-spacing: 0.3px;
+    text-transform: capitalize;
+}
+
+/* Attribute value */
+.attrValue {
+    color: var(--c4);
+    /* muted gray like description */
+    font-weight: 500;
+    font-size: 15px;
+}
+.btn{
+    margin-top:auto
+}
 /* Add to cart button */
 .addBtn,
 .cartBtn {
     width: 150px;
     padding: 14px;
-    margin-top: 25px;
+    margin-top: auto;
+    margin-bottom:20px;
     font-size: 17px;
-    border-radius: 10px;
+    border-radius: 0px !important;
     font-weight: 600;
 }
 
@@ -102,6 +171,14 @@
 
 }
 
-.btnHighligts{
-    margin-top: 80px !important;
+.highlightHeading {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--c6);
+    margin-bottom: 15px;
+    letter-spacing: 0.3px;
+
+    border-left: 4px solid var(--c5);
+    /* stylish accent */
+    padding-left: 10px;
 }

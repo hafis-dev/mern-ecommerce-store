@@ -41,9 +41,9 @@ function ControlledCarousel() {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src="https://images.unsplash.com/photo-1523275335684-37898b6baf30"
+            src="banner1.jpg"
             alt="First slide"
-            style={{ height: "450px", objectFit: "cover" }}
+            style={{ height: "550px", objectFit: "cover" }}
           />
           <Carousel.Caption className="custom-caption">
             <h3>Premium Collection</h3>
@@ -55,9 +55,9 @@ function ControlledCarousel() {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f"
+              src="banner2.jpg"
             alt="Second slide"
-            style={{ height: "450px", objectFit: "cover" }}
+            style={{ height: "550px", objectFit: "cover" }}
           />
           <Carousel.Caption className="custom-caption">
             <h3>New Arrivals</h3>
@@ -69,9 +69,11 @@ function ControlledCarousel() {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f"
+              src="banner3.jpg
+
+"
             alt="Third slide"
-            style={{ height: "450px", objectFit: "cover" }}
+            style={{ height: "550px", objectFit: "cover" }}
           />
           <Carousel.Caption className="custom-caption">
             <h3>Classic Essentials</h3>

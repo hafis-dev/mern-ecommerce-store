@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
-import { Row, Col, Card, Button, Image } from "react-bootstrap";
+import { Row, Col, Card, Button, Image, Container } from "react-bootstrap";
 import OrderCard from "../components/OrderCard";
 
 const OrderHistoryPage = () => {
@@ -129,7 +129,7 @@ const OrderHistoryPage = () => {
                 }
             `}</style>
 
-            <div className="history-container">
+            <Container className="history-container  mt-4 pt-5 mt-lg-0 mt-md-4 mt-sm-3">
                 <h2 className="fw-bold mb-4">My Orders</h2>
 
                 {orders.length === 0 && (
@@ -145,7 +145,7 @@ const OrderHistoryPage = () => {
                    
                 ))}
 
-            </div>
+            </Container>
         </>
     );
 };

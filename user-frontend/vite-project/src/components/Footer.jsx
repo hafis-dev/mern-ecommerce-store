@@ -10,117 +10,99 @@ import {
     faQuestionCircle,
     faShieldHalved
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+
+import styles from "./footer.module.css";
 
 const Footer = () => {
     return (
-        <footer
-            className="mt-5 pt-4 pb-3"
-            style={{
-                background: "transparent",
-                color: "#1b1a19", // DARK text
-                borderTop: "1px solid #dbd9d9",
-                paddingTop: "10px",
-            }}
-        >
+        <footer className={`mt-5 pt-4 pb-3 ${styles.footer}`}>
             <Container>
 
                 <Row className="mb-4">
+
                     {/* BRAND */}
                     <Col md={4} className="mb-3">
-                        <h5
-                            className="text-uppercase fw-bold"
-                            style={{ color: "#908681" }}
-                        >
+                        <h5 className={`text-uppercase fw-bold ${styles.brandTitle}`}>
                             MyShop
                         </h5>
-                        <p style={{ color: "#6d5a4e", fontSize: "14px" }}>
+                        <p className={styles.brandTagline}>
                             Quality products. Fast delivery. Trusted service.
                         </p>
                     </Col>
 
                     {/* LINKS */}
                     <Col md={2} className="mb-3">
-                        <h6 className="fw-bold" style={{ color: "#908681" }}>
-                            Links
-                        </h6>
+                        <h6 className={`fw-bold ${styles.sectionTitle}`}>Links</h6>
                         <ul className="list-unstyled">
                             <li>
-                                <a href="/" className="text-decoration-none" style={{ color: "#1b1a19" }}>
+                                <Link to="/" className={styles.linkItem}>
                                     <FontAwesomeIcon icon={faHome} /> &nbsp; Home
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="/products" className="text-decoration-none" style={{ color: "#1b1a19" }}>
+                                <Link to="/products" className={styles.linkItem}>
                                     <FontAwesomeIcon icon={faBox} /> &nbsp; Products
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="/about" className="text-decoration-none" style={{ color: "#1b1a19" }}>
+                                <Link to="/about" className={styles.linkItem}>
                                     <FontAwesomeIcon icon={faInfoCircle} /> &nbsp; About
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="/contact" className="text-decoration-none" style={{ color: "#1b1a19" }}>
+                                <Link to="/contact" className={styles.linkItem}>
                                     <FontAwesomeIcon icon={faEnvelope} /> &nbsp; Contact
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </Col>
 
                     {/* SUPPORT */}
                     <Col md={3} className="mb-3">
-                        <h6 className="fw-bold" style={{ color: "#908681" }}>
-                            Support
-                        </h6>
+                        <h6 className={`fw-bold ${styles.sectionTitle}`}>Support</h6>
                         <ul className="list-unstyled">
                             <li>
-                                <a href="#" className="text-decoration-none" style={{ color: "#1b1a19" }}>
+                                <Link to="#" className={styles.linkItem}>
                                     <FontAwesomeIcon icon={faQuestionCircle} /> &nbsp; FAQ
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" className="text-decoration-none" style={{ color: "#1b1a19" }}>
+                                <Link to="#" className={styles.linkItem}>
                                     <FontAwesomeIcon icon={faShieldHalved} /> &nbsp; Privacy Policy
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" className="text-decoration-none" style={{ color: "#1b1a19" }}>
+                                <Link to="#" className={styles.linkItem}>
                                     Terms & Conditions
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </Col>
 
                     {/* CONTACT */}
                     <Col md={3} className="mb-3">
-                        <h6 className="fw-bold" style={{ color: "#908681" }}>
-                            Contact
-                        </h6>
+                        <h6 className={`fw-bold ${styles.sectionTitle}`}>Contact</h6>
 
-                        <p className="mb-1" style={{ color: "#1b1a19" }}>
+                        <p className={`mb-1 ${styles.contactText}`}>
                             <FontAwesomeIcon icon={faLocationDot} /> &nbsp; Wayanad, Kerala
                         </p>
 
-                        <p className="mb-1" style={{ color: "#1b1a19" }}>
+                        <p className={`mb-1 ${styles.contactText}`}>
                             <FontAwesomeIcon icon={faPhone} /> &nbsp; +91 98765 43210
                         </p>
 
-                        <p className="mb-1" style={{ color: "#1b1a19" }}>
+                        <p className={`mb-1 ${styles.contactText}`}>
                             <FontAwesomeIcon icon={faEnvelope} /> &nbsp; support@myshop.com
                         </p>
                     </Col>
+
                 </Row>
 
                 {/* BOTTOM LINE */}
                 <Row>
-                    <Col
-                        className="text-center"
-                        style={{
-                            borderTop: "1px solid #dbd9d9",
-                            paddingTop: "10px",
-                        }}
-                    >
-                        <small style={{ color: "#6d5a4e" }}>
+                    <Col className="text-center">
+                        <small className={styles.bottomLine}>
                             © {new Date().getFullYear()} MyShop — All Rights Reserved
                         </small>
                     </Col>
