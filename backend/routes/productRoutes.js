@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../middleware/upload");
+const upload = require('../middleware/multer')
 
 const {
   createProduct,
@@ -27,7 +27,7 @@ router.get("/:id", getProductById); // Get one product
 // ==============================
 // ADMIN ROUTES
 // ==============================
-router.post("/", authMiddleware, adminMiddleware,upload.array('images',5), createProduct);
+router.post("/create", authMiddleware, adminMiddleware,upload.array('images',5), createProduct);
 router.put("/:id", authMiddleware, adminMiddleware, updateProduct);
 router.delete("/:id", authMiddleware, adminMiddleware, deleteProduct);
 

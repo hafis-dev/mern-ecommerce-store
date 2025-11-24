@@ -1,0 +1,97 @@
+/* Theme Colors */
+:root {
+    --c1: #fafafb;
+    --c2: #dbd9d9;
+    --c3: #beb7b3;
+    --c4: #908681;
+    --c5: #6d5a4e;
+    --c6: #1b1a19;
+}
+
+.orderCard {
+    background: var(--c1);
+    border: 1px solid var(--c2);
+    border-radius: 0px !important;
+    font-family: "Urbanist", sans-serif;
+    transition: 0.2s ease;
+}
+
+.orderCard:hover {
+    border-color: var(--c5);
+}
+
+.orderHeader {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--c6);
+}
+
+.orderMeta {
+    font-size: 14px;
+    color: var(--c4);
+}
+
+/* STATUS BADGES */
+.statusBadge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-top: 4px;
+    display: inline-block;
+    font-weight: 600;
+}
+
+.statusDelivered {
+    background: #17c96433;
+    color: #0f8c4d;
+}
+
+.statusCancelled {
+    background: #ff6b6b33;
+    color: #b81e1e;
+}
+
+.statusProcessing {
+    background: #6d5a4e22;
+    color: var(--c5);
+}
+
+/* COLLAPSE AREA */
+.itemRow {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--c2);
+    padding: 12px 0;
+}
+
+.itemRow:last-child {
+    border-bottom: none;
+}
+
+.itemImg {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-right: 12px;
+}
+
+.itemName {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--c6);
+}
+
+.btnCancel {
+    background: var(--c5) !important;
+    border: none !important;
+    color: var(--c1) !important;
+    font-weight: 600 !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    transition: 0.2s ease;
+}
+
+.btnCancel:hover {
+    background: #59483d !important;
+}

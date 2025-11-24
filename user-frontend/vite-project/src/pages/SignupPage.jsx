@@ -1,38 +1,38 @@
-import React, { useContext, useState } from 'react'
-import { AuthContext } from '../context/AuthContext.jsx'
-import axios from 'axios'
-import {toast} from 'react-toastify'
-import { Link, Navigate } from 'react-router-dom'
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext.jsx";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { Link, Navigate } from "react-router-dom";
+import styles from "./signup.module.css";
+
 function SignupPage() {
-    const { user, login } = useContext(AuthContext)
-  
+    const { user, login } = useContext(AuthContext);
 
     const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        phone: '',
-        password: ''
+        username: "",
+        email: "",
+        phone: "",
+        password: "",
+    });
 
-    })
-    // 🚀 If already logged in → redirect
     if (user) return <Navigate to="/" replace />;
-    async function handleChange(e) {
+
+    function handleChange(e) {
         setFormData({
             ...formData,
-            [e.target.name]:e.target.value
-        })
+            [e.target.name]: e.target.value,
+        });
     }
 
-    async function handleSubmit(e) {
-        e.preventDefault();
-
+    async function handleSignup() {
         try {
             const res = await axios.post("http://localhost:3000/api/auth/register", {
                 username: formData.username.trim(),
                 email: formData.email.trim().toLowerCase(),
                 phone: formData.phone.trim(),
                 password: formData.password,
-            })
+            });
+
             login(res.data);
             toast.success("Account created successfully!");
             window.location.replace("/");
@@ -40,9 +40,13 @@ function SignupPage() {
             toast.error(error.response?.data?.message || "Signup failed");
         }
     }
+
     return (
-        <form onSubmit={handleSubmit}>
+        <div className={styles.page}>
+            <h2 className={styles.title}>Create Account</h2>
+
             <input
+                className={styles.input}
                 name="username"
                 placeholder="Username"
                 value={formData.username}
@@ -50,6 +54,7 @@ function SignupPage() {
             />
 
             <input
+                className={styles.input}
                 name="email"
                 placeholder="Email"
                 value={formData.email}
@@ -57,6 +62,7 @@ function SignupPage() {
             />
 
             <input
+                className={styles.input}
                 name="phone"
                 placeholder="Phone"
                 value={formData.phone}
@@ -64,6 +70,7 @@ function SignupPage() {
             />
 
             <input
+                className={styles.input}
                 name="password"
                 type="password"
                 placeholder="Password"
@@ -71,15 +78,15 @@ function SignupPage() {
                 onChange={handleChange}
             />
 
-            <button>Create Account</button>
-            
-            <p>
+            <button className={styles.button} onClick={handleSignup}>
+                Create Account
+            </button>
+
+            <p className={styles.bottomText}>
                 Already have an account? <Link to="/login">Login</Link>
             </p>
-
-
-        </form>
-    )
+        </div>
+    );
 }
 
-export default SignupPage
+export default SignupPage;

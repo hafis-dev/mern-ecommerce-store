@@ -1,0 +1,99 @@
+/* Colors */
+:root {
+    --c1: #fafafb;
+    --c2: #dbd9d9;
+    --c3: #beb7b3;
+    --c4: #908681;
+    --c5: #6d5a4e;
+    --c6: #1b1a19;
+}
+
+/* Base font for navbar */
+.navbar * {
+    font-family: "Urbanist", sans-serif ;
+    letter-spacing: 0.2px;
+    font-weight: bold;
+}
+
+/* Navbar main */
+.navbar {
+    background-color: var(--c1);
+    border-bottom: 1px solid var(--c2);
+    padding-top: 4px;
+    padding-bottom: 6px;
+}
+
+/* Brand logo */
+.brand {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--c6) !important;
+    letter-spacing: 0.3px;
+}
+
+/* Nav links (Desktop + Mobile) */
+.navlink {
+    color: var(--c5) !important;
+    font-weight: 600;
+    font-size: 15px;
+    transition: 0.2s ease;
+}
+
+.navlink:hover {
+    color: var(--c6) !important;
+}
+
+/* Mobile cart icon */
+.mobileCart {
+    color: var(--c6) !important;
+    font-weight: 600;
+}
+
+/* Cart badge (mobile) */
+.cartBadge {
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    top: 11px;
+    right: -9px;
+    background: var(--c5) !important;
+    color: var(--c1) !important;
+    font-family: "Urbanist", sans-serif;
+    font-weight: 700;
+}
+
+/* Desktop cart badge */
+.cartBadgeDesktop {
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    top: 20px;
+    right: 0;
+    background: var(--c5) !important;
+    color: var(--c1) !important;
+    font-weight: 700;
+}
+
+/* Dropdown items */
+.dropdownItem {
+    color: var(--c6) !important;
+    font-weight: 500;
+    font-size: 15px;
+    transition: 0.15s ease;
+}
+
+/* Dropdown item hover */
+.dropdownItem:hover {
+    background-color: var(--c3) !important;
+    color: var(--c6) !important;
+}
+
+/* Divider hover fix */
+.dropdownDivider:hover {
+    background-color: transparent !important;
+}
+
+/* No caret on dropdown */
+.noCaret .dropdown-toggle::after {
+    display: none !important;
+}

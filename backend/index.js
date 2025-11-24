@@ -13,6 +13,9 @@ app.use(cors()); // move CORS before routes
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/checkout", require("./routes/checkoutRoutes"));
+app.use("/api/orders", require("./routes/orderRoutes"));
+
 app.get("/", (req, res) => {
   res.send("API is running....");
 });

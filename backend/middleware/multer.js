@@ -1,7 +1,8 @@
 const multer = require("multer");
 const path = require("path");
 
-const storage = multer.diskStorage({});
+// Store files in memory, not disk
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   const allowed = /jpg|jpeg|png|webp/;

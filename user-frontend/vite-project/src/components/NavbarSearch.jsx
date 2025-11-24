@@ -23,11 +23,24 @@ const NavbarSearch = () => {
             <input
                 type="text"
                 className="form-control me-2"
+                style={{
+                    backgroundColor: "#dbd9d9",
+                    border: "1px solid #beb7b3",
+                    color: "#1b1a19",
+                }}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search products..."
             />
-            <button className="btn btn-outline-primary" type="submit">
+            <button
+                className="btn"
+                type="submit"
+                style={{
+                    backgroundColor: "#6d5a4e",
+                    color: "#fafafb",
+                    border: "none",
+                }}
+            >
                 Search
             </button>
         </form>

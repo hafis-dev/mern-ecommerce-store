@@ -10,6 +10,9 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: [
+        "Wallet",
+        "Watch",
+        "Glass",
         "Men Accessories",
         "Electronics",
         "Shoes",

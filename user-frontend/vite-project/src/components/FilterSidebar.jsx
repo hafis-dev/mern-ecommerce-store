@@ -7,15 +7,11 @@ const FilterSidebar = ({ onApply, onClear }) => {
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
     const [sort, setSort] = useState("");
-
-    // dynamic attribute states stored in an object
     const [attributes, setAttributes] = useState({});
 
-    const dynamicAttrs = CATEGORY_ATTRIBUTES[category] || [];
+    const [open, setOpen] = useState(false);
 
-    const handleAttributeChange = (attr, value) => {
-        setAttributes((prev) => ({ ...prev, [attr]: value }));
-    };
+    const dynamicAttrs = CATEGORY_ATTRIBUTES[category] || [];
 
     const handleApply = () => {
         const filters = {};
@@ -28,12 +24,12 @@ const FilterSidebar = ({ onApply, onClear }) => {
         if (sort === "price_high") filters.sort = "price_desc";
         if (sort === "newest") filters.sort = "newest";
 
-        // Add dynamic attributes
-        for (const key in attributes) {
+        Object.keys(attributes).forEach((key) => {
             if (attributes[key]) filters[key] = attributes[key];
-        }
+        });
 
         onApply(filters);
+        setOpen(false);
     };
 
     const handleClear = () => {
@@ -46,91 +42,201 @@ const FilterSidebar = ({ onApply, onClear }) => {
     };
 
     return (
-        <Card className="p-3 shadow-sm">
-            <h5 className="mb-3">Filters</h5>
+        <>
+            {/* ⭐ CSS THEME + NEW MODERN MODEL */}
+            <style>{`
+                .filter-toggle {
+                    display: none;
+                    background: #6d5a4e;
+                    color: #fafafb;
+                    border: none;
+                    padding: 10px 18px;
+                    font-size: 15px;
+                    font-weight: 500;
+                    
+                }
 
-            {/* Category */}
-            <Form.Group className="mb-3">
-                <Form.Label>Category</Form.Label>
-                <Form.Select
-                    value={category}
-                    onChange={(e) => {
-                        setCategory(e.target.value);
-                        setAttributes({}); // reset when category changes
-                    }}
-                >
-                    <option value="">All</option>
-                    <option>Men Accessories</option>
-                    <option>Electronics</option>
-                    <option>Shoes</option>
-                    <option>Clothing</option>
-                    <option>Bags</option>
-                    <option>Beauty</option>
-                    <option>Home Appliances</option>
-                    <option>Mobile</option>
-                    <option>Laptop</option>
-                </Form.Select>
-            </Form.Group>
+                .filter-toggle:hover {
+                    background: #908681;
+                }
 
-            {/* Price */}
-            <Form.Group className="mb-3">
-                <Form.Label>Min Price</Form.Label>
-                <Form.Control
-                    type="number"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(e.target.value)}
-                />
-            </Form.Group>
+                @media (max-width: 768px) {
+                    .filter-toggle {
+                        display: block;
+                    }
+                    .filter-card {
+                        display: ${open ? "block" : "none"};
+                    }
+                }
 
-            <Form.Group className="mb-3">
-                <Form.Label>Max Price</Form.Label>
-                <Form.Control
-                    type="number"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(e.target.value)}
-                />
-            </Form.Group>
+                .filter-card {
+                    background: #fafafb;
+                    border-radius: 0px;
+                    padding: 22px;
+                    box-shadow: 0px 3px 10px rgba(0,0,0,0.1);
+                    border: 1px solid #dbd9d9;
+                }
 
-            {/* Sort */}
-            <Form.Group className="mb-3">
-                <Form.Label>Sort By</Form.Label>
-                <Form.Select value={sort} onChange={(e) => setSort(e.target.value)}>
-                    <option value="">Default</option>
-                    <option value="price_low">Price: Low to High</option>
-                    <option value="price_high">Price: High to Low</option>
-                    <option value="newest">Newest</option>
-                </Form.Select>
-            </Form.Group>
+                .filter-title {
+                    font-size: 22px;
+                    font-weight: 700;
+                    color: #1b1a19;
+                    text-align: center;
+                    margin-bottom: 18px;
+                }
 
-            {/* Dynamic Attribute Section */}
-            {dynamicAttrs.length > 0 && (
-                <>
-                    <hr />
-                    <h6>Attributes</h6>
+                .filter-label {
+                    color: #1b1a19;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
 
-                    {dynamicAttrs.map((attr) => (
-                        <Form.Group className="mb-3" key={attr}>
-                            <Form.Label>{attr.toUpperCase()}</Form.Label>
-                            <Form.Control
-                                placeholder={`Enter ${attr}`}
-                                value={attributes[attr] || ""}
-                                onChange={(e) => handleAttributeChange(attr, e.target.value)}
-                            />
-                        </Form.Group>
-                    ))}
-                </>
-            )}
+                .filter-input,
+                .filter-select {
+                    background: #dbd9d9;
+                    border: none;
+                    border-radius: 0px;
+                    color: #1b1a19;
+                    padding: 10px;
+                    font-size: 15px;
+                }
 
-            {/* Buttons */}
-            <div className="d-flex gap-2">
-                <Button variant="primary" onClick={handleApply}>
-                    Apply Filters
-                </Button>
-                <Button variant="secondary" onClick={handleClear}>
-                    Clear
-                </Button>
-            </div>
-        </Card>
+                .filter-input:focus,
+                .filter-select:focus {
+                    outline: none;
+                    box-shadow: none;
+                    background: #beb7b3;
+                }
+
+                .btn-apply {
+                    background: #6d5a4e;
+                    border: none;
+                    color: #fafafb;
+                    font-weight: 500;
+                    border-radius:0px
+                }
+
+                .btn-apply:hover {
+                    background: #908681;
+                }
+
+                .btn-clear {
+                    background: #dbd9d9;
+                    border: none;
+                    color: #1b1a19;
+                    border-radius:0px
+                }
+
+                .btn-clear:hover {
+                    background: #beb7b3;
+                }
+            `}</style>
+
+            {/* ⭐ MOBILE TOGGLE BUTTON */}
+            <button className="filter-toggle" onClick={() => setOpen(!open)}>
+                {open ? "Close Filters" : "Open Filters"}
+            </button>
+
+            {/* ⭐ FILTER SIDEBAR */}
+            <Card className="filter-card my-0">
+
+                <h5 className="filter-title">Filters</h5>
+
+                {/* Category */}
+                <Form.Group className="mb-3">
+                    <Form.Label className="filter-label">Category</Form.Label>
+                    <Form.Select
+                        value={category}
+                        onChange={(e) => {
+                            setCategory(e.target.value);
+                            setAttributes({});
+                        }}
+                        className="filter-select"
+                    >
+                        <option value="">All</option>
+                        <option>Men Accessories</option>
+                        <option>Electronics</option>
+                        <option>Shoes</option>
+                        <option>Clothing</option>
+                        <option>Bags</option>
+                        <option>Beauty</option>
+                        <option>Home Appliances</option>
+                        <option>Mobile</option>
+                        <option>Laptop</option>
+                        <option>Wallet</option>
+                        <option>Watch</option>
+                        <option>Glass</option>
+                    </Form.Select>
+                </Form.Group>
+
+                {/* Price */}
+                <Form.Group className="mb-3">
+                    <Form.Label className="filter-label">Min Price</Form.Label>
+                    <Form.Control
+                        type="number"
+                        value={minPrice}
+                        onChange={(e) => setMinPrice(e.target.value)}
+                        className="filter-input"
+                    />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                    <Form.Label className="filter-label">Max Price</Form.Label>
+                    <Form.Control
+                        type="number"
+                        value={maxPrice}
+                        onChange={(e) => setMaxPrice(e.target.value)}
+                        className="filter-input"
+                    />
+                </Form.Group>
+
+                {/* Sort */}
+                <Form.Group className="mb-3">
+                    <Form.Label className="filter-label">Sort By</Form.Label>
+                    <Form.Select
+                        value={sort}
+                        onChange={(e) => setSort(e.target.value)}
+                        className="filter-select"
+                    >
+                        <option value="">Default</option>
+                        <option value="price_low">Price: Low to High</option>
+                        <option value="price_high">Price: High to Low</option>
+                        <option value="newest">Newest</option>
+                    </Form.Select>
+                </Form.Group>
+
+                {/* Dynamic Attributes */}
+                {dynamicAttrs.length > 0 && (
+                    <>
+                        <hr />
+
+                        {dynamicAttrs.map((attr) => (
+                            <Form.Group className="mb-3" key={attr}>
+                                <Form.Label className="filter-label">{attr.toUpperCase()}</Form.Label>
+                                <Form.Control
+                                    placeholder={`Enter ${attr}`}
+                                    value={attributes[attr] || ""}
+                                    onChange={(e) =>
+                                        setAttributes((prev) => ({ ...prev, [attr]: e.target.value }))
+                                    }
+                                    className="filter-input"
+                                />
+                            </Form.Group>
+                        ))}
+                    </>
+                )}
+
+                {/* Buttons */}
+                <div className="d-flex gap-2 mt-3">
+                    <Button className="btn-apply w-50" onClick={handleApply}>
+                        Apply
+                    </Button>
+                    <Button className="btn-clear w-50" onClick={handleClear}>
+                        Clear
+                    </Button>
+                </div>
+            </Card>
+        </>
     );
 };
 

@@ -9,11 +9,17 @@ import AppNavbar from './components/AppNavbar'
 import CartPage from './pages/CartPage'
 import ProductPage from './pages/ProductPage'
 import ProtectRoute from './routes/ProtectRoute'
+import CheckoutPage from './pages/CheckoutPage'
+import OrderHistoryPage from './pages/OrderHistoryPage'
+import { Container } from 'react-bootstrap'
+import Footer from './components/Footer'
+import AboutPage from './pages/AboutPage'
 
 function App() {
   return (
     <BrowserRouter>
-    <AppNavbar/>
+      <AppNavbar />
+      <Container className="px-0 mt-5 pt-3">
       <Routes>
         <Route path='/' element={< HomePage />} />
         <Route path='/login' element={<LoginPage />} />
@@ -30,8 +36,14 @@ function App() {
           }
         />
         <Route path="/product/:id" element={<ProductPage />} />
-
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/order-success" element={<h2>Order Successful!</h2>} />
+        <Route path="/orders" element={<OrderHistoryPage />} />
+<Route path="/about" element={<AboutPage/> }/>
       </Routes>
+      
+      </Container>
+      <Footer />
     </BrowserRouter>
   )
 }

@@ -6,6 +6,7 @@ import { AuthProvider } from './context/AuthContext.jsx'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap-icons/font/bootstrap-icons.min.css";
 
 import { ProductProvider } from './context/ProductContext.jsx'
 import { CartProvider } from './context/CartContext.jsx'

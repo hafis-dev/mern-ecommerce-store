@@ -30,21 +30,20 @@ exports.addToCart = async (req, res) => {
         (item) => item.product.toString() === productId
       );
 
-       if (itemIndex > -1) {
-         // Update quantity
-         cart.items[itemIndex].quantity += quantity;
-       } else {
-         // Add new item
-         cart.items.push({ product: productId, quantity });
-       }
-
+      if (itemIndex > -1) {
+        // Update quantity
+        cart.items[itemIndex].quantity += quantity;
+      } else {
+        // Add new item
+        cart.items.push({ product: productId, quantity });
+      }
     }
 
-     await cart.save();
-     return res.json({ message: "Added to cart", cart });
+    await cart.save();
+    return res.json({ message: "Added to cart", cart });
   } catch (error) {
-     console.error("addToCart error:", error);
-     return res.status(500).json({ message: "Server error" });
+    console.error("addToCart error:", error);
+    return res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -67,7 +66,6 @@ exports.getCart = async (req, res) => {
   }
 };
 
-
 // =============================
 // UPDATE CART ITEM
 // =============================
@@ -78,22 +76,25 @@ exports.updateCartItem = async (req, res) => {
     const cart = await Cart.findOne({ user: req.user._id });
     if (!cart) return res.status(404).json({ message: "Cart not found" });
 
-    const item = cart.items.find(
-      (i) => i.product.toString() === productId
-    );
+    const item = cart.items.find((i) => i.product.toString() === productId);
 
-    if (!item) return res.status(404).json({ message: "Item not found in cart" });
+    if (!item)
+      return res.status(404).json({ message: "Item not found in cart" });
 
     item.quantity = quantity;
-
     await cart.save();
-    return res.json({ message: "Cart updated", cart });
+
+    const updatedCart = await Cart.findOne({ user: req.user._id }).populate(
+      "items.product",
+      "name price images stock"
+    );
+
+    return res.json({ message: "Cart updated", cart: updatedCart });
   } catch (err) {
     console.error("updateCartItem error:", err);
     return res.status(500).json({ message: "Server error" });
   }
 };
-
 
 // =============================
 // REMOVE ITEM
@@ -110,7 +111,13 @@ exports.removeCartItem = async (req, res) => {
     );
 
     await cart.save();
-    return res.json({ message: "Item removed", cart });
+
+    const updatedCart = await Cart.findOne({ user: req.user._id }).populate(
+      "items.product",
+      "name price images stock"
+    );
+
+    return res.json({ message: "Item removed", cart: updatedCart });
   } catch (err) {
     console.error("removeCartItem error:", err);
     return res.status(500).json({ message: "Server error" });

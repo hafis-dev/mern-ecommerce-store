@@ -7,7 +7,9 @@ export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
     const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-    // Load Cart
+    // ==========================
+    // LOAD CART
+    // ==========================
     const loadCart = async () => {
         try {
             const res = await api.get("/cart");
@@ -17,37 +19,45 @@ export const CartProvider = ({ children }) => {
         }
     };
 
-    // Add to cart
+    // ==========================
+    // ADD TO CART
+    // ==========================
     const addToCart = async (productId, quantity = 1) => {
         try {
             const res = await api.post("/cart/add", { productId, quantity });
-            setCart(res.data.cart.items);
+            setCart(res.data.cart.items || []);
         } catch (err) {
             console.log("addToCart error:", err);
         }
     };
 
-    // Update item
+    // ==========================
+    // UPDATE ITEM
+    // ==========================
     const updateCartItem = async (productId, quantity) => {
         try {
             const res = await api.put("/cart/update", { productId, quantity });
-            setCart(res.data.cart.items);
+            setCart(res.data.cart.items || []);
         } catch (err) {
             console.log("update error:", err);
         }
     };
 
-    // Remove item
+    // ==========================
+    // REMOVE ITEM
+    // ==========================
     const removeItem = async (productId) => {
         try {
             const res = await api.delete(`/cart/remove/${productId}`);
-            setCart(res.data.cart.items);
+            setCart(res.data.cart.items || []);
         } catch (err) {
             console.log("remove error:", err);
         }
     };
 
-    // Clear cart
+    // ==========================
+    // CLEAR CART
+    // ==========================
     const clearCart = async () => {
         try {
             await api.delete("/cart/clear");
@@ -57,19 +67,18 @@ export const CartProvider = ({ children }) => {
         }
     };
 
+    // Auto load when logged in
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
-        if (token) {
-            loadCart();   // only load cart when logged in
-        }
+        if (token) loadCart();
     }, []);
-
 
     return (
         <CartContext.Provider
             value={{
                 cart,
-                cartCount,       // 🔥 useful for navbar icon
+                cartCount,
+                loadCart,        // 🔥 important (you missed this)
                 addToCart,
                 updateCartItem,
                 removeItem,

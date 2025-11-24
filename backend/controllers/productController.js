@@ -1,10 +1,11 @@
 // backend/controllers/productController.js
-const cloudinary = require("../config/cloudinary");
 const Product = require("../models/Product");
+const cloudinary = require('../config/cloudinary');
 
 // ==============================
 // CREATE PRODUCT (Admin)
 // ==============================
+
 
 exports.createProduct = async (req, res) => {
   try {
@@ -27,19 +28,14 @@ exports.createProduct = async (req, res) => {
       });
     }
 
-    // Price
     const priceNum = Number(price);
-    if (isNaN(priceNum)) {
-      return res.status(400).json({ message: "Invalid price" });
-    }
-
-    // Stock
     const stockNum = Number(stock);
-    if (isNaN(stockNum) || stockNum < 0) {
-      return res.status(400).json({ message: "Invalid stock value" });
+
+    if (isNaN(priceNum) || isNaN(stockNum) || stockNum < 0) {
+      return res.status(400).json({ message: "Invalid price or stock" });
     }
 
-    // Parse attributes (because form-data sends strings)
+    // Parse attributes string → JSON
     let finalAttributes = {};
     if (attributes) {
       try {
@@ -49,20 +45,31 @@ exports.createProduct = async (req, res) => {
       }
     }
 
-    // Images from multer
+    // Images required
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ message: "Product images are required" });
     }
 
-    // ----- CLOUDINARY UPLOAD -----
-    let imageUrls = [];
+    // ----------------------------
+    // CLOUDINARY BUFFER UPLOAD
+    // ----------------------------
+    const uploadBuffer = (fileBuffer) => {
+      return new Promise((resolve, reject) => {
+        const upload = cloudinary.uploader.upload_stream(
+          { folder: "ecommerce_products" },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result.secure_url);
+          }
+        );
 
-    for (const file of req.files) {
-      const uploaded = await cloudinary.uploader.upload(file.path, {
-        folder: "ecommerce_products",
+        upload.end(fileBuffer);
       });
-      imageUrls.push(uploaded.secure_url);
-    }
+    };
+
+    const imageUrls = await Promise.all(
+      req.files.map((file) => uploadBuffer(file.buffer))
+    );
 
     // ----- CREATE PRODUCT -----
     const product = new Product({
@@ -72,7 +79,7 @@ exports.createProduct = async (req, res) => {
       stock: stockNum,
       category,
       attributes: finalAttributes,
-      images: imageUrls, // <-- USE CLOUDINARY URLS
+      images: imageUrls,
       isFeatured: isFeatured || false,
       isNewArrival: isNewArrival || false,
     });
@@ -90,6 +97,7 @@ exports.createProduct = async (req, res) => {
       .json({ message: "Server error", error: err.message });
   }
 };
+
 
 // ==============================
 // ADVANCED FILTERING (Public)

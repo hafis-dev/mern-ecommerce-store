@@ -1,0 +1,20 @@
+/* Hide scrollbar for Chrome, Safari, Edge */
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* remove arrow from ONLY this dropdown */
+.no-caret .dropdown-toggle::after {
+    display: none !important;
+}
+
+
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #fafafb;
+    /* your color */
+}

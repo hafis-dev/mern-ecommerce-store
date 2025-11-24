@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap');
+
+:root {
+    --c1: #fafafb;
+    --c2: #dbd9d9;
+    --c3: #beb7b3;
+    --c4: #908681;
+    --c5: #6d5a4e;
+    --c6: #1b1a19;
+}
+
+.cartContainer {
+    padding: 20px;
+    background: var(--c1);
+    min-height: 85vh;
+    font-family: "Urbanist", sans-serif;
+}
+
+.cartTitle {
+    font-weight: 700;
+    font-size: 28px;
+    margin-bottom: 25px;
+    text-align: center;
+    color: var(--c6);
+}
+
+.emptyText {
+    text-align: center;
+    color: var(--c4);
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.totalCard {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+    margin-top: 35px;
+}
+
+.totalText {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--c6);
+    margin-bottom: 15px;
+}
+
+.checkoutBtn {
+    width: 100%;
+    padding: 13px;
+    border-radius: 10px !important;
+    font-size: 17px;
+    font-weight: 600;
+    background: var(--c5) !important;
+    border: none !important;
+    transition: 0.2s ease;
+}
+
+.checkoutBtn:hover {
+    background: var(--c4) !important;
+}

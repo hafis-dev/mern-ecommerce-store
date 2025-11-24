@@ -1,0 +1,103 @@
+/* Theme Colors */
+:root {
+    --c1: #fafafb;
+    /* background */
+    --c2: #dbd9d9;
+    /* borders */
+    --c3: #beb7b3;
+    /* headings accent */
+    --c4: #908681;
+    /* text secondary */
+    --c5: #6d5a4e;
+    /* buttons */
+    --c6: #1b1a19;
+    /* headings main */
+}
+
+.checkoutContainer {
+    padding: 40px 20px;
+    background: var(--c1);
+    min-height: 90vh;
+    font-family: "Urbanist", sans-serif;
+}
+
+/* Section Title */
+.sectionTitle {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--c6);
+    letter-spacing: 0.3px;
+    margin-bottom: 20px;
+}
+
+/* Card Boxes */
+.formCard,
+.summaryCard {
+    background: transparent;
+    border-radius: 14px;
+    padding: 22px;
+    border: 1px solid var(--c2);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* Order Items */
+.orderItem {
+    display: flex;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--c2);
+}
+
+.itemImg {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* Item Text */
+.itemName {
+    margin: 0;
+    color: var(--c6);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.itemQty {
+    margin: 2px 0;
+    color: var(--c4);
+    font-size: 14px;
+}
+
+.itemPrice {
+    margin: 0;
+    color: var(--c5);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+/* Total */
+.totalText {
+    margin-top: 18px;
+    color: var(--c6);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* Button */
+.placeBtn {
+    background: var(--c5) !important;
+    border: none !important;
+    padding: 14px;
+    width: 100%;
+    font-size: 17px;
+    font-weight: 600;
+    color: white;
+    border-radius: 0px !important;
+    margin-top: 20px;
+    transition: 0.25s ease;
+}
+
+.placeBtn:hover {
+    background: var(--c4) !important;
+}
