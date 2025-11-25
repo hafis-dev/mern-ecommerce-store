@@ -20,10 +20,19 @@ const orderSchema = new mongoose.Schema(
           ref: "Product",
           required: true,
         },
-        name: { type: String, required: true }, // snapshot
-        qty: { type: Number, required: true },
-        price: { type: Number, required: true }, // snapshot
-        image: { type: String, required: true },
+        name: String,
+        qty: Number,
+        price: Number,
+        image: String,
+
+        // NEW
+        itemStatus: {
+          type: String,
+          enum: ["Processing", "Shipped", "Delivered", "Cancelled"],
+          default: "Processing",
+        },
+
+       
       },
     ],
 

@@ -3,6 +3,7 @@ import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { Row, Col, Card, Button, Image, Container } from "react-bootstrap";
 import OrderCard from "../components/OrderCard";
+import { toast } from "react-toastify";
 
 const OrderHistoryPage = () => {
     const [orders, setOrders] = useState([]);
@@ -16,16 +17,27 @@ const OrderHistoryPage = () => {
             console.log("Order history error:", err);
         }
     };
+    const cancelItem = async (orderId, itemId) => {
+        try {
+            await api.put(`/orders/cancel-item/${orderId}/${itemId}`);
+            toast.success("Item cancelled!");
+            loadOrders();
+        } catch (err) {
+            toast.error("Could not cancel item.");
+        }
+    };
+
 
     const cancelOrder = async (orderId) => {
         try {
             await api.put(`/orders/cancel/${orderId}`);
-            alert("Order cancelled!");
+            toast.success("Order cancelled!");
             loadOrders();
         } catch (err) {
-            alert("Could not cancel order.");
+            toast.error("Could not cancel order.");
         }
     };
+
 
     useEffect(() => {
         loadOrders();
@@ -140,8 +152,10 @@ const OrderHistoryPage = () => {
                     <OrderCard
                         key={order._id}
                         order={order}
-                        onCancel={(id) => cancelOrder(id)}
+                        onCancelOrder={(id) => cancelOrder(id)}
+                        onCancelItem={(orderId, itemId) => cancelItem(orderId, itemId)}
                     />
+
                    
                 ))}
 

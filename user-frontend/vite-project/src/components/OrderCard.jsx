@@ -43,7 +43,7 @@ const OrderCard = ({ order, onCancelOrder, onCancelItem }) => {
 
             {/* COLLAPSIBLE SECTION */}
             <Collapse in={open}>
-                <div className="p-3 border-top py-0">
+                <div className="p-3 border-top">
 
                     {/* ITEMS */}
                     {order.orderItems.map((item, idx) => (
@@ -83,7 +83,6 @@ const OrderCard = ({ order, onCancelOrder, onCancelItem }) => {
                             </div>
                         </div>
                     ))}
-
 
 
                     {/* CANCEL FULL ORDER */}
