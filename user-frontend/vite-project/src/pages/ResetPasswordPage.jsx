@@ -11,18 +11,51 @@ const ResetPasswordPage = () => {
     const navigate = useNavigate();
     const [otp, setOtp] = useState("");
     const [newPassword, setNewPassword] = useState("");
-
+    // REGEX
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10}$/;
+    const otpRegex = /^[0-9]{6}$/;
     if (!identifier) {
         toast.error("Invalid password reset request");
         return <Navigate to="/forgot-password" replace />;
     }
 
-    const handleReset = async () => {
+    const handleReset = async (e) => {
+        e?.preventDefault();
+        const value = identifier.trim();
+        const otpValue = otp.trim();
+        const passwordValue = newPassword;
+
+       
+
+        // VALIDATE email/phone
+        if (!value) {
+            return toast.error("Email or phone is required");
+        }
+
+        const isEmail = emailRegex.test(value);
+        const isPhone = phoneRegex.test(value);
+
+        if (!isEmail && !isPhone) {
+            return toast.error("Enter a valid email or 10-digit phone number");
+        }
+
+        // VALIDATE OTP
+        if (!otpValue || !otpRegex.test(otpValue)) {
+            return toast.error("OTP must be a 6-digit number");
+        }
+
+        // VALIDATE PASSWORD
+        if (!passwordValue || passwordValue.length < 6) {
+            return toast.error("Password must be at least 6 characters");
+        }
+
+        // API CALL
         try {
             await axios.post("http://localhost:3000/api/auth/reset-password", {
-                emailOrPhone: identifier,
-                otp,
-                newPassword,
+                emailOrPhone: value,
+                otp: otpValue,
+                newPassword: passwordValue,
             });
 
             toast.success("Password reset successfully! Please Login");
@@ -31,6 +64,7 @@ const ResetPasswordPage = () => {
             toast.error(error.response?.data?.message || "Failed to reset password");
         }
     };
+
 
     return (
         <div className={styles.page}>
@@ -51,7 +85,7 @@ const ResetPasswordPage = () => {
                 onChange={(e) => setNewPassword(e.target.value)}
             />
 
-            <button className={styles.button} onClick={handleReset}>
+            <button type="button" className={styles.button} onClick={(e)=>handleReset(e)}>
                 Reset Password
             </button>
         </div>

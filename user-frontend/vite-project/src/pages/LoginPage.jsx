@@ -2,30 +2,57 @@ import { useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import styles from "./login.module.css";
 
 const LoginPage = () => {
+    const navigate = useNavigate()
     const { user, login } = useContext(AuthContext);
     const [emailOrPhone, setEmailOrPhone] = useState("");
     const [password, setPassword] = useState("");
+    // REGEX patterns
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10}$/;
 
     if (user) return <Navigate to="/" replace />;
 
     const handleLogin = async () => {
+        const value = emailOrPhone.trim();
+        const passwordValue = password;
+
+
+        // VALIDATIONS
+        if (!value) {
+            return toast.error("Email or phone is required");
+        }
+
+        const isEmail = emailRegex.test(value);
+        const isPhone = phoneRegex.test(value);
+
+        if (!isEmail && !isPhone) {
+            return toast.error("Enter a valid email or 10-digit phone number");
+        }
+
+        if (!passwordValue) {
+            return toast.error("Password is required");
+        }
+
+        // API request
         try {
             const res = await axios.post("http://localhost:3000/api/auth/login", {
-                emailOrPhone,
-                password,
+                emailOrPhone: value,
+                password: passwordValue,
             });
 
             login(res.data);
             toast.success("Login successful");
-            window.location.href = "/";
+            navigate('/');
+
         } catch (error) {
             toast.error(error.response?.data?.message || "Login failed");
         }
     };
+
 
     return (
         <div className={styles.page}>

@@ -2,22 +2,45 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import styles from "./forgotPassword.module.css";
+import { useNavigate } from "react-router-dom";
 
 const ForgotPasswordPage = () => {
     const [emailOrPhone, setEmailOrPhone] = useState("");
+    // REGEX
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10}$/;
+    const navigate = useNavigate()
+    const handleSubmit = async (e) => {
+        e?.preventDefault();
+        const value = emailOrPhone.trim();
 
-    const handleSubmit = async () => {
+
+        if (!value) {
+            return toast.error("Email or phone is required");
+        }
+
+        const isEmail = emailRegex.test(value);
+        const isPhone = phoneRegex.test(value);
+
+        if (!isEmail && !isPhone) {
+            return toast.error("Enter a valid email or 10-digit phone number");
+        }
+
+        const identifier = isEmail ? value.toLowerCase() : value;
+
         try {
             await axios.post("http://localhost:3000/api/auth/forgot-password", {
-                emailOrPhone: emailOrPhone.trim().toLowerCase(),
+                emailOrPhone: identifier,
             });
 
             toast.success("OTP sent successfully!");
-            window.location.href = `/reset-password?identifier=${emailOrPhone}`;
+            navigate(`/reset-password?identifier=${identifier}`)
+
         } catch (error) {
             toast.error(error.response?.data?.message || "Failed to send OTP");
         }
     };
+
 
     return (
         <div className={styles.page}>
@@ -30,7 +53,7 @@ const ForgotPasswordPage = () => {
                 onChange={(e) => setEmailOrPhone(e.target.value)}
             />
 
-            <button className={styles.button} onClick={handleSubmit}>
+            <button type="button" className={styles.button} onClick={(e)=>handleSubmit(e)}>
                 Send OTP
             </button>
         </div>

@@ -6,7 +6,7 @@ import {
     NavDropdown,
     Badge,
 } from "react-bootstrap";
-import { NavLink } from "react-router-dom";   // 🔥 Use NavLink
+import { NavLink, useNavigate } from "react-router-dom";   // 🔥 Use NavLink
 import NavbarSearch from "./NavbarSearch";
 import { AuthContext } from "../context/AuthContext";
 import { CartContext } from "../context/CartContext";
@@ -21,11 +21,14 @@ import styles from "./appbar.module.css";
 const AppNavbar = () => {
     const { user, logout } = useContext(AuthContext);
     const { cartCount } = useContext(CartContext);
-
+    const navigate = useNavigate()
     // 🔥 Helper for active class
     const setActive = ({ isActive }) =>
         isActive ? `${styles.navlink} ${styles.active}` : styles.navlink;
-
+    function handleLogout() {
+        logout()
+        navigate('/login')
+    }
     return (
         <Navbar
             className={`${styles.navbar} container  pb-1`}
@@ -110,7 +113,7 @@ const AppNavbar = () => {
                                 <Nav.Link as={NavLink} to="/orders" className={setActive}>
                                     MY ORDERS
                                 </Nav.Link>
-                                <Nav.Link onClick={logout} className={styles.navlink}>
+                                <Nav.Link onClick={handleLogout} className={styles.navlink}>
                                     LOGOUT
                                 </Nav.Link>
                             </>
@@ -167,7 +170,7 @@ const AppNavbar = () => {
 
                                     <NavDropdown.Divider className={styles.dropdownDivider} />
 
-                                    <NavDropdown.Item onClick={logout} className={styles.dropdownItem}>
+                                    <NavDropdown.Item onClick={handleLogout} className={styles.dropdownItem}>
                                         LOGOUT
                                     </NavDropdown.Item>
                                 </>

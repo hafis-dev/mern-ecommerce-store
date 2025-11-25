@@ -11,32 +11,69 @@ const {
 const generateOTP = require("../utils/otpUtil");
 const { sendSMS } = require("../utils/smsUtil");
 const { sendEmail } = require("../utils/EmailUtil");
-
+// VALIDATION REGEX
+const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const phoneRegex = /^[0-9]{10}$/;
 exports.registerUser = async (req, res) => {
   const { username, email, phone, password } = req.body;
+
+  // CHECK REQUIRED FIELDS
   if (!username || !email || !password) {
-    return res
-      .status(400)
-      .json({ message: "username, email and password are required" });
+    return res.status(400).json({
+      message: "Username, email and password are required",
+    });
   }
+
+  // USERNAME VALIDATION
+  if (!usernameRegex.test(username)) {
+    return res.status(400).json({
+      message:
+        "Username must be 3–20 characters long and contain only letters, numbers, and underscores",
+    });
+  }
+
+  // EMAIL VALIDATION
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({
+      message: "Invalid email format",
+    });
+  }
+
+  // PHONE VALIDATION (optional)
+  if (phone && !phoneRegex.test(phone)) {
+    return res.status(400).json({
+      message: "Phone number must be 10 digits",
+    });
+  }
+
   try {
-    const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
+    // CHECK USER EXISTS
+    const existingUser = await User.findOne({
+      $or: [{ email }, { phone }],
+    });
+
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "User with this email or phone already exists" });
+      return res.status(400).json({
+        message: "User with this email or phone already exists",
+      });
     }
+
+    // HASH PASSWORD
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+
+    // CREATE NEW USER
     const newUser = new User({
       username,
       email,
       phone,
       password: hashedPassword,
     });
+
     await newUser.save();
 
-    // generate tokens using the new user id
+    // GENERATE TOKENS
     const accessToken = generateAccessToken(newUser._id);
     const refreshToken = generateRefreshToken(newUser._id);
 
@@ -51,8 +88,10 @@ exports.registerUser = async (req, res) => {
       message: "User registered successfully",
     });
   } catch (error) {
-    console.error("Register error:", error.message || error);
-    return res.status(500).json({ message: "Server error" });
+    console.error("Register error:", error);
+    return res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 
@@ -60,41 +99,51 @@ exports.loginUser = async (req, res) => {
   try {
     const { emailOrPhone, password } = req.body;
 
-    // 1. Validate inputs
+    // 1. Validate required fields
     if (!emailOrPhone || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // 2. Normalize email (lowercase)
-    const identifier = emailOrPhone.includes("@")
-      ? emailOrPhone.toLowerCase()
-      : emailOrPhone;
 
-    // 3. Search user
+    const value = emailOrPhone.trim();
+
+    // 3. Determine whether it's email or phone
+    let identifier = null;
+    if (emailRegex.test(value)) {
+      identifier = value.toLowerCase(); // normalize email
+    } else if (phoneRegex.test(value)) {
+      identifier = value; // phone stays same
+    } else {
+      return res.status(400).json({
+        message: "Enter a valid email or 10-digit phone number",
+      });
+    }
+
+    // 4. Find user
     const user = await User.findOne({
       $or: [{ email: identifier }, { phone: identifier }],
     });
 
-    // Same message for user not found (for security)
+    // Same generic response for security
     if (!user) {
-      return res
-        .status(401)
-        .json({ message: "Invalid email/phone or password" });
+      return res.status(401).json({
+        message: "Invalid email/phone or password",
+      });
     }
 
-    // 4. Compare password
+    // 5. Validate password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res
-        .status(401)
-        .json({ message: "Invalid email/phone or password" });
+      return res.status(401).json({
+        message: "Invalid email/phone or password",
+      });
     }
 
-    // 5. Generate tokens
+    // 6. Generate tokens
     const accessToken = generateAccessToken(user._id);
     const refreshToken = generateRefreshToken(user._id);
 
-    // 6. Response
+    // 7. Response
     return res.json({
       user: {
         id: user._id,
@@ -106,10 +155,11 @@ exports.loginUser = async (req, res) => {
       message: "Login successful",
     });
   } catch (error) {
-    console.error("Login error:", error.message || error);
+    console.error("Login error:", error?.message || error);
     return res.status(500).json({ message: "Server error" });
   }
 };
+
 
 exports.refreshToken = async (req, res) => {
   const { token } = req.body;

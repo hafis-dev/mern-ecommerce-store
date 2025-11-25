@@ -7,6 +7,10 @@ import styles from "./signup.module.css";
 
 function SignupPage() {
     const { user, login } = useContext(AuthContext);
+    // REGEX VALIDATION
+    const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10}$/;
 
     const [formData, setFormData] = useState({
         username: "",
@@ -25,12 +29,42 @@ function SignupPage() {
     }
 
     async function handleSignup() {
+        
+        const username = formData.username.trim();
+        const email = formData.email.trim().toLowerCase();
+        const phone = formData.phone.trim();
+        const password = formData.password;
+
+        // FRONTEND VALIDATIONS
+        if (!username) {
+            return toast.error("Username is required");
+        }
+        if (!usernameRegex.test(username)) {
+            return toast.error("Username must be 3–20 chars (letters, numbers, underscore)");
+        }
+
+        if (!email) {
+            return toast.error("Email is required");
+        }
+        if (!emailRegex.test(email)) {
+            return toast.error("Invalid email format");
+        }
+
+        if (phone && !phoneRegex.test(phone)) {
+            return toast.error("Phone must be 10 digits");
+        }
+
+        if (!password || password.length < 6) {
+            return toast.error("Password must be at least 6 characters");
+        }
+
+        // SEND REQUEST AFTER VALIDATION
         try {
             const res = await axios.post("http://localhost:3000/api/auth/register", {
-                username: formData.username.trim(),
-                email: formData.email.trim().toLowerCase(),
-                phone: formData.phone.trim(),
-                password: formData.password,
+                username,
+                email,
+                phone,
+                password,
             });
 
             login(res.data);
@@ -40,6 +74,7 @@ function SignupPage() {
             toast.error(error.response?.data?.message || "Signup failed");
         }
     }
+
 
     return (
         <div className={styles.page}>
