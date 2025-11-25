@@ -3,7 +3,7 @@ import { Card, Button, Image, Collapse } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styles from "./orderCard.module.css";
 
-const OrderCard = ({ order, onCancel }) => {
+const OrderCard = ({ order, onCancelOrder, onCancelItem }) => {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -43,28 +43,55 @@ const OrderCard = ({ order, onCancel }) => {
 
             {/* COLLAPSIBLE SECTION */}
             <Collapse in={open}>
-                <div className="p-3 border-top">
+                <div className="p-3 border-top py-0">
 
                     {/* ITEMS */}
                     {order.orderItems.map((item, idx) => (
-                        <div key={idx} className={styles.itemRow}>
-                            <Image src={item.image} className={styles.itemImg} rounded />
+                        <div key={idx} className={`${styles.itemRow} row g-2`}>
 
-                            <div style={{ flexGrow: 1 }}>
-                                <p className={styles.itemName}>{item.name}</p>
-                                <p className="text-muted">Qty: {item.qty}</p>
+                            {/* IMAGE */}
+                            <div className="col-auto">
+                                <Image src={item.image} className={styles.itemImg} rounded />
                             </div>
 
-                            <div className="fw-bold">₹{item.price}</div>
+                            {/* NAME + QTY + PRICE */}
+                            <div className="col d-flex flex-column">
+                                <p className={styles.itemName}>{item.name}</p>
+                                <p className="text-muted m-0">Qty: {item.qty}</p>
+                                <p className={styles.itemPrice}>₹{item.price}</p>
+                            </div>
+
+                            {/* STATUS */}
+                            <div className="col-auto d-flex align-items-center">
+                                <span className={styles.statusBadge}>{item.itemStatus}</span>
+                            </div>
+
+                            {/* CANCEL BUTTON */}
+                            <div className="col-auto d-flex align-items-center">
+                                {item.itemStatus === "Processing" && (
+                                    <Button
+                                        size="sm"
+                                        className={styles.btnCancel}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onCancelItem(order._id, item._id);
+                                        }}
+                                    >
+                                        Cancel
+                                    </Button>
+                                )}
+                            </div>
                         </div>
                     ))}
 
-                    {/* BUTTONS */}
+
+
+                    {/* CANCEL FULL ORDER */}
                     <div className="d-flex justify-content-end mt-3">
                         {order.status === "Processing" && (
                             <Button
                                 className={styles.btnCancel}
-                                onClick={() => onCancel(order._id)}
+                                onClick={() => onCancelOrder(order._id)}
                             >
                                 Cancel Order
                             </Button>

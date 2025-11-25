@@ -137,8 +137,8 @@ const AboutPage = () => {
                 <Container className="about-section">
                     <Row className="g-4">
 
-                        <Col md={4}>
-                            <div className="highlight-box">
+                        <Col md={4} >
+                            <div className="highlight-box" style={{ borderRadius: "0px" }}>
                                 <div className="highlight-icon">🚚</div>
                                 <h4 className="highlight-title">Fast Delivery</h4>
                                 <p className="highlight-text">
@@ -148,7 +148,7 @@ const AboutPage = () => {
                         </Col>
 
                         <Col md={4}>
-                            <div className="highlight-box">
+                            <div className="highlight-box" style={{ borderRadius: "0px" }}>
                                 <div className="highlight-icon">🔐</div>
                                 <h4 className="highlight-title">Secure Payments</h4>
                                 <p className="highlight-text">
@@ -158,7 +158,7 @@ const AboutPage = () => {
                         </Col>
 
                         <Col md={4}>
-                            <div className="highlight-box">
+                            <div className="highlight-box" style={{ borderRadius: "0px" }}>
                                 <div className="highlight-icon">🎁</div>
                                 <h4 className="highlight-title">Quality Products</h4>
                                 <p className="highlight-text">

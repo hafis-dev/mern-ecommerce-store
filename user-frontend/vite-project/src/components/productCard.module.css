@@ -3,7 +3,7 @@
     cursor: pointer;
     border-radius: 0px !important;
     background-color: transparent !important;
-    border: 0px !important;
+    border: 1px solid #908681;
 }
 
 /* Hover border with theme color */

@@ -15,6 +15,7 @@ import { Container } from 'react-bootstrap'
 import Footer from './components/Footer'
 import AboutPage from './pages/AboutPage'
 import ScrollToTop from './routes/ScrollToTop'
+import OrderSuccessPage from './pages/OrderSuccessPage'
 
 function App() {
   return (
@@ -39,7 +40,7 @@ function App() {
         />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/order-success" element={<h2>Order Successful!</h2>} />
+        <Route path="/order-success" element={ <OrderSuccessPage/> } />
         <Route path="/orders" element={<OrderHistoryPage />} />
 <Route path="/about" element={<AboutPage/> }/>
       </Routes>

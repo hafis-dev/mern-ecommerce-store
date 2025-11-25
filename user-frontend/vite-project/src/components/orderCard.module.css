@@ -14,6 +14,7 @@
     border-radius: 0px !important;
     font-family: "Urbanist", sans-serif;
     transition: 0.2s ease;
+    padding-bottom: 10px;
 }
 
 .orderCard:hover {
@@ -29,6 +30,73 @@
 .orderMeta {
     font-size: 14px;
     color: var(--c4);
+}
+
+/* ONE clean itemRow definition */
+.itemRow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--c2);
+  
+     
+}
+
+.itemRow:last-child {
+    border-bottom: none;
+}
+
+/* IMAGE */
+.itemImg {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* NAME + QTY */
+.itemInfo {
+    
+    flex: 2;
+}
+
+.itemName {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--c6);
+    margin-bottom: 0px;
+}
+
+/* PRICE */
+.itemPrice {
+    font-weight: bold;
+    font-size: 15px;
+        font-weight: 600;
+        color: var(--c6);
+        margin-top: 0px;
+}
+
+/* STATUS */
+.itemStatus {
+    flex: 0 0 110px;
+    text-align: center;
+}
+
+/* CANCEL BUTTON */
+.btnCancel {
+    flex: 0 0 auto;
+    background: var(--c5) !important;
+    border: none !important;
+    color: var(--c1) !important;
+    font-weight: 600 !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    transition: 0.2s ease;
+}
+
+.btnCancel:hover {
+    background: #59483d !important;
 }
 
 /* STATUS BADGES */
@@ -54,44 +122,4 @@
 .statusProcessing {
     background: #6d5a4e22;
     color: var(--c5);
-}
-
-/* COLLAPSE AREA */
-.itemRow {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid var(--c2);
-    padding: 12px 0;
-}
-
-.itemRow:last-child {
-    border-bottom: none;
-}
-
-.itemImg {
-    width: 65px;
-    height: 65px;
-    object-fit: cover;
-    border-radius: 6px;
-    margin-right: 12px;
-}
-
-.itemName {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--c6);
-}
-
-.btnCancel {
-    background: var(--c5) !important;
-    border: none !important;
-    color: var(--c1) !important;
-    font-weight: 600 !important;
-    padding: 8px 16px !important;
-    border-radius: 8px !important;
-    transition: 0.2s ease;
-}
-
-.btnCancel:hover {
-    background: #59483d !important;
 }

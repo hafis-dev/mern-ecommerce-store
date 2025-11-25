@@ -37,7 +37,7 @@ const CheckoutPage = () => {
     };
 
     return (
-        <div className={styles.checkoutContainer}>
+        <div className={`${styles.checkoutContainer} mt-4 pt-5 mt-lg-0 mt-md-4 mt-sm-3`} >
             <Row>
                 {/* LEFT FORM */}
                 <Col md={7} className="mb-4">
