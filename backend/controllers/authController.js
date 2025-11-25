@@ -77,6 +77,15 @@ exports.registerUser = async (req, res) => {
     const accessToken = generateAccessToken(newUser._id);
     const refreshToken = generateRefreshToken(newUser._id);
 
+    // Send refresh token inside cookie
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      path: "/", // 🔥 required
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
     return res.status(201).json({
       user: {
         id: newUser._id,
@@ -84,7 +93,6 @@ exports.registerUser = async (req, res) => {
         role: newUser.role,
       },
       accessToken,
-      refreshToken,
       message: "User registered successfully",
     });
   } catch (error) {
@@ -103,7 +111,6 @@ exports.loginUser = async (req, res) => {
     if (!emailOrPhone || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
-
 
     const value = emailOrPhone.trim();
 
@@ -143,16 +150,22 @@ exports.loginUser = async (req, res) => {
     const accessToken = generateAccessToken(user._id);
     const refreshToken = generateRefreshToken(user._id);
 
-    // 7. Response
-    return res.json({
+    // Send refresh token inside cookie
+     res.cookie("refreshToken", refreshToken, {
+       httpOnly: true,
+       secure: process.env.NODE_ENV === "production" ? true : false,
+       sameSite: "lax",
+       path: "/", // 🔥 required
+     });
+    console.log("logined");
+    return res.status(201).json({
       user: {
         id: user._id,
         username: user.username,
         role: user.role,
       },
       accessToken,
-      refreshToken,
-      message: "Login successful",
+      message: "User Login successfully",
     });
   } catch (error) {
     console.error("Login error:", error?.message || error);
@@ -160,23 +173,22 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-
 exports.refreshToken = async (req, res) => {
-  const { token } = req.body;
-
+  const token = req.cookies.refreshToken;
+  
+console.log(req.cookies)
   if (!token) {
-    return res.status(401).json({ message: "No token provided" });
+    console.log("no token");
+    return res.status(401).json({ message: "No refresh token provided" });
   }
 
   try {
-    // Verify refresh token
     const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
 
-    // Generate new access token
-    const accessToken = generateAccessToken(decoded.id);
-
+    const newAccessToken = generateAccessToken(decoded.id);
+    console.log(newAccessToken);
     return res.status(200).json({
-      accessToken,
+      accessToken: newAccessToken,
       message: "Access token refreshed successfully",
     });
   } catch (error) {
@@ -187,9 +199,16 @@ exports.refreshToken = async (req, res) => {
 };
 
 exports.logoutUser = (req, res) => {
-  // Since we are using JWTs (stateless), "logout" is mostly a client-side action
-  // (deleting the token). However, we provide an endpoint for consistency.
-  res.status(200).json({ message: "Logged out successfully" });
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+    path: "/", // 🔥 MUST MATCH SET COOKIE
+  });
+
+  return res.status(200).json({
+    message: "Logged out successfully",
+  });
 };
 
 exports.forgotPassword = async (req, res) => {

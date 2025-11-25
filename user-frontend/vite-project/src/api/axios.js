@@ -2,10 +2,10 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "http://localhost:3000/api",
-  withCredentials: false,
+  withCredentials: true, // required for httpOnly cookies
 });
 
-// Auto attach access token
+// Attach access token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
   if (token) {
@@ -14,33 +14,39 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Auto refresh token when expired
+// Auto refresh access token
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
-    console.log("Interceptor triggered:", error.response?.status);
+    console.log("Interceptor triggered:", error?.response?.status);
 
     const original = error.config;
 
-    if (error.response?.status === 401 && !original._retry) {
+    // Prevent infinite loop
+    if (original.url.includes("/auth/refresh-token")) {
+      return Promise.reject(error);
+    }
+
+    if (error?.response?.status === 401 && !original._retry) {
       console.log("Access token expired. Trying refresh...");
       original._retry = true;
 
       try {
-        const refresh = await api.post("/auth/refresh-token", {
-          token: localStorage.getItem("refreshToken"),
-        });
+        const refresh = await api.post("/auth/refresh-token");
 
         console.log("Refresh success:", refresh.data);
-
         const newToken = refresh.data.accessToken;
+
         localStorage.setItem("accessToken", newToken);
 
         original.headers.Authorization = `Bearer ${newToken}`;
         return api(original);
       } catch (err) {
         console.log("Refresh failed:", err.response?.data || err);
-        localStorage.clear();
+
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("user");
+
         window.location.href = "/login";
       }
     }
@@ -48,7 +54,5 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-
 
 export default api;

@@ -8,8 +8,18 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const cookieParser = require("cookie-parser");
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // your frontend url
+    credentials: true,
+  })
+);
+// move CORS before routes
+app.use(cookieParser());
 app.use(express.json());
-app.use(cors()); // move CORS before routes
+
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);

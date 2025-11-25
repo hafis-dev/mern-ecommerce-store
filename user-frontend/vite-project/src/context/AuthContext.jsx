@@ -3,15 +3,14 @@ import { createContext, useState } from "react";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  
-  
+
+
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
 
   const login = (data) => {
     localStorage.setItem("accessToken", data.accessToken);
-    localStorage.setItem("refreshToken", data.refreshToken);
     localStorage.setItem("user", JSON.stringify(data.user));
     setUser(data.user);
   };
@@ -19,7 +18,6 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     // ❗ Instead of clearing everything
     localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
     setUser(null);
   };
