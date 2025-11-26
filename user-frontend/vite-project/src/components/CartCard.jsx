@@ -52,6 +52,7 @@ const CartCard = ({ item, onIncrease, onDecrease, onRemove, onClick }) => {
 
                         <button
                             className={styles.qtyBtn}
+                            disabled={item.quantity >= item.product.stock}   // ⭐ STOCK LIMIT
                             onClick={onIncrease}
                         >
                             +

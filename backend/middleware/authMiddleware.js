@@ -4,7 +4,6 @@ const User = require("../models/User");
 // Protect middleware
 const authMiddleware = async (req, res, next) => {
   try {
-    // Check authorization header
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -13,7 +12,6 @@ const authMiddleware = async (req, res, next) => {
 
     const token = authHeader.split(" ")[1];
 
-    // Verify token
     let decoded;
     try {
       decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -24,14 +22,14 @@ const authMiddleware = async (req, res, next) => {
       return res.status(401).json({ message: "Invalid token" });
     }
 
-    // Load user
+    // Find user
     const user = await User.findById(decoded.id).select("-password");
 
     if (!user) {
       return res.status(401).json({ message: "User not found" });
     }
 
-    req.user = user;
+    req.user = user; // includes user.isAdmin
     next();
   } catch (error) {
     console.error("Auth Middleware Error:", error);
@@ -39,9 +37,9 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-// Admin middleware
+// NEW Admin middleware (using isAdmin instead of role)
 const adminMiddleware = (req, res, next) => {
-  if (req.user?.role === "admin") {
+  if (req.user?.isAdmin) {
     return next();
   }
   return res.status(403).json({ message: "Not authorized as admin" });

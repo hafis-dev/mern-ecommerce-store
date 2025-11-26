@@ -16,35 +16,73 @@ import Footer from './components/Footer'
 import AboutPage from './pages/AboutPage'
 import ScrollToTop from './routes/ScrollToTop'
 import OrderSuccessPage from './pages/OrderSuccessPage'
+import ProductAddpage from './pages/admin/ProductAddpage'
+import AdminProtectRoute from './routes/AdminProtectRoute'
+import ProductListPage from './pages/admin/ProductListPage'
+import ProductEditpage from './pages/admin/ProductEditpage'
+import OrderListPage from './pages/admin/OrderListPage'
 
 function App() {
   return (
     <BrowserRouter>
-    <ScrollToTop/>
+      <ScrollToTop />
       <AppNavbar />
       <Container className="px-0 mt-5 pt-3">
-      <Routes>
-        <Route path='/' element={< HomePage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/products" element={< CollectionPage />} />
-        <Route
-          path="/cart"
-          element={
-            <ProtectRoute>
-              <CartPage />
-            </ProtectRoute>
-          }
-        />
-        <Route path="/product/:id" element={<ProductPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/order-success" element={ <OrderSuccessPage/> } />
-        <Route path="/orders" element={<OrderHistoryPage />} />
-<Route path="/about" element={<AboutPage/> }/>
-      </Routes>
-      
+        <Routes>
+          <Route path='/' element={< HomePage />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/products" element={< CollectionPage />} />
+          <Route
+            path="/cart"
+            element={
+              <ProtectRoute>
+                <CartPage />
+              </ProtectRoute>
+            }
+          />
+          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/order-success" element={<OrderSuccessPage />} />
+          <Route path="/orders" element={<OrderHistoryPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route
+            path="/admin/product-add"
+            element={
+              <AdminProtectRoute>
+                <ProductAddpage />
+              </AdminProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/products"
+            element={
+              <AdminProtectRoute>
+                <ProductListPage />
+              </AdminProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/products/edit/:id"
+            element={
+              <AdminProtectRoute>
+                <ProductEditpage />
+              </AdminProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/orders"
+            element={
+              <AdminProtectRoute>
+                <OrderListPage />
+              </AdminProtectRoute>
+            }
+          />
+
+        </Routes>
+
       </Container>
       <Footer />
     </BrowserRouter>

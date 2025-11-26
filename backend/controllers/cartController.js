@@ -73,14 +73,29 @@ exports.updateCartItem = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
 
+    if (quantity <= 0) {
+      return res.status(400).json({ message: "Quantity must be at least 1" });
+    }
+
     const cart = await Cart.findOne({ user: req.user._id });
     if (!cart) return res.status(404).json({ message: "Cart not found" });
 
     const item = cart.items.find((i) => i.product.toString() === productId);
-
     if (!item)
       return res.status(404).json({ message: "Item not found in cart" });
 
+    // Load product to check stock
+    const product = await Product.findById(productId);
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    // ⭐ STOCK VALIDATION
+    if (quantity > product.stock) {
+      return res.status(400).json({
+        message: `Only ${product.stock} items available in stock`,
+      });
+    }
+
+    // Update quantity
     item.quantity = quantity;
     await cart.save();
 
@@ -95,6 +110,7 @@ exports.updateCartItem = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
 
 // =============================
 // REMOVE ITEM

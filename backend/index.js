@@ -19,6 +19,7 @@ app.use(
 // move CORS before routes
 app.use(cookieParser());
 app.use(express.json());
+connectDB(); // connect DB before registering routes/listening
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
@@ -29,7 +30,6 @@ app.use("/api/orders", require("./routes/orderRoutes"));
 app.get("/", (req, res) => {
   res.send("API is running....");
 });
-connectDB(); // connect DB before registering routes/listening
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

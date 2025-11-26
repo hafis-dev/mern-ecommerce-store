@@ -28,7 +28,14 @@ router.get("/:id", getProductById); // Get one product
 // ADMIN ROUTES
 // ==============================
 router.post("/create", authMiddleware, adminMiddleware,upload.array('images',5), createProduct);
-router.put("/:id", authMiddleware, adminMiddleware, updateProduct);
+router.put(
+  "/:id",
+  authMiddleware,
+  adminMiddleware,
+  upload.array("images", 5),
+  updateProduct
+);
+
 router.delete("/:id", authMiddleware, adminMiddleware, deleteProduct);
 
 module.exports = router;

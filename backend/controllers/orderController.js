@@ -1,4 +1,6 @@
 const Order = require("../models/Order");
+
+// USER: Get my orders
 exports.getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id }).sort({
@@ -12,6 +14,7 @@ exports.getMyOrders = async (req, res) => {
   }
 };
 
+// USER: Cancel full order
 exports.cancelFullOrder = async (req, res) => {
   try {
     const order = await Order.findOne({
@@ -21,15 +24,10 @@ exports.cancelFullOrder = async (req, res) => {
 
     if (!order) return res.status(404).json({ message: "Order not found" });
 
-    // 👉 1. Cancel whole order
+    // Only cancel the order (no item-level cancelling)
     order.status = "Cancelled";
 
-    // 👉 2. Cancel all items inside the order
-    order.orderItems.forEach((item) => {
-      item.itemStatus = "Cancelled";
-    });
-
-    // 👉 3. Set total price to 0 (optional)
+    // Optional: Set price to 0
     order.totalPrice = 0;
 
     await order.save();
@@ -40,69 +38,17 @@ exports.cancelFullOrder = async (req, res) => {
   }
 };
 
-
-exports.cancelSingleItem = async (req, res) => {
+// ADMIN: Get all orders
+exports.getAllOrders = async (req, res) => {
   try {
-    const { orderId, itemId } = req.params;
-
-    const order = await Order.findOne({
-      _id: orderId,
-      user: req.user._id,
-    });
-
-    if (!order) return res.status(404).json({ message: "Order not found" });
-
-    const item = order.orderItems.id(itemId);
-    if (!item) return res.status(404).json({ message: "Item not found" });
-
-    // Cancel item
-    item.itemStatus = "Cancelled";
-
-    // Reduce price
-    order.totalPrice -= item.qty * item.price;
-
-    await order.save();
-
-    res.json({ message: "Item cancelled", order });
-  } catch (err) {
-    res.status(500).json({ message: "Error cancelling item" });
-  }
-};
-
-
-
-
-exports.getMyOrders = async (req, res) => {
-  try {
-    const orders = await Order.find({ user: req.user._id }).sort({
-      createdAt: -1,
-    });
+    const orders = await Order.find().sort({ createdAt: -1 });
     res.json(orders);
   } catch (err) {
     res.status(500).json({ message: "Error fetching orders" });
   }
 };
-exports.updateItemStatus = async (req, res) => {
-  try {
-    const { orderId, itemId } = req.params;
-    const { status } = req.body;
 
-    const order = await Order.findById(orderId);
-    if (!order) return res.status(404).json({ message: "Order not found" });
-
-    const item = order.orderItems.id(itemId);
-    if (!item) return res.status(404).json({ message: "Item not found" });
-
-    item.itemStatus = status;
-
-    await order.save();
-
-    res.json({ message: "Item status updated", order });
-  } catch (err) {
-    res.status(500).json({ message: "Error updating item status" });
-  }
-};
-
+// ADMIN: Update FULL ORDER status
 exports.updateOrderStatus = async (req, res) => {
   try {
     const { orderId } = req.params;

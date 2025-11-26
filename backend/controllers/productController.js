@@ -222,12 +222,18 @@ exports.updateProduct = async (req, res) => {
   try {
     const productId = req.params.id;
 
-    // Validate MongoDB ID
+    // Validate ObjectId
     if (!productId.match(/^[0-9a-fA-F]{24}$/)) {
       return res.status(400).json({ message: "Invalid product ID" });
     }
 
-    // Allowed fields for update
+    // Fetch the existing product
+    const existingProduct = await Product.findById(productId);
+    if (!existingProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Allowed fields
     const allowedFields = [
       "name",
       "description",
@@ -235,58 +241,61 @@ exports.updateProduct = async (req, res) => {
       "stock",
       "category",
       "attributes",
-      "images",
       "isFeatured",
       "isNewArrival",
     ];
 
     const updates = {};
 
-    // Loop through body and accept only allowed fields
+    // Assign only allowed fields
     Object.keys(req.body).forEach((key) => {
       if (allowedFields.includes(key)) {
-        updates[key] = req.body[key];
+        if (key === "attributes") {
+          try {
+            updates.attributes = JSON.parse(req.body.attributes);
+          } catch {
+            updates.attributes = existingProduct.attributes;
+          }
+        } else {
+          updates[key] = req.body[key];
+        }
       }
     });
 
-    // Validate stock if provided
-    if (updates.stock !== undefined) {
-      const stockNum = Number(updates.stock);
-      if (isNaN(stockNum) || stockNum < 0) {
-        return res.status(400).json({ message: "Invalid stock value" });
-      }
-      updates.stock = stockNum;
+    // Convert price/stock to numbers
+    if (updates.price !== undefined) updates.price = Number(updates.price);
+    if (updates.stock !== undefined) updates.stock = Number(updates.stock);
+
+    // Upload new images if provided
+    let finalImages = existingProduct.images; // default = keep old images
+
+    if (req.files && req.files.length > 0) {
+      const uploadBuffer = (fileBuffer) => {
+        return new Promise((resolve, reject) => {
+          const upload = cloudinary.uploader.upload_stream(
+            { folder: "ecommerce_products" },
+            (err, result) => {
+              if (err) reject(err);
+              else resolve(result.secure_url);
+            }
+          );
+          upload.end(fileBuffer);
+        });
+      };
+
+      const uploadedImages = await Promise.all(
+        req.files.map((file) => uploadBuffer(file.buffer))
+      );
+
+      finalImages = uploadedImages; // replace images
     }
 
-    // Validate price if provided
-    if (updates.price !== undefined) {
-      const priceNum = Number(updates.price);
-      if (isNaN(priceNum)) {
-        return res.status(400).json({ message: "Invalid price value" });
-      }
-      updates.price = priceNum;
-    }
-
-    // Trim name if provided
-    if (updates.name) {
-      updates.name = updates.name.trim();
-    }
-
-    // Attributes must be object (optional)
-    if (updates.attributes && typeof updates.attributes !== "object") {
-      return res.status(400).json({ message: "Attributes must be an object" });
-    }
+    updates.images = finalImages;
 
     // Update product
-    const updatedProduct = await Product.findByIdAndUpdate(
-      productId,
-      updates,
-      { new: true } // return updated product
-    );
-
-    if (!updatedProduct) {
-      return res.status(404).json({ message: "Product not found" });
-    }
+    const updatedProduct = await Product.findByIdAndUpdate(productId, updates, {
+      new: true,
+    });
 
     return res.json({
       message: "Product updated successfully",
@@ -299,6 +308,7 @@ exports.updateProduct = async (req, res) => {
       .json({ message: "Server error", error: err.message });
   }
 };
+
 
 // ==============================
 // DELETE PRODUCT (Admin)

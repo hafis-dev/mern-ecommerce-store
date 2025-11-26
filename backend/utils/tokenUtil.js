@@ -1,7 +1,12 @@
 const jwt = require("jsonwebtoken");
 
-const generateAccessToken = (id) => {
-  return jwt.sign({ id: id }, process.env.JWT_SECRET, { expiresIn: 5 });
+// Access Token now includes isAdmin
+const generateAccessToken = (id, isAdmin) => {
+  return jwt.sign(
+    { id: id, isAdmin: isAdmin }, // 🔥 added isAdmin
+    process.env.JWT_SECRET,
+    { expiresIn: "15m" } // better value, 15 minutes
+  );
 };
 
 const generateRefreshToken = (id) => {

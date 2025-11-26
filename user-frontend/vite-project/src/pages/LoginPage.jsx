@@ -14,7 +14,14 @@ const LoginPage = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9]{10}$/;
 
-    if (user) return <Navigate to="/" replace />;
+    // 🔥 If logged in already, redirect based on isAdmin
+    if (user) {
+        if (user.isAdmin) {
+            return <Navigate to="/admin/product-add" replace />;
+        }
+        return <Navigate to="/" replace />;
+    }
+
 
     const handleLogin = async () => {
         const value = emailOrPhone.trim();
@@ -46,7 +53,13 @@ const LoginPage = () => {
 
             login(res.data);
             toast.success("Login successful");
-            navigate('/');
+            // 🔥 Redirect based on admin or user
+            if (res.data.user.isAdmin) {
+                navigate("/admin/dashboard");
+            } else {
+                navigate("/");
+            }
+
 
         } catch (error) {
             toast.error(error.response?.data?.message || "Login failed");

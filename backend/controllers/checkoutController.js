@@ -1,5 +1,6 @@
 const Cart = require("../models/Cart");
 const Order = require("../models/Order");
+const Product = require("../models/Product");
 
 exports.createOrder = async (req, res) => {
   try {
@@ -40,6 +41,14 @@ exports.createOrder = async (req, res) => {
       paidAt: Date.now(),
       status: "Processing",
     });
+
+    // After saving the order successfully
+    for (let item of order.orderItems) {
+      await Product.findByIdAndUpdate(
+        item.product,
+        { $inc: { stock: -item.qty } } // Decrease stock
+      );
+    }
 
     // Clear cart
     cart.items = [];

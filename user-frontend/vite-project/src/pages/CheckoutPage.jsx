@@ -31,6 +31,7 @@ const CheckoutPage = () => {
         try {
             await api.post("/checkout/place", { shippingAddress });
             navigate("/order-success");
+            loadCart()
         } catch (err) {
             alert("Something went wrong");
         }

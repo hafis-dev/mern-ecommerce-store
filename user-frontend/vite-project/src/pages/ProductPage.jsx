@@ -26,7 +26,7 @@ const ProductPage = () => {
         (item) => (item.product._id || item.product) === id
     );
 
-    useEffect(() => { loadCart(); }, []);
+  
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -82,6 +82,12 @@ const ProductPage = () => {
                     <h2 className={`mt-1 ${styles.brandName}`}>{product.attributes?.brand}</h2>
                     <h2 className={`mt-1 ${styles.productName}`}>{product.name}</h2>
                     <h4 className={styles.productPrice}>₹{product.price}</h4>
+                    {product.stock > 0 && product.stock < 5 && (
+                        <p className={styles.limitedStock}>
+                            Only {product.stock} left — hurry!
+                        </p>
+                    )}
+
                     <p className={styles.productDescription}>{product.description}</p>
                     {/* ATTRIBUTES LIST */}
                     {product.attributes && (
@@ -99,7 +105,18 @@ const ProductPage = () => {
 
 
                    
-                    {isInCart ? (
+                    {/* OUT OF STOCK */}
+                    {product.stock <= 0 ? (
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            className={styles.addBtn}
+                            disabled
+                            style={{ opacity: 0.7, cursor: "not-allowed" }}
+                        >
+                            Out of Stock
+                        </Button>
+                    ) : isInCart ? (
                         <Button
                             type="button"
                             variant="outline-dark"
@@ -118,6 +135,7 @@ const ProductPage = () => {
                             Add to Cart
                         </Button>
                     )}
+
 
                     
                    

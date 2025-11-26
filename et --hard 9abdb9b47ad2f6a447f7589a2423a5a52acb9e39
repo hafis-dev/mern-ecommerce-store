@@ -1,0 +1,77 @@
+[33mcommit 9abdb9b47ad2f6a447f7589a2423a5a52acb9e39[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Muhammed Hafis <muhammedhafis302@gmail.com>
+Date:   Tue Nov 25 19:43:49 2025 +0530
+
+    jwt using cookie and localStorage
+
+[33mcommit ab8bc1dd4fcba139f5495c6f47c1d62da8267e18[m
+Author: Muhammed Hafis <muhammedhafis302@gmail.com>
+Date:   Tue Nov 25 16:43:02 2025 +0530
+
+    form validation completed exept address form
+
+[33mcommit 98e938941b1130c0b69d1e7d90ddf753315686d8[m
+Author: Muhammed Hafis <muhammedhafis302@gmail.com>
+Date:   Tue Nov 25 15:52:56 2025 +0530
+
+    each item order status updated
+
+[33mcommit 438e9f43a85df20ca22aed00ff77953411831b41[m
+Author: Muhammed Hafis <muhammedhafis302@gmail.com>
+Date:   Tue Nov 25 15:35:07 2025 +0530
+
+    25 first
+
+[33mcommit 230e5f9e7dd12d535335d2acf684ba1e23924078[m
+Author: Muhammed Hafis <muhammedhafis302@gmail.com>
+Date:   Mon Nov 24 17:54:03 2025 +0530
+
+    UI almost completed
+
+[33mcommit a57711c0f238b82fa99aac184bc82241b90d04e9[m
+Author: Muhammed Hafis <muhammedhafis302@gmail.com>
+Date:   Mon Nov 24 10:41:50 2025 +0530
+
+    ui complete before attributes backend
+
+[33mcommit 2fc4713432ca15cae40908e6f3b9a8d1c5072988[m
+Author: Muhammed Hafis <muhammedhafis302@gmail.com>
+Date:   Fri Nov 21 21:05:27 2025 +0530
+
+    jwt imported and fixed refresh error
+
+[33mcommit d3a160dd05e2f3b49b09f267f88afa0607d407fc[m
+Author: Muhammed Hafis <muhammedhafis302@gmail.com>
+Date:   Fri Nov 21 18:35:38 2025 +0530
+
+    completejwt but refresh error
+
+[33mcommit beb5b99417f086e91d0cef5badff5ece9166d43d[m
+Author: Muhammed Hafis <muhammedhafis302@gmail.com>
+Date:   Thu Nov 20 11:58:59 2025 +0530
+
+    Cart Api completed in backend
+
+[33mcommit 4edf1247f529c35a27df9b33760869728d8e0385[m
+Author: Muhammed Hafis <muhammedhafis302@gmail.com>
+Date:   Wed Nov 19 23:08:33 2025 +0530
+
+    completed All Product Controllers and Api in backend
+
+[33mcommit 5ef4c131163b2870a13a6c780fc81d51b6e741af[m
+Author: Muhammed Hafis <muhammedhafis302@gmail.com>
+Date:   Wed Nov 19 16:41:53 2025 +0530
+
+    completed Authentication frontend(basic not designed)
+
+[33mcommit 3be13eed2c9ae056400e3a20b14bfe26998ace63[m
+Author: Muhammed Hafis <muhammedhafis302@gmail.com>
+Date:   Wed Nov 19 11:51:45 2025 +0530
+
+    authentication full completed
+
+[33mcommit b5007b0b73d2c7db30642fc7590abc386cafac12[m
+Author: Muhammed Hafis <muhammedhafis302@gmail.com>
+Date:   Tue Nov 18 23:16:15 2025 +0530
+
+    completed login, register, forgot password APIs

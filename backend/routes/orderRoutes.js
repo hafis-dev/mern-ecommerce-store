@@ -3,25 +3,22 @@ const {
   authMiddleware,
   adminMiddleware,
 } = require("../middleware/authMiddleware");
+
 const {
   getMyOrders,
   cancelFullOrder,
-  updateItemStatus,
   cancelSingleItem,
+  updateItemStatus,
   updateOrderStatus,
+  getAllOrders,
 } = require("../controllers/orderController");
 
 // USER ROUTES
 router.get("/my-orders", authMiddleware, getMyOrders);
 router.put("/cancel/:orderId", authMiddleware, cancelFullOrder);
 
-// Cancel ONE ITEM
-router.put("/cancel-item/:orderId/:itemId", authMiddleware, cancelSingleItem);
-
-// Update ONE ITEM status (Admin)
-router.put("/item-status/:orderId/:itemId", adminMiddleware, updateItemStatus);
-
-// Update full order status (Admin)
-router.put("/status/:orderId", adminMiddleware, updateOrderStatus);
+// ADMIN ROUTES
+router.get("/", authMiddleware, adminMiddleware, getAllOrders); // 🔥 NEW
+router.put("/status/:orderId",authMiddleware, adminMiddleware, updateOrderStatus);
 
 module.exports = router;

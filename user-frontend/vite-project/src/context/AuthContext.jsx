@@ -3,20 +3,26 @@ import { createContext, useState } from "react";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const storedUser = JSON.parse(localStorage.getItem("user")) || null;
 
-
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
-  );
+  const [user, setUser] = useState(storedUser);
 
   const login = (data) => {
+    // Save token
     localStorage.setItem("accessToken", data.accessToken);
-    localStorage.setItem("user", JSON.stringify(data.user));
-    setUser(data.user);
+
+    // Save user (now includes isAdmin)
+    const userData = {
+      id: data.user.id,
+      username: data.user.username,
+      isAdmin: data.user.isAdmin, // 🔥 very important
+    };
+
+    localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData);
   };
 
   const logout = () => {
-    // ❗ Instead of clearing everything
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
     setUser(null);
