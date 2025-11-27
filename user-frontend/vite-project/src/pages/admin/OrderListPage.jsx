@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
-import { Container, Table, Button, Badge, Spinner } from "react-bootstrap";
+import { Container, Button, Badge, Spinner, Card } from "react-bootstrap";
 import api from "../../api/axios";
 import { toast } from "react-toastify";
-
-const COLORS = {
-    bg: "#ffffff",
-    border: "#dcdcdc",
-    textSoft: "#757575",
-    textDark: "#212121",
-};
+import { Dropdown } from "react-bootstrap";
 
 export default function OrderListPage() {
     const [orders, setOrders] = useState([]);
@@ -35,22 +29,17 @@ export default function OrderListPage() {
             toast.success("Status updated!");
             loadOrders();
         } catch (err) {
-            toast.error("Failed to update status");
+            toast.error("Failed to update");
         }
     };
 
     const badgeColor = (status) => {
         switch (status) {
-            case "Processing":
-                return "secondary";
-            case "Shipped":
-                return "info";
-            case "Delivered":
-                return "success";
-            case "Cancelled":
-                return "danger";
-            default:
-                return "secondary";
+            case "Processing": return "secondary";
+            case "Shipped": return "info";
+            case "Delivered": return "success";
+            case "Cancelled": return "danger";
+            default: return "secondary";
         }
     };
 
@@ -63,176 +52,231 @@ export default function OrderListPage() {
 
     return (
         <>
-            {/* Global styles */}
             <style>{`
-                body {
-                    font-family: 'Inter', sans-serif !important;
+                :root {
+                    --c1: #fafafb;
+                    --c2: #dbd9d9;
+                    --c3: #beb7b3;
+                    --c4: #908681;
+                    --c5: #6d5a4e;
+                    --c6: #1b1a19;
                 }
 
-                .table th, .table td {
-                    vertical-align: middle;
-                    border-radius: 0 !important;
+                .orderCard {
+                    background: var(--c1);
+                    border: 1px solid var(--c2);
+                    border-radius: 0px;
+                    padding: 18px 20px;
+                    margin-bottom: 15px;
+                    cursor: pointer;
+                    transition: 0.2s ease;
                 }
 
-                .table {
-                    border-radius: 0 !important;
+                .orderCard:hover {
+                    border-color: var(--c5);
                 }
 
-                .order-container {
-                    background: ${COLORS.bg};
-                    padding: 30px;
-                    border-radius: 0 !important;
-                    border: 1px solid ${COLORS.border};
+                .rowFlex {
+                    display: flex;
+                    gap: 20px;
+                    width: 100%;
                 }
 
-                .order-title {
-                    font-size: 24px;
+                .orderInfo {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                }
+
+                .orderHeader {
+                    font-size: 18px;
                     font-weight: 700;
-                    color: ${COLORS.textDark};
-                    margin-bottom: 20px;
+                    color: var(--c6);
+                    margin-bottom: 5px;
                 }
 
-                .item-table td, .item-table th {
-                    background: #fafafa !important;
-                    border-radius: 0 !important;
+                .meta {
+                    font-size: 14px;
+                    color: var(--c4);
+                }
+
+                .itemBox {
+                    padding: 10px 12px;
+                    background: #f5f5f5;
+                    border-radius: 6px;
+                    border: 1px solid var(--c2);
+                    margin-top: 10px;
+                }
+
+                .itemRow {
+                    display: flex;
+                    gap: 12px;
+                    padding: 8px 0;
+                    border-bottom: 1px solid var(--c2);
+                }
+
+                .itemRow:last-child {
+                    border-bottom: none;
+                }
+
+                .itemImg {
+                    width: 60px;
+                    height: 60px;
+                    object-fit: cover;
+                    border-radius: 6px;
+                    border: 1px solid var(--c3);
+                }
+.dropdown-menu {
+    border-radius: 6px !important;
+    padding: 5px 0 !important;
+}
+
+.dropdown-item {
+    font-size: 14px !important;
+    padding: 6px 14px !important;
+}
+
+                .actionColumn {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    gap: 8px;
+                }
+
+                .btnAct {
+                    border-radius: 6px !important;
+                    padding: 6px 12px !important;
+                }
+
+                .addressBox {
+                    background: #f1f1f1;
+                    border: 1px solid var(--c2);
+                    padding: 12px;
+                    border-radius: 6px;
+                    margin-top: 12px;
+                }
+
+                @media(max-width: 600px) {
+                    .rowFlex {
+                        flex-direction: column;
+                    }
+
+                    .actionColumn {
+                        flex-direction: row;
+                        justify-content: space-between;
+                    }
                 }
             `}</style>
 
             <Container className="mt-4">
-                <div className="order-container">
 
-                    <h3 className="order-title">All Orders</h3>
+                <h3 style={{ fontFamily: "Urbanist", fontWeight: 700, color: "var(--c6)", marginBottom: "20px" }}>
+                    All Orders
+                </h3>
 
-                    <Table bordered hover responsive>
-                        <thead style={{ background: COLORS.border }}>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>User</th>
-                                <th>Total</th>
-                                <th>Items</th>
-                                <th>Status</th>
-                                <th>Placed At</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
+                {orders.map((order, index) => (
+                    <Card
+                        key={order._id}
+                        className="orderCard"
+                        onClick={() =>
+                            setOrders(prev =>
+                                prev.map((o, i) =>
+                                    i === index ? { ...o, open: !o.open } : o
+                                )
+                            )
+                        }
+                    >
+                        <div className="rowFlex">
+                            <div className="orderInfo">
+                                <div className="orderHeader">Order #{order._id.slice(-6)}</div>
 
-                        <tbody>
-                            {orders.map((order, index) => (
-                                <>
-                                    {/* MAIN ORDER ROW */}
-                                    <tr
-                                        key={order._id}
-                                        style={{ cursor: "pointer" }}
-                                        onClick={() =>
-                                            setOrders(prev =>
-                                                prev.map((o, i) =>
-                                                    i === index ? { ...o, open: !o.open } : o
-                                                )
-                                            )
-                                        }
+                                <div className="meta">User: {order.userName}</div>
+                                <div className="meta">Items: {order.orderItems.length}</div>
+                                <div className="meta">Total: ₹{order.totalPrice}</div>
+
+                                <Badge bg={badgeColor(order.status)} className="mt-2">
+                                    {order.status}
+                                </Badge>
+
+                                <div className="meta mt-2">
+                                    Placed: {new Date(order.createdAt).toLocaleDateString()}
+                                </div>
+                            </div>
+
+                            {/* ACTION DROPDOWN */}
+                            <div className="actionColumn">
+
+                                <Dropdown onClick={(e) => e.stopPropagation()}>
+                                    <Dropdown.Toggle
+                                        size="sm"
+                                        variant="outline-dark"
+                                        className="btnAct"
+                                        style={{ width: "150px", textAlign: "left" }}
                                     >
-                                        <td style={{ fontWeight: 600 }}>
-                                            {order._id.slice(-6)}
-                                        </td>
-                                        <td>{order.userName}</td>
-                                        <td>₹{order.totalPrice}</td>
-                                        <td>{order.orderItems.length}</td>
+                                        Update Status
+                                    </Dropdown.Toggle>
 
-                                        <td>
-                                            <Badge bg={badgeColor(order.status)}>
-                                                {order.status}
-                                            </Badge>
-                                        </td>
+                                    <Dropdown.Menu>
 
-                                        <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                                        <Dropdown.Item onClick={() => updateStatus(order._id, "Processing")}>
+                                            Processing
+                                        </Dropdown.Item>
 
-                                        <td>
-                                            <div className="d-flex gap-2">
-                                                <Button
-                                                    size="sm"
-                                                    variant="outline-info"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        updateStatus(order._id, "Shipped");
-                                                    }}
-                                                    style={{ borderRadius: 0 }}
-                                                >
-                                                    Ship
-                                                </Button>
+                                        <Dropdown.Item onClick={() => updateStatus(order._id, "Shipped")}>
+                                            Shipped
+                                        </Dropdown.Item>
 
-                                                <Button
-                                                    size="sm"
-                                                    variant="outline-success"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        updateStatus(order._id, "Delivered");
-                                                    }}
-                                                    style={{ borderRadius: 0 }}
-                                                >
-                                                    Deliver
-                                                </Button>
+                                        <Dropdown.Item onClick={() => updateStatus(order._id, "Delivered")}>
+                                            Delivered
+                                        </Dropdown.Item>
 
-                                                <Button
-                                                    size="sm"
-                                                    variant="outline-danger"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        updateStatus(order._id, "Cancelled");
-                                                    }}
-                                                    style={{ borderRadius: 0 }}
-                                                >
-                                                    Cancel
-                                                </Button>
+                                        <Dropdown.Item
+                                            className="text-danger"
+                                            onClick={() => updateStatus(order._id, "Cancelled")}
+                                        >
+                                            Cancelled
+                                        </Dropdown.Item>
+
+                                    </Dropdown.Menu>
+                                </Dropdown>
+
+                            </div>
+
+                        </div>
+
+                        {/* EXPANDED AREA */}
+                        {order.open && (
+                            <>
+                                {/* ADDRESS */}
+                                <div className="addressBox">
+                                    <b>Address</b><br />
+                                    {order.shippingAddress.street}<br />
+                                    {order.shippingAddress.city}, {order.shippingAddress.state}<br />
+                                    {order.shippingAddress.country} - {order.shippingAddress.zipCode}<br />
+                                    Phone: {order.shippingAddress.phone}
+                                </div>
+
+                                {/* ITEMS */}
+                                <div className="itemBox">
+                                    <b>Items</b>
+                                    {order.orderItems.map((item) => (
+                                        <div className="itemRow" key={item._id}>
+                                            <img src={item.image} className="itemImg" />
+
+                                            <div>
+                                                <div><b>{item.name}</b></div>
+                                                <div className="meta">Qty: {item.qty}</div>
+                                                <div className="meta">₹{item.price}</div>
                                             </div>
-                                        </td>
-                                    </tr>
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
+                        )}
 
-                                    {/* EXPANDED ROW */}
-                                    {order.open && (
-                                        <tr>
-                                            <td colSpan="7" style={{ background: "#f7f7f7" }}>
-                                                <strong>Items</strong>
-
-                                                <Table
-                                                    size="sm"
-                                                    bordered
-                                                    className="mt-2 item-table"
-                                                >
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Image</th>
-                                                            <th>Name</th>
-                                                            <th>Qty</th>
-                                                            <th>Price</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {order.orderItems.map((item) => (
-                                                            <tr key={item._id}>
-                                                                <td>
-                                                                    <img
-                                                                        src={item.image}
-                                                                        alt={item.name}
-                                                                        width="50"
-                                                                        height="50"
-                                                                        style={{ borderRadius: 0 }}
-                                                                    />
-                                                                </td>
-                                                                <td>{item.name}</td>
-                                                                <td>{item.qty}</td>
-                                                                <td>₹{item.price}</td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </Table>
-                                            </td>
-                                        </tr>
-                                    )}
-                                </>
-                            ))}
-                        </tbody>
-                    </Table>
-                </div>
+                    </Card>
+                ))}
             </Container>
         </>
     );

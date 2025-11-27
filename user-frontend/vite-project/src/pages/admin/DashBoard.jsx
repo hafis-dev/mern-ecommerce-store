@@ -137,36 +137,76 @@ const DashBoard = () => {
             </Card>
 
             {/* Latest Orders */}
+            {/* Latest Orders */}
             <h4 className="mt-5" style={{ color: COLORS.dark }}>
                 Latest Orders
             </h4>
 
-            <Table
-                bordered
-                hover
-                className="mt-3"
-                style={{ borderColor: COLORS.borderStrong }}
-            >
-                <thead style={{ background: COLORS.border }}>
-                    <tr>
-                        <th>User</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
+            <Row className="mt-3 g-3">
 
-                <tbody>
-                    {orders.slice(0, 5).map((o) => (
-                        <tr key={o._id}>
-                            <td>{o.userName}</td>
-                            <td>₹{o.totalPrice}</td>
-                            <td>{o.status}</td>
-                            <td>{new Date(o.createdAt).toLocaleDateString()}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
+                {orders.slice(0, 5).map((o) => (
+                    <Col md={6} key={o._id}>
+                        <Card
+                            style={{
+                                background: COLORS.bg,
+                                border: `1px solid ${COLORS.borderStrong}`,
+                                borderRadius: "12px",
+                                padding: "14px 18px",
+                                boxShadow: "0 2px 8px rgba(0,0,0,0.04)"
+                            }}
+                        >
+                            <div className="d-flex justify-content-between">
+
+                                {/* LEFT */}
+                                <div>
+                                    <h6 style={{ color: COLORS.dark, marginBottom: 4 }}>
+                                        {o.userName}
+                                    </h6>
+
+                                    <div style={{ fontSize: 14, color: COLORS.textSoft }}>
+                                        Total: <b style={{ color: COLORS.accent }}>₹{o.totalPrice}</b>
+                                    </div>
+
+                                    <div style={{ fontSize: 14, color: COLORS.textSoft }}>
+                                        {new Date(o.createdAt).toLocaleDateString()}
+                                    </div>
+                                </div>
+
+                                {/* RIGHT STATUS */}
+                                <div
+                                    style={{
+                                        background:
+                                            o.status === "Delivered"
+                                                ? "#c8f7dc"
+                                                : o.status === "Cancelled"
+                                                    ? "#ffd4d4"
+                                                    : o.status === "Shipped"
+                                                        ? "#d2e9ff"
+                                                        : "#e4e4e4",
+                                        color:
+                                            o.status === "Delivered"
+                                                ? "#0d7a37"
+                                                : o.status === "Cancelled"
+                                                    ? "#b30000"
+                                                    : o.status === "Shipped"
+                                                        ? "#0b4fa1"
+                                                        : "#555",
+                                        padding: "4px 12px",
+                                        borderRadius: 8,
+                                        fontWeight: 600,
+                                        height: "fit-content"
+                                    }}
+                                >
+                                    {o.status}
+                                </div>
+
+                            </div>
+                        </Card>
+                    </Col>
+                ))}
+
+            </Row>
+
         </Container>
     );
 };
