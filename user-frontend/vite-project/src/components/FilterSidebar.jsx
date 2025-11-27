@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Card, Form, Button } from "react-bootstrap";
 import { ATTRIBUTE_OPTIONS } from "../data/attributeOptions";
-
+import { ProductContext } from "../context/ProductContext";
 
 const FilterSidebar = ({ onApply, onClear }) => {
+    const { products, filters } = useContext(ProductContext);
+
     const [category, setCategory] = useState("");
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
@@ -12,7 +14,9 @@ const FilterSidebar = ({ onApply, onClear }) => {
 
     const [open, setOpen] = useState(false);
 
-    const dynamicAttrs = category ? Object.keys(ATTRIBUTE_OPTIONS[category]) : [];
+    const dynamicAttrs = category ? Object.keys(filters[category] || {}) : [];
+
+
 
 
     const handleApply = () => {
@@ -140,7 +144,8 @@ const FilterSidebar = ({ onApply, onClear }) => {
             </button>
 
             {/* ⭐ FILTER SIDEBAR */}
-            <Card className="filter-card my-0">
+            <Card className="filter-card my-0"
+                style={{ maxHeight: "78vh", overflow: "auto" }}>
 
                 <h5 className="filter-title">Filters</h5>
 
@@ -208,32 +213,41 @@ const FilterSidebar = ({ onApply, onClear }) => {
                 </Form.Group>
 
                 {/* Dynamic Attributes */}
+                {/* Dynamic Attributes */}
                 {dynamicAttrs.length > 0 && (
                     <>
                         <hr />
 
                         {dynamicAttrs.map((attr) => (
                             <Form.Group className="mb-3" key={attr}>
-                                <Form.Label className="filter-label">{attr.toUpperCase()}</Form.Label>
+                                <Form.Label className="filter-label">
+                                    {attr.toUpperCase()}
+                                </Form.Label>
 
                                 <Form.Select
                                     value={attributes[attr] || ""}
                                     onChange={(e) =>
-                                        setAttributes((prev) => ({ ...prev, [attr]: e.target.value }))
+                                        setAttributes((prev) => ({
+                                            ...prev,
+                                            [attr]: e.target.value,
+                                        }))
                                     }
                                     className="filter-select"
                                 >
                                     <option value="">All</option>
 
-                                    {/* AUTO-LOAD DROPDOWN VALUES */}
-                                    {ATTRIBUTE_OPTIONS[category]?.[attr]?.map((item, index) => (
-                                        <option key={index} value={item}>{item}</option>
+                                    {filters[category]?.[attr]?.map((item, index) => (
+                                        <option key={index} value={item}>
+                                            {item}
+                                        </option>
                                     ))}
                                 </Form.Select>
                             </Form.Group>
                         ))}
                     </>
                 )}
+
+
 
 
                 {/* Buttons */}

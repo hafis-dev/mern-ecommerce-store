@@ -1,0 +1,22 @@
+:root {
+    --c1: #fafafb;
+    --c2: #dbd9d9;
+    --c3: #beb7b3;
+    --c4: #908681;
+    --c5: #6d5a4e;
+    --c6: #1b1a19;
+}
+
+.footer {
+    background-color: var(--c1);
+    border-top: 1px solid var(--c2);
+    margin-top: 40px;
+}
+
+.text {
+    font-family: "Urbanist", sans-serif;
+    color: var(--c4);
+    font-size: 14px;
+    letter-spacing: 0.3px;
+    margin: 0;
+}

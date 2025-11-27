@@ -1,3 +1,5 @@
+
+
 export const ATTRIBUTE_OPTIONS = {
   Wallet: {
     brand: ["WildNapa", "UrbanCraft", "LeatherHub"],

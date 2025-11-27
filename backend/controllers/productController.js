@@ -6,7 +6,6 @@ const cloudinary = require('../config/cloudinary');
 // CREATE PRODUCT (Admin)
 // ==============================
 
-
 exports.createProduct = async (req, res) => {
   try {
     const {
@@ -35,11 +34,19 @@ exports.createProduct = async (req, res) => {
       return res.status(400).json({ message: "Invalid price or stock" });
     }
 
-    // Parse attributes string → JSON
+    // ----- NORMALIZE ATTRIBUTES (lowercase keys) -----
     let finalAttributes = {};
+
     if (attributes) {
       try {
-        finalAttributes = JSON.parse(attributes);
+        const parsed =
+          typeof attributes === "string" ? JSON.parse(attributes) : attributes;
+
+        Object.entries(parsed).forEach(([key, value]) => {
+          const normalizedKey = key.trim().toLowerCase(); // lowercase the key
+          finalAttributes[normalizedKey] =
+            typeof value === "string" ? value.trim() : value;
+        });
       } catch (error) {
         finalAttributes = {};
       }
@@ -375,3 +382,52 @@ exports.getNewArrivalProducts = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+
+// Normalization map (use same keys everywhere)
+const normalizeKey = (key) => {
+  return key.trim().toLowerCase(); // shape → shape, Brand → brand, COLOR → color
+};
+
+exports.getFilters = async (req, res) => {
+  try {
+    const products = await Product.find();
+
+    const filters = {};
+
+    products.forEach((p) => {
+      const category = p.category;
+
+      if (!filters[category]) {
+        filters[category] = {};
+      }
+
+      Object.entries(p.attributes || {}).forEach(([key, value]) => {
+
+        // 🔥 Normalize attribute key
+        const cleanKey = normalizeKey(key);
+
+        if (!filters[category][cleanKey]) {
+          filters[category][cleanKey] = new Set();
+        }
+
+        filters[category][cleanKey].add(value);
+      });
+    });
+
+    // Convert Set -> Array
+    const finalFilters = {};
+    Object.entries(filters).forEach(([category, attrs]) => {
+      finalFilters[category] = {};
+      Object.entries(attrs).forEach(([attr, values]) => {
+        finalFilters[category][attr] = Array.from(values);
+      });
+    });
+
+    res.json(finalFilters);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Failed to load filters" });
+  }
+};
+

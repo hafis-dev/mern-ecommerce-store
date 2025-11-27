@@ -17,7 +17,7 @@ const LoginPage = () => {
     // 🔥 If logged in already, redirect based on isAdmin
     if (user) {
         if (user.isAdmin) {
-            return <Navigate to="/admin/product-add" replace />;
+            return <Navigate to="/admin/dashboard" replace />;
         }
         return <Navigate to="/" replace />;
     }

@@ -19,7 +19,7 @@ import {
 import styles from "./appbar.module.css";
 
 const AppNavbar = () => {
-    const { user, logout } = useContext(AuthContext);
+    const {  user,logout } = useContext(AuthContext);
     const { cartCount } = useContext(CartContext);
     const navigate = useNavigate()
     // 🔥 Helper for active class

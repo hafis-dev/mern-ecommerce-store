@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const upload = require('../middleware/multer')
+const upload = require("../middleware/multer");
 
 const {
   createProduct,
@@ -10,6 +10,7 @@ const {
   deleteProduct,
   getFeaturedProducts,
   getNewArrivalProducts,
+  getFilters,
 } = require("../controllers/productController");
 
 const {
@@ -20,14 +21,30 @@ const {
 // ==============================
 // PUBLIC ROUTES
 // ==============================
-router.get("/", getProducts); // Get all (with filters)
-router.get('/featured',getFeaturedProducts);
-router.get('/new',getNewArrivalProducts)
-router.get("/:id", getProductById); // Get one product
+
+// ⭐ Filters MUST COME FIRST
+router.get("/filters", getFilters);
+
+router.get("/featured", getFeaturedProducts);
+router.get("/new", getNewArrivalProducts);
+
+// ⭐ Then list products
+router.get("/", getProducts);
+
+// ⭐ Must come LAST, because it's dynamic
+router.get("/:id", getProductById);
+
 // ==============================
 // ADMIN ROUTES
 // ==============================
-router.post("/create", authMiddleware, adminMiddleware,upload.array('images',5), createProduct);
+router.post(
+  "/create",
+  authMiddleware,
+  adminMiddleware,
+  upload.array("images", 5),
+  createProduct
+);
+
 router.put(
   "/:id",
   authMiddleware,
