@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../../api/axios";
+import api from "../../services/api/axios"
 import { Card, Container, Row, Col, Table } from "react-bootstrap";
 
 const DashBoard = () => {
@@ -50,7 +50,7 @@ const DashBoard = () => {
         <Container
             className="py-5"
             style={{
-                background: COLORS.bg,
+                background: "transparent",
                 borderRadius: "16px",
                 padding: "30px",
                 boxShadow: "0 4px 14px rgba(0,0,0,0.08)",

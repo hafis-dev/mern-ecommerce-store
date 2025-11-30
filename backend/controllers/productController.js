@@ -111,54 +111,31 @@ exports.createProduct = async (req, res) => {
 // ==============================
 exports.getProducts = async (req, res) => {
   try {
-    let {
-      page = 1,
-      limit = 10,
-      category,
-      sort,
-      minPrice,
-      maxPrice,
-      search,
-      ...attrs
-    } = req.query;
-
-    page = Number(page);
-    limit = Number(limit);
+    let { category, sort, minPrice, maxPrice, search, ...attrs } = req.query;
 
     const query = {};
 
-    // ---------------------------
     // CATEGORY FILTER
-    // ---------------------------
     if (category) query.category = category;
 
-    // ---------------------------
-    // PRICE FILTER (min & max)
-    // ---------------------------
+    // PRICE FILTER
     if (minPrice || maxPrice) {
       query.price = {};
       if (minPrice) query.price.$gte = Number(minPrice);
       if (maxPrice) query.price.$lte = Number(maxPrice);
     }
 
-    // ---------------------------
     // SEARCH FILTER
-    // ---------------------------
     if (search) {
       const s = search.trim();
       query.$or = [
         { name: { $regex: s, $options: "i" } },
         { description: { $regex: s, $options: "i" } },
-        { description: { $regex: s, $options: "i" } },
       ];
     }
 
-    // ---------------------------
-    // DYNAMIC ATTRIBUTE FILTERS
-    // Example: ?brand=Nike&size=10&color=Black
-    // ---------------------------
+    // ATTRIBUTE FILTERS
     Object.keys(attrs).forEach((key) => {
-      // ignore empty filters (important)
       if (
         attrs[key] !== "" &&
         attrs[key] !== undefined &&
@@ -168,29 +145,17 @@ exports.getProducts = async (req, res) => {
       }
     });
 
-    // ---------------------------
     // SORTING
-    // ---------------------------
-    let sortObj = { createdAt: -1 }; // default = newest first
+    let sortObj = { createdAt: -1 };
     if (sort === "price_asc") sortObj = { price: 1 };
     if (sort === "price_desc") sortObj = { price: -1 };
     if (sort === "newest") sortObj = { createdAt: -1 };
 
-    // ---------------------------
-    // FETCH WITH PAGINATION
-    // ---------------------------
-    const total = await Product.countDocuments(query);
-
-    const products = await Product.find(query)
-      .sort(sortObj)
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .lean();
+    // 🚀 FETCH ALL PRODUCTS — NO PAGINATION
+    const products = await Product.find(query).sort(sortObj).lean();
 
     return res.json({
-      total,
-      page,
-      limit,
+      total: products.length,
       products,
     });
   } catch (err) {
@@ -198,6 +163,7 @@ exports.getProducts = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
 
 // ==============================
 // GET PRODUCT BY ID
@@ -220,7 +186,38 @@ exports.getProductById = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+// ==============================
+// GET FEATURED PRODUCTS
+// ==============================
+exports.getFeaturedProducts = async (req, res) => {
+  try {
+    const products = await Product.find({ isFeatured: true })
+      .sort({ createdAt: -1 })
+      .limit(10);
 
+    return res.json({ products });
+  } catch (err) {
+    console.error("getFeaturedProducts error:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+// ==============================
+// GET NEW ARRIVAL PRODUCTS
+// ==============================
+exports.getNewArrivalProducts = async (req, res) => {
+  try {
+    const products = await Product.find({ isNewArrival: true })
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+    return res.json({ products });
+  } catch (err) {
+    console.error("getNewArrivalProducts error:", err);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
 // ==============================
 // ==============================
 // UPDATE PRODUCT (Admin)
@@ -350,38 +347,7 @@ exports.deleteProduct = async (req, res) => {
 };
 
 
-// ==============================
-// GET FEATURED PRODUCTS
-// ==============================
-exports.getFeaturedProducts = async (req, res) => {
-  try {
-    const products = await Product.find({ isFeatured: true })
-      .sort({ createdAt: -1 })
-      .limit(10);
 
-    return res.json({ products });
-  } catch (err) {
-    console.error("getFeaturedProducts error:", err);
-    return res.status(500).json({ message: "Server error" });
-  }
-};
-
-
-// ==============================
-// GET NEW ARRIVAL PRODUCTS
-// ==============================
-exports.getNewArrivalProducts = async (req, res) => {
-  try {
-    const products = await Product.find({ isNewArrival: true })
-      .sort({ createdAt: -1 })
-      .limit(10);
-
-    return res.json({ products });
-  } catch (err) {
-    console.error("getNewArrivalProducts error:", err);
-    return res.status(500).json({ message: "Server error" });
-  }
-};
 
 
 // Normalization map (use same keys everywhere)

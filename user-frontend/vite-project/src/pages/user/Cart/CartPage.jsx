@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
-import { CartContext } from "../context/CartContext";
+import { CartContext } from "../../../context/CartContext";
 import { useNavigate } from "react-router-dom";
-import CartCard from "../components/CartCard";
+import CartCard from "./CartCard";
 import { Card, Button, Container } from "react-bootstrap";
 import styles from "./cartPage.module.css";
 

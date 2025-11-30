@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthContext.jsx";
+import { AuthContext } from "../../../context/AuthContext.jsx";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link, Navigate } from "react-router-dom";
@@ -29,7 +29,7 @@ function SignupPage() {
     }
 
     async function handleSignup() {
-        
+
         const username = formData.username.trim();
         const email = formData.email.trim().toLowerCase();
         const phone = formData.phone.trim();

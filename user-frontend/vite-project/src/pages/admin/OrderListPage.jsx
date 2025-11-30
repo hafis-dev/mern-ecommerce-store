@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container, Button, Badge, Spinner, Card } from "react-bootstrap";
-import api from "../../api/axios";
+import api from "../../services/api/axios";
 import { toast } from "react-toastify";
 import { Dropdown } from "react-bootstrap";
 
@@ -63,7 +63,7 @@ export default function OrderListPage() {
                 }
 
                 .orderCard {
-                    background: var(--c1);
+                    background: transparent;
                     border: 1px solid var(--c2);
                     border-radius: 0px;
                     padding: 18px 20px;

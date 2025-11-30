@@ -1,5 +1,6 @@
-import { createContext, useState, useEffect } from "react";
-import api from "../api/axios";
+import { createContext, useState, useEffect, useCallback } from "react";
+import api from "../services/api/axios";
+import { toast } from "react-toastify";
 
 export const ProductContext = createContext();
 
@@ -7,47 +8,59 @@ export const ProductProvider = ({ children }) => {
   const [featured, setFeatured] = useState([]);
   const [newArrival, setNewArrival] = useState([]);
   const [products, setProducts] = useState([]);
-  const [filters, setFilters] = useState({});   // 🌟 Dynamic filters
+  const [filters, setFilters] = useState({});
 
   // ======================
   // LOAD ALL PRODUCTS
   // ======================
-  async function loadAllProducts(filters = {}) {
+  const loadAllProducts = useCallback(async (queryFilters = {}) => {
     try {
-      const res = await api.get("/products", { params: filters });
+      const res = await api.get("/products", { params: queryFilters });
       setProducts(res.data.products || res.data);
     } catch (error) {
-      console.log("Failed to load products");
+      console.log(error)
+      toast.error("Failed to load products");
     }
-  }
+  }, []);
 
   // ======================
   // LOAD FEATURED
   // ======================
-  const loadFeatured = async () => {
-    const res = await api.get("/products/featured");
-    setFeatured(res.data.products || res.data);
-  };
+  const loadFeatured = useCallback(async () => {
+    try {
+      const res = await api.get("/products/featured");
+      setFeatured(res.data.products || res.data);
+    } catch (error) {
+      console.log(error)
+      toast.error("Failed to load featured products");
+    }
+  }, []);
 
   // ======================
   // LOAD NEW ARRIVAL
   // ======================
-  const loadNewArrival = async () => {
-    const res = await api.get("/products/new");
-    setNewArrival(res.data.products || res.data);
-  };
+  const loadNewArrival = useCallback(async () => {
+    try {
+      const res = await api.get("/products/new");
+      setNewArrival(res.data.products || res.data);
+    } catch (error) {
+      console.log(error)
+      toast.error("Failed to load new arrivals");
+    }
+  }, []);
 
   // ======================
-  // 🌟 NEW — LOAD DYNAMIC FILTERS
+  // LOAD FILTERS
   // ======================
-  const loadFilters = async () => {
+  const loadFilters = useCallback(async () => {
     try {
       const res = await api.get("/products/filters");
       setFilters(res.data);
     } catch (error) {
-      console.log("Failed to load filters");
+      console.log(error)
+      toast.error("Failed to load filters");
     }
-  };
+  }, []);
 
   // ======================
   // INITIAL LOAD
@@ -55,8 +68,8 @@ export const ProductProvider = ({ children }) => {
   useEffect(() => {
     loadFeatured();
     loadNewArrival();
-    loadFilters();   // load filters on app start
-  }, []);
+    loadFilters();
+  }, [loadFeatured, loadNewArrival, loadFilters]);
 
   return (
     <ProductContext.Provider
@@ -64,7 +77,7 @@ export const ProductProvider = ({ children }) => {
         products,
         featured,
         newArrival,
-        filters,          // 🌟 returned to frontend
+        filters,
         loadAllProducts,
         loadFeatured,
         loadNewArrival,

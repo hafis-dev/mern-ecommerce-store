@@ -3,23 +3,23 @@ import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 
 import LoginPage from './pages/LoginPage'
-import HomePage from './pages/HomePage'
-import SignupPage from './pages/SignupPage'
-import ForgotPasswordPage from './pages/ForgotPasswordPage'
-import ResetPasswordPage from './pages/ResetPasswordPage'
-import CollectionPage from './pages/CollectionPage'
+import HomePage from './pages/user/Home/HomePage'
+import SignupPage from './pages/user/Authentication/SignupPage'
+import ForgotPasswordPage from './pages/user/Authentication/ForgotPasswordPage'
+import ResetPasswordPage from './pages/user/Authentication/ResetPasswordPage'
+import CollectionPage from './pages/user/Collection/CollectionPage'
 import AppNavbar from './components/AppNavbar'
 import AdminNavbar from './components/AdminNavbar'
-import CartPage from './pages/CartPage'
-import ProductPage from './pages/ProductPage'
+import CartPage from './pages/user/Cart/CartPage'
+import ProductPage from './pages/user/Product/ProductPage'
 import ProtectRoute from './routes/ProtectRoute'
-import CheckoutPage from './pages/CheckoutPage'
-import OrderHistoryPage from './pages/OrderHistoryPage'
+import CheckoutPage from './pages/user/Checkout/CheckoutPage'
+import OrderHistoryPage from './pages/user/Orders/OrderHistoryPage'
 import { Container } from 'react-bootstrap'
 import Footer from './components/Footer'
-import AboutPage from './pages/AboutPage'
+import AboutPage from './pages/user/About/AboutPage'
 import ScrollToTop from './routes/ScrollToTop'
-import OrderSuccessPage from './pages/OrderSuccessPage'
+import OrderSuccessPage from './pages/user/Orders/OrderSuccessPage'
 
 import ProductAddpage from './pages/admin/ProductAddpage'
 import AdminProtectRoute from './routes/AdminProtectRoute'
@@ -89,7 +89,7 @@ function App() {
         </Routes>
       </Container>
       {user?.isAdmin ? <AdminFooter /> : <Footer />}
-      
+
     </BrowserRouter>
   );
 }

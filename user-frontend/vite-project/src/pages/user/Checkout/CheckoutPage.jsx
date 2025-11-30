@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { CartContext } from "../context/CartContext";
-import api from "../api/axios";
+import { CartContext } from "../../../context/CartContext";
+import api from "../../../services/api/axios";
 import { useNavigate } from "react-router-dom";
 import { Row, Col, Card, Form, Button, Image } from "react-bootstrap";
-import styles from "./checkoutPage.module.css"; // ⭐ NEW CSS FILE
+import styles from "./checkoutPage.module.css";
+import { toast } from "react-toastify";
 
 const CheckoutPage = () => {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ const CheckoutPage = () => {
 
     useEffect(() => {
         loadCart();
+        
     }, []);
 
     const totalAmount = cart.reduce(
@@ -30,10 +32,15 @@ const CheckoutPage = () => {
     const placeOrder = async () => {
         try {
             await api.post("/checkout/place", { shippingAddress });
+
+            toast.success("Order placed successfully!");
+
             navigate("/order-success");
-            loadCart()
+
+            loadCart();
         } catch (err) {
-            alert("Something went wrong");
+            console.log(err)
+            toast.error("Something went wrong! Try again.");
         }
     };
 

@@ -31,11 +31,11 @@ const AppNavbar = () => {
     }
     return (
         <Navbar
-            className={`${styles.navbar} container  pb-1`}
+            className={`${styles.navbar} container   pb-1`}
             expand="lg"
             fixed="top"
         >
-            <Container className="pt-2 ">
+            <Container >
 
                 {/* LOGO */}
                 <Navbar.Brand as={NavLink} to="/" className={styles.brand}>
@@ -57,7 +57,7 @@ const AppNavbar = () => {
                 <Nav.Link
                     as={NavLink}
                     to="/cart"
-                    className={`position-relative ms-auto me-4 fw-semibold d-lg-none ${styles.mobileCart}`}
+                    className={`position-relative ms-auto me-auto fw-semibold d-lg-none ${styles.mobileCart}`}
                 >
                     <FontAwesomeIcon icon={faCartShopping} size="lg" />
 

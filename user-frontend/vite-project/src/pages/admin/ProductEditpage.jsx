@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../../api/axios";
+import api from "../../services/api/axios";
 import { toast } from "react-toastify";
 import styles from "./ProductEditPage.module.css";
 

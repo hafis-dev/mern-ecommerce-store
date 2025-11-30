@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import api from "../api/axios";
-import { CartContext } from "../context/CartContext";
+import api from "../../../services/api/axios";
+import { CartContext } from "../../../context/CartContext";
 import styles from "./productPage.module.css";
 import {
     faShieldHalved,
@@ -26,19 +26,19 @@ const ProductPage = () => {
         (item) => (item.product._id || item.product) === id
     );
 
-  
+
 
     useEffect(() => {
         const fetchProduct = async () => {
             try {
                 const res = await api.get(`/products/${id}`);
                 setProduct(res.data.product);
-                
+
                 setSelectedImage(res.data.product.images?.[0]);
             } catch (err) {
                 console.log("Failed to load product", err);
             }
-            
+
         };
         fetchProduct();
     }, [id]);
@@ -104,7 +104,7 @@ const ProductPage = () => {
                     )}
 
 
-                   
+
                     {/* OUT OF STOCK */}
                     {product.stock <= 0 ? (
                         <Button
@@ -137,12 +137,12 @@ const ProductPage = () => {
                     )}
 
 
-                    
-                   
+
+
                 </Col>
-                
+
             </Row>
-            
+
             <Container className="pt-5 ps-0 mt-5 ">
                 <h4 className={styles.highlightHeading}>Product Highlights</h4>
 

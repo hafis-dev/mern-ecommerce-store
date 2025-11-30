@@ -143,12 +143,12 @@ exports.removeCartItem = async (req, res) => {
 // =============================
 // CLEAR CART
 // =============================
-exports.clearCart = async (req, res) => {
-  try {
-    await Cart.findOneAndDelete({ user: req.user._id });
-    return res.json({ message: "Cart cleared" });
-  } catch (err) {
-    console.error("clearCart error:", err);
-    return res.status(500).json({ message: "Server error" });
-  }
-};
+// exports.clearCart = async (req, res) => {
+//   try {
+//     await Cart.findOneAndDelete({ user: req.user._id });
+//     return res.json({ message: "Cart cleared" });
+//   } catch (err) {
+//     console.error("clearCart error:", err);
+//     return res.status(500).json({ message: "Server error" });
+//   }
+// };

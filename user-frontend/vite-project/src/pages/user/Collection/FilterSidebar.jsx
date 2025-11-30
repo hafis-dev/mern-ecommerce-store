@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
 import { Card, Form, Button } from "react-bootstrap";
-import { ATTRIBUTE_OPTIONS } from "../data/attributeOptions";
-import { ProductContext } from "../context/ProductContext";
+import { ATTRIBUTE_OPTIONS } from "../../../data/attributeOptions";
+import { ProductContext } from "../../../context/ProductContext";
 
 const FilterSidebar = ({ onApply, onClear }) => {
-    const { products, filters } = useContext(ProductContext);
+    const {  filters } = useContext(ProductContext);
 
     const [category, setCategory] = useState("");
     const [minPrice, setMinPrice] = useState("");
@@ -76,7 +76,7 @@ const FilterSidebar = ({ onApply, onClear }) => {
                 }
 
                 .filter-card {
-                    background: #fafafb;
+                    background: transparent !important;
                     border-radius: 0px;
                     padding: 22px;
                     box-shadow: 0px 3px 10px rgba(0,0,0,0.1);

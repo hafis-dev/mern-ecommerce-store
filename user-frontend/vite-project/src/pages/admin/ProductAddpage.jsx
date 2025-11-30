@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
-import api from "../../api/axios";
+import api from "../../services/api/axios";
 import { toast } from "react-toastify";
 import styles from "./ProductAddPage.module.css";
 
@@ -183,12 +183,11 @@ const ProductAddPage = () => {
                             </Form.Group>
 
                             <Form.Check
-                                className="mb-1"
                                 name="isFeatured"
                                 checked={formData.isFeatured}
                                 onChange={handleInputChange}
                                 label="Featured Product"
-                                className={styles.check}
+                                className={`${styles.check} mb-1`}
                             />
 
                             <Form.Check

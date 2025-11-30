@@ -16,7 +16,6 @@
 
 .checkoutContainer {
     padding: 40px 20px;
-    background: var(--c1);
     min-height: 90vh;
     font-family: "Urbanist", sans-serif;
 }

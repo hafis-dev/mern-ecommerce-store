@@ -11,7 +11,6 @@
 
 .cartContainer {
     padding: 20px;
-    background: var(--c1);
     min-height: 85vh;
     font-family: "Urbanist", sans-serif;
 }
@@ -32,7 +31,7 @@
 }
 
 .totalCard {
-    background: white;
+    background: transparent !important;
     padding: 25px;
     border-radius: 16px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);

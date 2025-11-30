@@ -16,7 +16,6 @@ const AboutPage = () => {
                 }
 
                 .about-wrapper {
-                    background: var(--c1);
                     padding-top: 120px;
                     font-family: 'Urbanist', sans-serif;
                     color: var(--c6);

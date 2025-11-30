@@ -9,7 +9,6 @@
 
 /* Main container */
 .wrapper {
-    background: var(--bg);
     padding: 30px;
     border-radius: 16px;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.08);

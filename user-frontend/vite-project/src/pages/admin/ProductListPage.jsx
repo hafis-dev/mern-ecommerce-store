@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Container, Card } from "react-bootstrap";
-import api from "../../api/axios";
+import api from "../../services/api/axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 

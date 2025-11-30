@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import api from "../api/axios";
+import api from "../../../services/api/axios";
 import { useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
-import OrderCard from "../components/OrderCard";
+import OrderCard from "./OrderCard";
 import { toast } from "react-toastify";
 
 const OrderHistoryPage = () => {

@@ -17,7 +17,7 @@
 
 /* Navbar main */
 .navbar {
-    background-color: var(--c1);
+    background-color: transparent !important;
     border-bottom: 1px solid var(--c2);
     padding-top: 4px;
     padding-bottom: 6px;

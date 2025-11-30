@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { ProductContext } from "../context/ProductContext";
-import ProductCard from "./ProductCard";
+import { ProductContext } from "../../../context/ProductContext";
+import ProductCard from "../../../components/ProductCard";
 
 const FeaturedSection = () => {
     const { featured } = useContext(ProductContext);
