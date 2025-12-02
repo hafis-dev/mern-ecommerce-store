@@ -10,6 +10,7 @@ import "bootstrap-icons/font/bootstrap-icons.min.css";
 
 import { ProductProvider } from './context/ProductContext.jsx'
 import { CartProvider } from './context/CartContext.jsx'
+import { AdminProvider } from './context/AdminContext.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
@@ -17,7 +18,11 @@ createRoot(document.getElementById('root')).render(
 
 
         <ProductProvider>
-          <App />
+          <AdminProvider>
+
+             <App />
+          </AdminProvider>
+         
         </ProductProvider>
       </CartProvider>
     </AuthProvider>

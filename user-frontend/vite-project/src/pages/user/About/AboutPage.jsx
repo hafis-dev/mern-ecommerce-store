@@ -6,14 +6,7 @@ const AboutPage = () => {
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap');
 
-                :root {
-                    --c1: #fafafb;
-                    --c2: #dbd9d9;
-                    --c3: #beb7b3;
-                    --c4: #908681;
-                    --c5: #6d5a4e;
-                    --c6: #1b1a19;
-                }
+                
 
                 .about-wrapper {
                     padding-top: 120px;
@@ -66,7 +59,7 @@ const AboutPage = () => {
 
                 /* Highlights */
                 .highlight-box {
-                    background: #ffffff;
+                    background: var(--c0);
                     border: 1px solid var(--c2);
                     border-radius: 12px;
                     padding: 25px;

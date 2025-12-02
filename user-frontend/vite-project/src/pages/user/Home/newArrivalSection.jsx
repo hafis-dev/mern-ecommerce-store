@@ -1,19 +1,32 @@
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { ProductContext } from "../../../context/ProductContext";
+import api from "../../../services/api/axios";
 import ProductCard from "../../../components/ProductCard";
 
 const NewArrivalSection = () => {
-    const { newArrival } = useContext(ProductContext);
+    const [newArrival, setNewArrival] = useState([]);
+
+    useEffect(() => {
+        const loadNewArrival = async () => {
+            try {
+                const res = await api.get("/products/new");
+                setNewArrival(res.data.products || []);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        loadNewArrival();
+    }, []);
 
     return (
         <>
             {/* ⭐ CSS */}
             <style>{`
-                     @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap');
+                @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap');
 
                 .arrival-wrapper {
-                    background: #fafafb;
+                    background: transparent !important;
                     padding: 120px 0 80px 0;
                     font-family: 'Urbanist', sans-serif;
                 }
@@ -22,13 +35,13 @@ const NewArrivalSection = () => {
                     text-align: center;
                     font-size: 34px;
                     font-weight: 800;
-                    color: #1b1a19;
+                    color: var(--c6);
                     letter-spacing: 0.3px;
                 }
 
                 .arrival-subtext {
                     text-align: center;
-                    color: #908681;
+                    color: var(--c4);
                     font-size: 15px;
                     margin-top: 6px;
                 }
@@ -37,7 +50,7 @@ const NewArrivalSection = () => {
                     width: 60px;
                     height: 3px;
                     margin: 14px auto 50px auto;
-                    background: #6d5a4e;
+                    background: var(--c5);
                     border-radius: 4px;
                 }
 
@@ -46,7 +59,6 @@ const NewArrivalSection = () => {
                     justify-content: center;
                 }
 
-                /* Entrance animation */
                 .arrival-wrapper {
                     animation: fadeInArrival 0.5s ease-in-out;
                 }
@@ -57,7 +69,6 @@ const NewArrivalSection = () => {
                 }
             `}</style>
 
-            {/* ⭐ HTML */}
             <div className="arrival-wrapper">
                 <Container>
                     <h2 className="arrival-title">New Arrivals</h2>

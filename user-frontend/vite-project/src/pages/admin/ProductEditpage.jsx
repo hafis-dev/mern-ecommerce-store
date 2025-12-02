@@ -1,16 +1,21 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../../services/api/axios";
 import { toast } from "react-toastify";
 import styles from "./ProductEditPage.module.css";
+import { AdminContext } from "../../context/AdminContext";
 
 const ProductEditPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
+    const {
+        singleProduct,
+        loadSingleProduct,
+        updateProduct
+    } = useContext(AdminContext);
+
     const [loading, setLoading] = useState(true);
-    const [product, setProduct] = useState(null);
 
     const [images, setImages] = useState([]);
     const [previewImages, setPreviewImages] = useState([]);
@@ -26,33 +31,30 @@ const ProductEditPage = () => {
         isNewArrival: false,
     });
 
-    const loadProduct = async () => {
-        try {
-            const res = await api.get(`/products/${id}`);
-
-            setProduct(res.data.product);
+    // --------------------------
+    // LOAD PRODUCT USING CONTEXT
+    // --------------------------
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await loadSingleProduct(id);
+            if (!data) return;
 
             setFormData({
-                name: res.data.product.name,
-                description: res.data.product.description,
-                price: res.data.product.price,
-                stock: res.data.product.stock,
-                category: res.data.product.category,
-                attributes: res.data.product.attributes || {},
-                isFeatured: res.data.product.isFeatured,
-                isNewArrival: res.data.product.isNewArrival,
+                name: data.name,
+                description: data.description,
+                price: data.price,
+                stock: data.stock,
+                category: data.category,
+                attributes: data.attributes || {},
+                isFeatured: data.isFeatured,
+                isNewArrival: data.isNewArrival,
             });
 
-            setPreviewImages(res.data.product.images);
+            setPreviewImages(data.images);
             setLoading(false);
-        } catch (err) {
-            console.log(err);
-            toast.error("Failed to load product");
-        }
-    };
+        };
 
-    useEffect(() => {
-        loadProduct();
+        fetchData();
     }, [id]);
 
     const handleInputChange = (e) => {
@@ -76,7 +78,6 @@ const ProductEditPage = () => {
             toast.error("Maximum 5 images allowed.");
             return;
         }
-
         setImages((prev) => [...prev, ...files]);
         setPreviewImages((prev) => [
             ...prev,
@@ -89,29 +90,27 @@ const ProductEditPage = () => {
         setImages((prev) => prev.filter((_, i) => i !== index));
     };
 
+    // --------------------------
+    // UPDATE PRODUCT USING CONTEXT
+    // --------------------------
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const fd = new FormData();
 
-            Object.keys(formData).forEach((key) => {
-                if (key === "attributes") {
-                    fd.append("attributes", JSON.stringify(formData.attributes));
-                } else {
-                    fd.append(key, formData[key]);
-                }
-            });
+        const fd = new FormData();
 
-            images.forEach((img) => fd.append("images", img));
+        Object.keys(formData).forEach((key) => {
+            if (key === "attributes") {
+                fd.append("attributes", JSON.stringify(formData.attributes));
+            } else {
+                fd.append(key, formData[key]);
+            }
+        });
 
-            await api.put(`/products/${id}`, fd);
+        images.forEach((img) => fd.append("images", img));
 
-            toast.success("Product updated successfully!");
-            navigate("/admin/products");
-        } catch (err) {
-            console.log(err);
-            toast.error("Failed to update product");
-        }
+        const success = await updateProduct(id, fd);
+
+        if (success) navigate("/admin/products");
     };
 
     if (loading) return <p className="text-center mt-5">Loading...</p>;

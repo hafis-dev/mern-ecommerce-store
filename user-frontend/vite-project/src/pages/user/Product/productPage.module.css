@@ -1,12 +1,4 @@
-/* Theme Colors */
-:root {
-    --c1: #fafafb;
-    --c2: #dbd9d9;
-    --c3: #beb7b3;
-    --c4: #908681;
-    --c5: #6d5a4e;
-    --c6: #1b1a19;
-}
+
 
 /* Container */
 .page {
@@ -25,7 +17,7 @@
     height: 120px;
     /* IMPORTANT */
     object-fit: contain;
-    background: #fff;
+    background: var(--c0);
     border: 1px solid var(--c2);
     padding: 5px;
     cursor: pointer;
@@ -43,7 +35,7 @@
     /* FIXED HEIGHT = IMPORTANT */
     overflow: hidden;
     border: 1px solid var(--c5);
-    background: #fff;
+    background: var(--c0);
     /* clean white background */
     display: flex;
     align-items: center;

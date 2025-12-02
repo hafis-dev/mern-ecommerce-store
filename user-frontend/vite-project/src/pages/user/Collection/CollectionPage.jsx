@@ -27,6 +27,17 @@ const CollectionPage = () => {
     const loadWithFilters = (filters = {}) => {
         const params = new URLSearchParams(location.search);
 
+        // ✨ If category changed → remove previous attributes
+        if (filters.category) {
+            // remove everything except category, price, sort
+            params.forEach((value, key) => {
+                const whitelist = ["category", "minPrice", "maxPrice", "sort"];
+                if (!whitelist.includes(key)) {
+                    params.delete(key);
+                }
+            });
+        }
+
         Object.entries(filters).forEach(([key, value]) => {
             if (value) params.set(key, value);
             else params.delete(key);
@@ -34,6 +45,7 @@ const CollectionPage = () => {
 
         navigate(`/products?${params.toString()}`);
     };
+
 
     return (
         <Container fluid className="py-5 mt-4">

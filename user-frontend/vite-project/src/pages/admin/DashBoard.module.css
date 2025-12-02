@@ -1,0 +1,56 @@
+.wrapper {
+    background: transparent;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* Titles */
+.title {
+    color: var(--c6);
+    font-weight: 600;
+}
+
+/* Cards */
+.statCard,
+.revenueCard,
+.orderCard {
+    background: var(--c1);
+    border: 1px solid var(--c3);
+    border-radius: 14px;
+}
+
+.orderCard {
+    border-radius: 12px;
+    padding: 14px 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Text */
+.textSoft {
+    color: var(--c4);
+}
+
+.textDark {
+    color: var(--c6);
+}
+
+.textAccent {
+    color: var(--c5);
+}
+
+/* Latest Order Left Section */
+.orderUser {
+    color: var(--c6);
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+/* Status Chips */
+.statusBox {
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    height: fit-content;
+}

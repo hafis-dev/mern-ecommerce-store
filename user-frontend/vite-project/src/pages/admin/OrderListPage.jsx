@@ -1,37 +1,24 @@
-import { useEffect, useState } from "react";
-import { Container, Button, Badge, Spinner, Card } from "react-bootstrap";
-import api from "../../services/api/axios";
-import { toast } from "react-toastify";
-import { Dropdown } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
+import { Container, Badge, Spinner, Card, Dropdown } from "react-bootstrap";
+import { AdminContext } from "../../context/AdminContext";
 
 export default function OrderListPage() {
-    const [orders, setOrders] = useState([]);
+
+    const {
+        orders,
+        loadAllOrders,
+        updateOrderStatus
+    } = useContext(AdminContext);
+
     const [loading, setLoading] = useState(true);
 
-    const loadOrders = async () => {
-        try {
-            const res = await api.get("/orders");
-            setOrders(res.data);
-            setLoading(false);
-        } catch (err) {
-            toast.error("Failed to load orders");
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
-        loadOrders();
+        const fetchOrders = async () => {
+            await loadAllOrders();
+            setLoading(false);
+        };
+        fetchOrders();
     }, []);
-
-    const updateStatus = async (orderId, newStatus) => {
-        try {
-            await api.put(`/orders/status/${orderId}`, { status: newStatus });
-            toast.success("Status updated!");
-            loadOrders();
-        } catch (err) {
-            toast.error("Failed to update");
-        }
-    };
 
     const badgeColor = (status) => {
         switch (status) {
@@ -43,12 +30,13 @@ export default function OrderListPage() {
         }
     };
 
-    if (loading)
+    if (loading) {
         return (
             <div className="text-center mt-5">
                 <Spinner animation="border" variant="dark" />
             </div>
         );
+    }
 
     return (
         <>
@@ -170,8 +158,14 @@ export default function OrderListPage() {
             `}</style>
 
             <Container className="mt-4">
-
-                <h3 style={{ fontFamily: "Urbanist", fontWeight: 700, color: "var(--c6)", marginBottom: "20px" }}>
+                <h3
+                    style={{
+                        fontFamily: "Urbanist",
+                        fontWeight: 700,
+                        color: "var(--c6)",
+                        marginBottom: "20px",
+                    }}
+                >
                     All Orders
                 </h3>
 
@@ -180,8 +174,8 @@ export default function OrderListPage() {
                         key={order._id}
                         className="orderCard"
                         onClick={() =>
-                            setOrders(prev =>
-                                prev.map((o, i) =>
+                            loadAllOrders(
+                                orders.map((o, i) =>
                                     i === index ? { ...o, open: !o.open } : o
                                 )
                             )
@@ -189,7 +183,9 @@ export default function OrderListPage() {
                     >
                         <div className="rowFlex">
                             <div className="orderInfo">
-                                <div className="orderHeader">Order #{order._id.slice(-6)}</div>
+                                <div className="orderHeader">
+                                    Order #{order._id.slice(-6)}
+                                </div>
 
                                 <div className="meta">User: {order.userName}</div>
                                 <div className="meta">Items: {order.orderItems.length}</div>
@@ -204,9 +200,7 @@ export default function OrderListPage() {
                                 </div>
                             </div>
 
-                            {/* ACTION DROPDOWN */}
                             <div className="actionColumn">
-
                                 <Dropdown onClick={(e) => e.stopPropagation()}>
                                     <Dropdown.Toggle
                                         size="sm"
@@ -218,37 +212,29 @@ export default function OrderListPage() {
                                     </Dropdown.Toggle>
 
                                     <Dropdown.Menu>
-
-                                        <Dropdown.Item onClick={() => updateStatus(order._id, "Processing")}>
+                                        <Dropdown.Item onClick={() => updateOrderStatus(order._id, "Processing")}>
                                             Processing
                                         </Dropdown.Item>
-
-                                        <Dropdown.Item onClick={() => updateStatus(order._id, "Shipped")}>
+                                        <Dropdown.Item onClick={() => updateOrderStatus(order._id, "Shipped")}>
                                             Shipped
                                         </Dropdown.Item>
-
-                                        <Dropdown.Item onClick={() => updateStatus(order._id, "Delivered")}>
+                                        <Dropdown.Item onClick={() => updateOrderStatus(order._id, "Delivered")}>
                                             Delivered
                                         </Dropdown.Item>
-
                                         <Dropdown.Item
                                             className="text-danger"
-                                            onClick={() => updateStatus(order._id, "Cancelled")}
+                                            onClick={() => updateOrderStatus(order._id, "Cancelled")}
                                         >
                                             Cancelled
                                         </Dropdown.Item>
-
                                     </Dropdown.Menu>
                                 </Dropdown>
-
                             </div>
-
                         </div>
 
-                        {/* EXPANDED AREA */}
                         {order.open && (
                             <>
-                                {/* ADDRESS */}
+                                {/* Address */}
                                 <div className="addressBox">
                                     <b>Address</b><br />
                                     {order.shippingAddress.street}<br />
@@ -257,13 +243,12 @@ export default function OrderListPage() {
                                     Phone: {order.shippingAddress.phone}
                                 </div>
 
-                                {/* ITEMS */}
+                                {/* Items */}
                                 <div className="itemBox">
                                     <b>Items</b>
                                     {order.orderItems.map((item) => (
                                         <div className="itemRow" key={item._id}>
                                             <img src={item.image} className="itemImg" />
-
                                             <div>
                                                 <div><b>{item.name}</b></div>
                                                 <div className="meta">Qty: {item.qty}</div>
@@ -274,7 +259,6 @@ export default function OrderListPage() {
                                 </div>
                             </>
                         )}
-
                     </Card>
                 ))}
             </Container>

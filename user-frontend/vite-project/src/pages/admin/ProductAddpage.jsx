@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
-import api from "../../services/api/axios";
 import { toast } from "react-toastify";
 import styles from "./ProductAddPage.module.css";
+import { AdminContext } from "../../context/AdminContext";
 
 const ProductAddPage = () => {
+    const { addProduct } = useContext(AdminContext);
+
     const [images, setImages] = useState([]);
     const [previewImages, setPreviewImages] = useState([]);
 
@@ -56,23 +58,23 @@ const ProductAddPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const fd = new FormData();
 
-            Object.keys(formData).forEach((key) => {
-                if (key === "attributes") {
-                    fd.append("attributes", JSON.stringify(formData.attributes));
-                } else {
-                    fd.append(key, formData[key]);
-                }
-            });
+        const fd = new FormData();
 
-            images.forEach((img) => fd.append("images", img));
+        Object.keys(formData).forEach((key) => {
+            if (key === "attributes") {
+                fd.append("attributes", JSON.stringify(formData.attributes));
+            } else {
+                fd.append(key, formData[key]);
+            }
+        });
 
-            await api.post("/products/create", fd);
+        images.forEach((img) => fd.append("images", img));
 
-            toast.success("Product created successfully!");
+        const success = await addProduct(fd);
 
+        if (success) {
+            // reset form
             setFormData({
                 name: "",
                 description: "",
@@ -83,12 +85,8 @@ const ProductAddPage = () => {
                 isFeatured: false,
                 isNewArrival: false,
             });
-
             setImages([]);
             setPreviewImages([]);
-        } catch (err) {
-            console.error(err);
-            toast.error("Failed to create product");
         }
     };
 

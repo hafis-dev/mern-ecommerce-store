@@ -1,40 +1,47 @@
-import { useContext, useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, Form, Button } from "react-bootstrap";
-import { ATTRIBUTE_OPTIONS } from "../../../data/attributeOptions";
-import { ProductContext } from "../../../context/ProductContext";
+import api from "../../../services/api/axios";
 
 const FilterSidebar = ({ onApply, onClear }) => {
-    const {  filters } = useContext(ProductContext);
-
+    const [filters, setFilters] = useState({});
     const [category, setCategory] = useState("");
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
     const [sort, setSort] = useState("");
     const [attributes, setAttributes] = useState({});
-
     const [open, setOpen] = useState(false);
+
+    // Load filters ONCE when page loads
+    useEffect(() => {
+        const loadFilters = async () => {
+            try {
+                const res = await api.get("/products/filters");
+                setFilters(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        loadFilters();
+    }, []);
 
     const dynamicAttrs = category ? Object.keys(filters[category] || {}) : [];
 
-
-
-
     const handleApply = () => {
-        const filters = {};
+        const f = {};
 
-        if (category) filters.category = category;
-        if (minPrice) filters.minPrice = minPrice;
-        if (maxPrice) filters.maxPrice = maxPrice;
+        if (category) f.category = category;
+        if (minPrice) f.minPrice = minPrice;
+        if (maxPrice) f.maxPrice = maxPrice;
 
-        if (sort === "price_low") filters.sort = "price_asc";
-        if (sort === "price_high") filters.sort = "price_desc";
-        if (sort === "newest") filters.sort = "newest";
+        if (sort === "price_low") f.sort = "price_asc";
+        if (sort === "price_high") f.sort = "price_desc";
+        if (sort === "newest") f.sort = "newest";
 
         Object.keys(attributes).forEach((key) => {
-            if (attributes[key]) filters[key] = attributes[key];
+            if (attributes[key]) f[key] = attributes[key];
         });
 
-        onApply(filters);
+        onApply(f);
         setOpen(false);
     };
 
@@ -53,8 +60,8 @@ const FilterSidebar = ({ onApply, onClear }) => {
             <style>{`
                 .filter-toggle {
                     display: none;
-                    background: #6d5a4e;
-                    color: #fafafb;
+                    background: var(--c5);
+                    color: var(--c1);
                     border: none;
                     padding: 10px 18px;
                     font-size: 15px;
@@ -63,7 +70,7 @@ const FilterSidebar = ({ onApply, onClear }) => {
                 }
 
                 .filter-toggle:hover {
-                    background: #908681;
+                    background: var(--c4);
                 }
 
                 @media (max-width: 768px) {
@@ -79,30 +86,30 @@ const FilterSidebar = ({ onApply, onClear }) => {
                     background: transparent !important;
                     border-radius: 0px;
                     padding: 22px;
-                    box-shadow: 0px 3px 10px rgba(0,0,0,0.1);
-                    border: 1px solid #dbd9d9;
+                    box-shadow: 0px 3px 10px var(--c6);
+                    border: 1px solid var(--c2);
                 }
 
                 .filter-title {
                     font-size: 22px;
                     font-weight: 700;
-                    color: #1b1a19;
+                    color: var(--c6);
                     text-align: center;
                     margin-bottom: 18px;
                 }
 
                 .filter-label {
-                    color: #1b1a19;
+                    color: var(--c6);
                     font-weight: 500;
                     font-size: 14px;
                 }
 
                 .filter-input,
                 .filter-select {
-                    background: #dbd9d9;
+                    background: var(--c2);
                     border: none;
                     border-radius: 0px;
-                    color: #1b1a19;
+                    color: var(--c6);
                     padding: 10px;
                     font-size: 15px;
                 }
@@ -111,30 +118,30 @@ const FilterSidebar = ({ onApply, onClear }) => {
                 .filter-select:focus {
                     outline: none;
                     box-shadow: none;
-                    background: #beb7b3;
+                    background: var(--c3);
                 }
 
                 .btn-apply {
-                    background: #6d5a4e;
+                    background: var(--c5);
                     border: none;
-                    color: #fafafb;
+                    color: var(--c1);
                     font-weight: 500;
                     border-radius:0px
                 }
 
                 .btn-apply:hover {
-                    background: #908681;
+                    background: var(--c4);
                 }
 
                 .btn-clear {
-                    background: #dbd9d9;
+                    background: var(--c2);
                     border: none;
-                    color: #1b1a19;
+                    color: var(--c6);
                     border-radius:0px
                 }
 
                 .btn-clear:hover {
-                    background: #beb7b3;
+                    background: var(--c3);
                 }
             `}</style>
 

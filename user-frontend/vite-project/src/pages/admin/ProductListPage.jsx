@@ -1,34 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Container, Card } from "react-bootstrap";
-import api from "../../services/api/axios";
-import { toast } from "react-toastify";
+import { AdminContext } from "../../context/AdminContext";
 import { useNavigate } from "react-router-dom";
 
 export default function ProductListPage() {
-    const [products, setProducts] = useState([]);
+  const {products, loadProducts, deleteProduct} = useContext(AdminContext)
     const navigate = useNavigate();
 
-    const loadProducts = async () => {
-        try {
-            const res = await api.get("/products");
-            setProducts(res.data.products);
-        } catch (err) {
-            toast.error("Failed to load products");
-        }
-    };
+   
 
-    const deleteProduct = async (id) => {
-        if (!window.confirm("Delete this product?")) return;
-
-        try {
-            await api.delete(`/products/${id}`);
-            toast.success("Product deleted");
-            loadProducts();
-        } catch (err) {
-            toast.error("Failed to delete");
-        }
-    };
-
+    
     useEffect(() => {
         loadProducts();
     }, []);

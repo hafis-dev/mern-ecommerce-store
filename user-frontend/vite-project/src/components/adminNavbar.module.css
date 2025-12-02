@@ -9,7 +9,7 @@
 
 /* Navbar container */
 .navbar {
-    background-color: transparent!important;
+    background-color: var(--c1)!important;
     border-bottom: 1px solid var(--c2);
     padding-top: 6px;
     padding-bottom: 8px;
