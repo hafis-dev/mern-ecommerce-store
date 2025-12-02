@@ -1,12 +1,10 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { toast } from "react-toastify";
 import styles from "./ProductAddPage.module.css";
-import { AdminContext } from "../../context/AdminContext";
+import api from "../../services/api/axios";
 
 const ProductAddPage = () => {
-    const { addProduct } = useContext(AdminContext);
-
     const [images, setImages] = useState([]);
     const [previewImages, setPreviewImages] = useState([]);
 
@@ -21,60 +19,99 @@ const ProductAddPage = () => {
         isNewArrival: false,
     });
 
+    // =============================
+    // REMOVE IMAGE
+    // =============================
     const removeImage = (index) => {
-        setImages((prev) => prev.filter((_, i) => i !== index));
-        setPreviewImages((prev) => prev.filter((_, i) => i !== index));
-    };
-
-    const handleInputChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: type === "checkbox" ? checked : value,
-        }));
-    };
-
-    const handleAttributeChange = (key, value) => {
-        setFormData((prev) => ({
-            ...prev,
-            attributes: { ...prev.attributes, [key]: value },
-        }));
-    };
-
-    const handleImageUpload = (e) => {
-        const files = Array.from(e.target.files);
-
-        if (images.length + files.length > 5) {
-            toast.error("Maximum 5 images allowed");
-            return;
+        try {
+            setImages((prev) => prev.filter((_, i) => i !== index));
+            setPreviewImages((prev) => prev.filter((_, i) => i !== index));
+        } catch (err) {
+            console.error(err);
+            toast.error("Failed to remove image");
         }
-
-        setImages((prev) => [...prev, ...files]);
-        setPreviewImages((prev) => [
-            ...prev,
-            ...files.map((file) => URL.createObjectURL(file)),
-        ]);
     };
 
+    // =============================
+    // INPUT CHANGE HANDLER
+    // =============================
+    const handleInputChange = (e) => {
+        try {
+            const { name, value, type, checked } = e.target;
+            setFormData((prev) => ({
+                ...prev,
+                [name]: type === "checkbox" ? checked : value,
+            }));
+        } catch (err) {
+            console.error(err);
+            toast.error("Input error");
+        }
+    };
+
+    // =============================
+    // ATTRIBUTE CHANGE
+    // =============================
+    const handleAttributeChange = (key, value) => {
+        try {
+            setFormData((prev) => ({
+                ...prev,
+                attributes: { ...prev.attributes, [key]: value },
+            }));
+        } catch (err) {
+            console.error(err);
+            toast.error("Failed to update attribute");
+        }
+    };
+
+    // =============================
+    // IMAGE UPLOAD
+    // =============================
+    const handleImageUpload = (e) => {
+        try {
+            const files = Array.from(e.target.files);
+
+            if (images.length + files.length > 5) {
+                toast.error("Maximum 5 images allowed");
+                return;
+            }
+
+            setImages((prev) => [...prev, ...files]);
+            setPreviewImages((prev) => [
+                ...prev,
+                ...files.map((file) => URL.createObjectURL(file)),
+            ]);
+        } catch (err) {
+            console.error(err);
+            toast.error("Failed to upload image");
+        }
+    };
+
+    // =============================
+    // SUBMIT FORM
+    // =============================
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const fd = new FormData();
+        try {
+            const fd = new FormData();
 
-        Object.keys(formData).forEach((key) => {
-            if (key === "attributes") {
-                fd.append("attributes", JSON.stringify(formData.attributes));
-            } else {
-                fd.append(key, formData[key]);
-            }
-        });
+            // append text values
+            Object.keys(formData).forEach((key) => {
+                if (key === "attributes") {
+                    fd.append("attributes", JSON.stringify(formData.attributes));
+                } else {
+                    fd.append(key, formData[key]);
+                }
+            });
 
-        images.forEach((img) => fd.append("images", img));
+            // append image files
+            images.forEach((img) => fd.append("images", img));
 
-        const success = await addProduct(fd);
+            // API call
+            const res = await api.post("/products/create", fd);
+            toast.success("Product created successfully!");
 
-        if (success) {
-            // reset form
+            // Reset form
             setFormData({
                 name: "",
                 description: "",
@@ -87,6 +124,10 @@ const ProductAddPage = () => {
             });
             setImages([]);
             setPreviewImages([]);
+
+        } catch (err) {
+            console.error("Create product error:", err);
+            toast.error(err?.response?.data?.message || "Failed to create product");
         }
     };
 
@@ -100,9 +141,7 @@ const ProductAddPage = () => {
                     <Col md={6}>
                         <Card className={styles.card}>
                             <Form.Group className="mb-2">
-                                <Form.Label className={styles.label}>
-                                    Product Name
-                                </Form.Label>
+                                <Form.Label className={styles.label}>Product Name</Form.Label>
                                 <Form.Control
                                     name="name"
                                     value={formData.name}
@@ -113,9 +152,7 @@ const ProductAddPage = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-2">
-                                <Form.Label className={styles.label}>
-                                    Description
-                                </Form.Label>
+                                <Form.Label className={styles.label}>Description</Form.Label>
                                 <Form.Control
                                     as="textarea"
                                     name="description"
@@ -130,9 +167,7 @@ const ProductAddPage = () => {
                             <Row>
                                 <Col>
                                     <Form.Group className="mb-2">
-                                        <Form.Label className={styles.label}>
-                                            Price (₹)
-                                        </Form.Label>
+                                        <Form.Label className={styles.label}>Price (₹)</Form.Label>
                                         <Form.Control
                                             type="number"
                                             name="price"
@@ -143,12 +178,9 @@ const ProductAddPage = () => {
                                         />
                                     </Form.Group>
                                 </Col>
-
                                 <Col>
                                     <Form.Group className="mb-2">
-                                        <Form.Label className={styles.label}>
-                                            Stock
-                                        </Form.Label>
+                                        <Form.Label className={styles.label}>Stock</Form.Label>
                                         <Form.Control
                                             type="number"
                                             min="0"
@@ -163,9 +195,7 @@ const ProductAddPage = () => {
                             </Row>
 
                             <Form.Group className="mb-2">
-                                <Form.Label className={styles.label}>
-                                    Category
-                                </Form.Label>
+                                <Form.Label className={styles.label}>Category</Form.Label>
                                 <Form.Select
                                     name="category"
                                     value={formData.category}
@@ -224,12 +254,16 @@ const ProductAddPage = () => {
                                         variant="outline-danger"
                                         className={styles.removeBtn}
                                         onClick={() => {
-                                            const updated = { ...formData.attributes };
-                                            delete updated[key];
-                                            setFormData({
-                                                ...formData,
-                                                attributes: updated,
-                                            });
+                                            try {
+                                                const updated = { ...formData.attributes };
+                                                delete updated[key];
+                                                setFormData({
+                                                    ...formData,
+                                                    attributes: updated,
+                                                });
+                                            } catch (err) {
+                                                toast.error("Failed to remove attribute");
+                                            }
                                         }}
                                     >
                                         X
@@ -241,8 +275,12 @@ const ProductAddPage = () => {
                                 size="sm"
                                 variant="outline-dark"
                                 onClick={() => {
-                                    const key = prompt("Enter attribute name");
-                                    if (key) handleAttributeChange(key, "");
+                                    try {
+                                        const key = prompt("Enter attribute name");
+                                        if (key) handleAttributeChange(key, "");
+                                    } catch (err) {
+                                        toast.error("Failed to add attribute");
+                                    }
                                 }}
                                 className={styles.addAttrBtn}
                             >

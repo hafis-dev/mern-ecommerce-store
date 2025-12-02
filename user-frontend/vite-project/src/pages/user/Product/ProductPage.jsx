@@ -17,7 +17,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const ProductPage = () => {
     const navigate = useNavigate();
     const { id } = useParams();
-    const { loadCart, cart, addToCart } = useContext(CartContext);
+    const {  cart, setCart } = useContext(CartContext);
 
     const [product, setProduct] = useState(null);
     const [selectedImage, setSelectedImage] = useState("");
@@ -27,7 +27,17 @@ const ProductPage = () => {
     );
 
 
-
+    // ==========================
+    // ADD TO CART
+    // ==========================
+    const addToCart = async (productId, quantity = 1) => {
+        try {
+            const res = await api.post("/cart/add", { productId, quantity });
+            setCart(res.data.cart.items || []);
+        } catch (err) {
+            console.log("addToCart error:", err);
+        }
+    };
     useEffect(() => {
         const fetchProduct = async () => {
             try {

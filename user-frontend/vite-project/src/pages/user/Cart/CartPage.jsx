@@ -4,21 +4,44 @@ import { useNavigate } from "react-router-dom";
 import CartCard from "./CartCard";
 import { Card, Button, Container } from "react-bootstrap";
 import styles from "./cartPage.module.css";
+import api from '../../../services/api/axios.js'
 
 const CartPage = () => {
   const navigate = useNavigate();
-  const { cart, loadCart, updateCartItem, removeItem, cartCount } =
+  const { cart, loadCart, setCart, cartCount } =
     useContext(CartContext);
 
-  useEffect(() => {
-    loadCart();
-  }, []);
 
+  useEffect(() => {
+    loadCart()
+  })
   const totalAmount = cart.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
+  // ==========================
+  // UPDATE ITEM
+  // ==========================
+  const updateCartItem = async (productId, quantity) => {
+    try {
+      const res = await api.put("/cart/update", { productId, quantity });
+      setCart(res.data.cart.items || []);
+    } catch (err) {
+      console.log("update error:", err);
+    }
+  };
 
+  // ==========================
+  // REMOVE ITEM
+  // ==========================
+  const removeItem = async (productId) => {
+    try {
+      const res = await api.delete(`/cart/remove/${productId}`);
+      setCart(res.data.cart.items || []);
+    } catch (err) {
+      console.log("remove error:", err);
+    }
+  };
   return (
     <Container className={`${styles.cartContainer} pt-5 mt-lg-0 mt-md-4 mt-sm-3`}>
       <h2 className={`${styles.cartTitle} mt-4`}>Your Cart ({cartCount})</h2>

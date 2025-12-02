@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../../../context/CartContext";
 import api from "../../../services/api/axios";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const CheckoutPage = () => {
     const navigate = useNavigate();
-    const { cart, loadCart } = useContext(CartContext);
+    const { cart, setCart } = useContext(CartContext);
 
     const [shippingAddress, setShippingAddress] = useState({
         phone: "",
@@ -19,16 +19,22 @@ const CheckoutPage = () => {
         country: "India",
     });
 
-    useEffect(() => {
-        loadCart();
-        
-    }, []);
 
     const totalAmount = cart.reduce(
         (sum, item) => sum + item.product.price * item.quantity,
         0
     );
-
+    // ==========================
+    // CLEAR CART
+    // ==========================
+    const clearCart = async () => {
+        try {
+            await api.delete("/cart/clear");
+            setCart([]);
+        } catch (err) {
+            console.log("clear error:", err);
+        }
+    };
     const placeOrder = async () => {
         try {
             await api.post("/checkout/place", { shippingAddress });
@@ -37,7 +43,7 @@ const CheckoutPage = () => {
 
             navigate("/order-success");
 
-            loadCart();
+            clearCart()
         } catch (err) {
             console.log(err)
             toast.error("Something went wrong! Try again.");

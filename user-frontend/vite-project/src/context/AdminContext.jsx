@@ -16,16 +16,7 @@ export const AdminProvider = ({ children }) => {
 
 
 
-    const addProduct = async (formData) => {
-        try {
-            await api.post("/products/create", formData);
-            toast.success("Product created successfully!");
-            return true;
-        } catch (err) {
-            toast.error("Failed to create product");
-            return false;
-        }
-    };
+
 
 
     // LOAD ALL PRODUCTS
@@ -107,7 +98,6 @@ export const AdminProvider = ({ children }) => {
 
     return (
         <AdminContext.Provider value={{
-            addProduct,
             products,
             loadProducts,
             deleteProduct,

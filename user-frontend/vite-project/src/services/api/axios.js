@@ -4,7 +4,11 @@ const api = axios.create({
   baseURL: "http://localhost:3000/api",
   withCredentials: true, // required for httpOnly cookies
 });
+let logoutHandler = null;
 
+export const setLogoutHandler = (logout) => {
+  logoutHandler = logout;
+};
 // Attach access token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
@@ -44,10 +48,8 @@ api.interceptors.response.use(
       } catch (err) {
         console.log("Refresh failed:", err.response?.data || err);
 
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("user");
+        if (logoutHandler) logoutHandler();
 
-        window.location.href = "/login";
       }
     }
 

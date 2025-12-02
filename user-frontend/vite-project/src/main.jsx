@@ -8,7 +8,6 @@ import { ToastContainer } from "react-toastify";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 
-import { ProductProvider } from './context/ProductContext.jsx'
 import { CartProvider } from './context/CartContext.jsx'
 import { AdminProvider } from './context/AdminContext.jsx'
 createRoot(document.getElementById('root')).render(
@@ -17,13 +16,13 @@ createRoot(document.getElementById('root')).render(
       <CartProvider>
 
 
-        <ProductProvider>
+        
           <AdminProvider>
 
              <App />
           </AdminProvider>
          
-        </ProductProvider>
+        
       </CartProvider>
     </AuthProvider>
 

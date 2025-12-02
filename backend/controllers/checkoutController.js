@@ -50,10 +50,7 @@ exports.createOrder = async (req, res) => {
       );
     }
 
-    // Clear cart
-    cart.items = [];
-    await cart.save();
-
+    
     return res.json({
       success: true,
       message: "Order placed successfully!",
