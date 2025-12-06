@@ -1,6 +1,8 @@
 // backend/controllers/productController.js
 const Product = require("../models/Product");
 const cloudinary = require('../config/cloudinary');
+const Cart = require('../models/Cart');
+const { uploadToCloudinary } = require("../utils/uploadImage");
 
 // ==============================
 // CREATE PRODUCT (Admin)
@@ -60,22 +62,10 @@ exports.createProduct = async (req, res) => {
     // ----------------------------
     // CLOUDINARY BUFFER UPLOAD
     // ----------------------------
-    const uploadBuffer = (fileBuffer) => {
-      return new Promise((resolve, reject) => {
-        const upload = cloudinary.uploader.upload_stream(
-          { folder: "ecommerce_products" },
-          (error, result) => {
-            if (error) reject(error);
-            else resolve(result.secure_url);
-          }
-        );
-
-        upload.end(fileBuffer);
-      });
-    };
+  
 
     const imageUrls = await Promise.all(
-      req.files.map((file) => uploadBuffer(file.buffer))
+      req.files.map((file) => uploadToCloudinary(file.buffer))
     );
 
     // ----- CREATE PRODUCT -----
@@ -317,6 +307,9 @@ exports.updateProduct = async (req, res) => {
 // ==============================
 // DELETE PRODUCT (Admin)
 // ==============================
+// ==============================
+// DELETE PRODUCT (Admin)
+// ==============================
 exports.deleteProduct = async (req, res) => {
   try {
     const productId = req.params.id;
@@ -326,7 +319,7 @@ exports.deleteProduct = async (req, res) => {
       return res.status(400).json({ message: "Invalid product ID" });
     }
 
-    // Delete product
+    // 2. DELETE PRODUCT
     const deletedProduct = await Product.findByIdAndDelete(productId);
 
     // If not found
@@ -334,10 +327,20 @@ exports.deleteProduct = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
+    // ==============================================================
+    // 3. CRITICAL FIX: CLEANUP CARTS
+    // Remove this specific product from the 'items' array in ALL carts
+    // ==============================================================
+    await Cart.updateMany(
+      { "items.product": productId },              // Find carts that have this product
+      { $pull: { items: { product: productId } } } // Pull (remove) the item from the array
+    );
+
     return res.json({
-      message: "Product deleted successfully",
+      message: "Product deleted and removed from all active carts",
       product: deletedProduct,
     });
+
   } catch (err) {
     console.error("deleteProduct error:", err);
     return res

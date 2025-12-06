@@ -1,0 +1,64 @@
+/* OrderSuccessPage.module.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+.successWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 85vh;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--c1);
+    /* Bootstrap utility equivalents (mt-4 pt-5 ...) are handled in JSX or can be added here if preferred */
+}
+
+.successImage {
+    width: 140px;
+    margin-bottom: 25px;
+}
+
+.successTitle {
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--c4);
+}
+
+.successText {
+    color: var(--c4);
+    opacity: 0.7;
+    font-size: 1rem;
+    margin-bottom: 40px;
+}
+
+.btnGroup {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    /* gap-3 equivalent */
+    margin-top: 10px;
+}
+
+/* Base Button Style */
+.baseBtn {
+    min-width: 200px;
+    padding: 10px 22px;
+    border-radius: 0px !important;
+    font-weight: 600;
+    color: var(--c1) !important;
+    border: none;
+    transition: 0.2s ease;
+}
+
+.historyBtn ,.continueBtn{
+    background-color: var(--c5) !important;
+    border: 1px solid var(--c5) !important;
+    /* Bootstrap button adds border, mimicking that */
+}
+
+
+
+/* Exact hover effect from your <style> tag */
+.baseBtn:hover {
+    opacity: 0.85 !important;
+    transform: translateY(-1px);
+}

@@ -251,7 +251,6 @@ const ProductAddPage = () => {
 
                                     <Button
                                         size="sm"
-                                        variant="outline-danger"
                                         className={styles.removeBtn}
                                         onClick={() => {
                                             try {

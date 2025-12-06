@@ -1,0 +1,92 @@
+/* Import font here, or ideally in your global index.css */
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap');
+
+.aboutWrapper {
+    padding-top: 120px;
+    font-family: 'Urbanist', sans-serif;
+    color: var(--c6, #333);
+    /* Fallback added just in case */
+}
+
+.aboutHero {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.aboutTitle {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--c6, #000);
+}
+
+.aboutSubtext {
+    font-size: 16px;
+    color: var(--c4, #666);
+    width: 70%;
+    margin: 10px auto;
+}
+
+.aboutLine {
+    width: 70px;
+    height: 3px;
+    background: var(--c5, #fcb900);
+    margin: 20px auto 0;
+    border-radius: 4px;
+}
+
+/* Mission Section */
+.aboutSection {
+    padding: 50px 0;
+}
+
+.sectionTitle {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.sectionText {
+    font-size: 16px;
+    color: var(--c4, #666);
+    line-height: 1.7;
+}
+
+/* Highlights */
+.highlightBox {
+    background: var(--c0, #fff);
+    border: 1px solid var(--c2, #eee);
+    border-radius: 0px;
+    /* Moved inline style here */
+    padding: 25px;
+    text-align: center;
+    transition: 0.3s ease;
+}
+
+.highlightBox:hover {
+    transform: translateY(-5px);
+    border-color: var(--c5, #fcb900);
+}
+
+.highlightIcon {
+    font-size: 40px;
+    color: var(--c5, #fcb900);
+    margin-bottom: 15px;
+}
+
+.highlightTitle {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.highlightText {
+    font-size: 14px;
+    color: var(--c4, #666);
+}
+
+/* Mobile Responsiveness tweaks (Optional) */
+@media (max-width: 768px) {
+    .aboutSubtext {
+        width: 100%;
+    }
+}

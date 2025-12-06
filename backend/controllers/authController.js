@@ -8,10 +8,10 @@ require("dotenv").config();
 const {
   generateAccessToken,
   generateRefreshToken,
-} = require("../utils/tokenUtil");
+} = require("../utils/token");
 const generateOTP = require("../utils/otpUtil");
-const { sendSMS } = require("../utils/smsUtil");
-const { sendEmail } = require("../utils/EmailUtil");
+const { sendSMS } = require("../utils/sendSMS");
+const { sendEmail } = require("../utils/sendEmail");
 
 // ADMIN EMAIL from .env
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;

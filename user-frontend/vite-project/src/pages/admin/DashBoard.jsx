@@ -14,7 +14,6 @@ const DashBoard = () => {
         return <p className="text-center mt-4">Loading dashboard...</p>;
     }
 
-    // STATS
     const totalOrders = orders.length;
     const deliveredOrders = orders.filter((o) => o.status === "Delivered").length;
     const cancelledOrders = orders.filter((o) => o.status === "Cancelled").length;
@@ -32,7 +31,6 @@ const DashBoard = () => {
         )
         .reduce((sum, order) => sum + order.totalPrice, 0);
 
-    // Status color
     const statusStyle = (status) => {
         switch (status) {
             case "Delivered":
@@ -48,15 +46,15 @@ const DashBoard = () => {
 
     return (
         <Container className={`${styles.wrapper} py-5`}>
-            <h2 className={styles.title}>Admin Dashboard</h2>
+            <h2 className={styles.heading}>Admin Dashboard</h2>
 
             {/* STATS */}
-            <Row className="mt-4 g-3 ">
+            <Row className="mt-4 g-3">
                 <Col md={3}>
                     <Card className={styles.statCard}>
                         <Card.Body>
-                            <h6 className={styles.textSoft}>Total Revenue</h6>
-                            <h3 className={styles.textAccent}>₹{totalRevenue}</h3>
+                            <h6 className={styles.label}>Total Revenue</h6>
+                            <h3 className={styles.value}>₹{totalRevenue}</h3>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -64,8 +62,8 @@ const DashBoard = () => {
                 <Col md={3}>
                     <Card className={styles.statCard}>
                         <Card.Body>
-                            <h6 className={styles.textSoft}>Total Orders</h6>
-                            <h3 className={styles.textAccent}>{totalOrders}</h3>
+                            <h6 className={styles.label}>Total Orders</h6>
+                            <h3 className={styles.value}>{totalOrders}</h3>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -73,8 +71,8 @@ const DashBoard = () => {
                 <Col md={3}>
                     <Card className={styles.statCard}>
                         <Card.Body>
-                            <h6 className={styles.textSoft}>Delivered Orders</h6>
-                            <h3 className={styles.textAccent}>{deliveredOrders}</h3>
+                            <h6 className={styles.label}>Delivered Orders</h6>
+                            <h3 className={styles.value}>{deliveredOrders}</h3>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -82,8 +80,8 @@ const DashBoard = () => {
                 <Col md={3}>
                     <Card className={styles.statCard}>
                         <Card.Body>
-                            <h6 className={styles.textSoft}>Cancelled Orders</h6>
-                            <h3 className={styles.textAccent}>{cancelledOrders}</h3>
+                            <h6 className={styles.label}>Cancelled Orders</h6>
+                            <h3 className={styles.value}>{cancelledOrders}</h3>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -92,13 +90,13 @@ const DashBoard = () => {
             {/* Today Revenue */}
             <Card className={`${styles.revenueCard} mt-4`}>
                 <Card.Body>
-                    <h6 className={styles.textSoft}>Today's Revenue</h6>
-                    <h3 className={styles.textAccent}>₹{todayRevenue}</h3>
+                    <h6 className={styles.label}>Today's Revenue</h6>
+                    <h3 className={styles.value}>₹{todayRevenue}</h3>
                 </Card.Body>
             </Card>
 
             {/* Latest Orders */}
-            <h4 className={`mt-5 ${styles.textDark}`}>Latest Orders</h4>
+            <h4 className={`mt-5 ${styles.subHeading}`}>Latest Orders</h4>
 
             <Row className="mt-3 g-3">
                 {orders.slice(0, 5).map((o) => (
@@ -109,12 +107,11 @@ const DashBoard = () => {
                                 <div>
                                     <h6 className={styles.orderUser}>{o.userName}</h6>
 
-                                    <div className={styles.textSoft} style={{ fontSize: 14 }}>
-                                        Total:{" "}
-                                        <b className={styles.textAccent}>₹{o.totalPrice}</b>
+                                    <div className={styles.meta}>
+                                        Total: <b className={styles.value}>₹{o.totalPrice}</b>
                                     </div>
 
-                                    <div className={styles.textSoft} style={{ fontSize: 14 }}>
+                                    <div className={styles.meta}>
                                         {new Date(o.createdAt).toLocaleDateString()}
                                     </div>
                                 </div>

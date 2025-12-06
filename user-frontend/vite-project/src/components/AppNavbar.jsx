@@ -39,7 +39,7 @@ const AppNavbar = () => {
 
                 {/* LOGO */}
                 <Navbar.Brand as={NavLink} to="/" className={styles.brand}>
-                    Everloft
+                    ShopX
                 </Navbar.Brand>
 
                 {/* MOBILE LINKS */}
@@ -104,21 +104,24 @@ const AppNavbar = () => {
 
                     {/* MOBILE MENU */}
                     <Nav className="d-lg-none">
-                        <Nav.Link as={NavLink} to="/about" className={setActive}>
+                        <Nav.Link as={NavLink} to="/about" className={setActive} >
                             ABOUT
                         </Nav.Link>
 
                         {user ? (
                             <>
-                                <Nav.Link as={NavLink} to="/orders" className={setActive}>
+                                <Nav.Link as={NavLink} to="/orders" className={setActive} >
                                     MY ORDERS
+                                </Nav.Link>
+                                <Nav.Link as={NavLink} to="/profile" className={setActive}>
+                                    PROFILE
                                 </Nav.Link>
                                 <Nav.Link onClick={handleLogout} className={styles.navlink}>
                                     LOGOUT
                                 </Nav.Link>
                             </>
                         ) : (
-                            <Nav.Link as={NavLink} to="/login" className={setActive}>
+                            <Nav.Link as={NavLink} to="/login" className={`${setActive} ${styles.dropdownItem}`}>
                                 LOGIN
                             </Nav.Link>
                         )}
@@ -163,11 +166,17 @@ const AppNavbar = () => {
                                     <NavDropdown.Item
                                         as={NavLink}
                                         to="/orders"
-                                        className={styles.dropdownItem}
+                                        className={`${setActive}  ${styles.dropdownItem}`} 
                                     >
                                         MY ORDERS
                                     </NavDropdown.Item>
-
+                                    <NavDropdown.Item
+                                        as={NavLink}
+                                        to="/profile"
+                                        className={`${setActive}  ${styles.dropdownItem}`} 
+                                    >
+                                        PROFILE
+                                    </NavDropdown.Item>
                                     <NavDropdown.Divider className={styles.dropdownDivider} />
 
                                     <NavDropdown.Item onClick={handleLogout} className={styles.dropdownItem}>

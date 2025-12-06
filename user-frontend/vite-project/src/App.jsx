@@ -28,6 +28,7 @@ import ProductEditpage from './pages/admin/ProductEditpage'
 import OrderListPage from './pages/admin/OrderListPage'
 import DashBoard from './pages/admin/DashBoard'
 import AdminFooter from './components/AdminFooter';
+import ProfilePage from './pages/user/Profile/ProfilePage';
 
 function App() {
 
@@ -59,7 +60,7 @@ function App() {
           <Route path="/order-success" element={<OrderSuccessPage />} />
           <Route path="/orders" element={<OrderHistoryPage />} />
           <Route path="/about" element={<AboutPage />} />
-
+          <Route path="/profile" element={<ProtectRoute><ProfilePage /></ProtectRoute> }/>
           {/* ADMIN ROUTES */}
           <Route
             path="/admin/product-add"

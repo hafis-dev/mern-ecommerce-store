@@ -1,20 +1,16 @@
-:root {
-    --c1: #fafafb;
-    --c2: #dbd9d9;
-    --c3: #beb7b3;
-    --c4: #908681;
-    --c5: #6d5a4e;
-    --c6: #1b1a19;
-}
 
 /* Navbar container */
 .navbar {
     background-color: var(--c1)!important;
-    border-bottom: 1px solid var(--c2);
-    padding-top: 6px;
-    padding-bottom: 8px;
+    padding-top: 6px !important;
+    padding-bottom: 0px !important
 }
+.navContainer{
+        border-bottom: 1px solid var(--c2);
+        padding-bottom: 5px;
+        padding-top:5px
 
+}
 /* Brand text */
 .brand {
     font-size: 26px;
@@ -42,7 +38,8 @@
 
 /* Active page indicator */
 .active {
-    color: var(--c5) !important;
+    color: var(--c6) !important;
+    text-shadow: 0 0 1px var(--c5);
     border-bottom: 2px solid var(--c5);
     padding-bottom: 3px;
 }

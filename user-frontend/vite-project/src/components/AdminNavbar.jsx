@@ -18,7 +18,7 @@ const AdminNavbar = () => {
 
     return (
         <Navbar expand="lg" fixed="top" className={styles.navbar}>
-            <Container>
+            <Container className={styles.navContainer}>
                 {/* BRAND */}
                 <Navbar.Brand
                     as={Link}

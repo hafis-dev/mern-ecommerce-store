@@ -1,12 +1,4 @@
-/* Colors */
-:root {
-    --c1: #fafafb;
-    --c2: #dbd9d9;
-    --c3: #beb7b3;
-    --c4: #908681;
-    --c5: #6d5a4e;
-    --c6: #1b1a19;
-}
+
 
 /* Base font for navbar */
 .navbar * {
@@ -17,7 +9,7 @@
 
 /* Navbar main */
 .navbar {
-    background-color: transparent !important;
+    background-color: var(--c1) !important;
     border-bottom: 1px solid var(--c2);
     padding-top: 4px;
     padding-bottom: 6px;
@@ -82,12 +74,16 @@
 
 /* Dropdown items */
 .dropdownItem {
-    color: var(--c6) !important;
+    color: var(--c5) !important;
     font-weight: 600 !important;
+    background-color: var(--c1) !important ;
     font-size: 15px;
     transition: 0.15s ease;
 }
-
+.dropdownItem:global(.active) {
+    background-color: var(--c5) !important;
+    color: var(--c1) !important;
+}
 /* Dropdown item hover */
 .dropdownItem:hover {
     background-color: var(--c2) !important;
@@ -97,6 +93,6 @@
 
 /* Divider hover fix */
 .dropdownDivider:hover {
-    background-color: transparent !important;
+    background-color: transparent !important ;
 
 }

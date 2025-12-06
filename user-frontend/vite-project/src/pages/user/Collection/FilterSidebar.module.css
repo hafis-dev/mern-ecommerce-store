@@ -1,0 +1,97 @@
+/* BUTTON */
+.filterToggle {
+    display: none;
+    background: var(--c5);
+    color: var(--c1);
+    border: none;
+    padding: 10px 18px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.filterToggle:hover {
+    background: var(--c4);
+}
+
+/* Mobile: Show toggle button */
+@media (max-width: 768px) {
+    .filterToggle {
+        display: block;
+    }
+
+    .mobileHidden {
+        display: none !important;
+    }
+}
+
+/* Desktop: Always show sidebar */
+@media (min-width: 769px) {
+    .mobileHidden {
+        display: block !important;
+    }
+}
+
+.filterCard {
+    background: transparent !important;
+    border-radius: 0px!important;
+    padding: 22px!important;
+    box-shadow: 0px 3px 10px var(--c6)!important;
+    border: 1px solid var(--c2)!important;
+    max-height: 78vh!important;
+    overflow: auto!important;
+}
+
+.filterTitle {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--c6);
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.filterLabel {
+    color: var(--c6);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.filterInput,
+.filterSelect {
+    background: var(--c2)!important;
+    border: none!important;
+    border-radius: 0px!important;
+    color: var(--c6)!important;
+    padding: 10px!important;
+    font-size: 15px!important;
+}
+
+.filterInput:focus,
+.filterSelect:focus {
+    outline: none!important;
+    box-shadow: none!important;
+    background: var(--c3)!important;
+}
+
+.btnApply {
+    background: var(--c5)!important;
+    border: none!important;
+    color: var(--c1)!important;
+    font-weight: 500!important;
+    border-radius: 0px!important;
+}
+
+.btnApply:hover {
+    background: var(--c4)!important;
+}
+
+.btnClear {
+    background: var(--c2)!important;
+    border: none!important;
+    color: var(--c6)!important;
+    border-radius: 0px!important;
+}
+
+.btnClear:hover {
+    background: var(--c3) !important;
+}

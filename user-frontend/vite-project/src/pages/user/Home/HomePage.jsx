@@ -1,7 +1,8 @@
 import React from 'react'
 import FeaturedSection from './FeaturedSection'
-import NewArrivalSection from './newArrivalSection'
+
 import ControlledCarousel from './ControlledCarousel'
+import NewArrivalSection from './NewArrivalSection'
 
 function HomePage() {
   return (

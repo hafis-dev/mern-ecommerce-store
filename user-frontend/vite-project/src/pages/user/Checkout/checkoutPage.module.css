@@ -19,7 +19,7 @@
 .formCard,
 .summaryCard {
     background: transparent;
-    border-radius: 14px;
+    border-radius: 0px !important;
     padding: 22px;
     border: 1px solid var(--c2);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);

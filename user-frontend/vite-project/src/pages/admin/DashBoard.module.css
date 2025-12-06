@@ -1,12 +1,16 @@
 .wrapper {
     background: transparent;
-    border-radius: 16px;
+    border-radius: 0px;
     padding: 30px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
-/* Titles */
-.title {
+/* Headings */
+.heading {
+    color: var(--c6);
+    font-weight: 700;
+}
+
+.subHeading {
     color: var(--c6);
     font-weight: 600;
 }
@@ -16,27 +20,24 @@
 .revenueCard,
 .orderCard {
     background: var(--c1);
-    border: 1px solid var(--c3);
-    border-radius: 14px;
+    border: 1px solid var(--c3) !important;
+    border-radius: 0px !important;
 }
 
 .orderCard {
-    border-radius: 12px;
     padding: 14px 18px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-/* Text */
-.textSoft {
+/* Labels under stats */
+.label {
     color: var(--c4);
+    font-size: 14px;
 }
 
-.textDark {
-    color: var(--c6);
-}
-
-.textAccent {
+/* Stat numbers */
+.value {
     color: var(--c5);
+    font-weight: 700;
 }
 
 /* Latest Order Left Section */
@@ -46,10 +47,15 @@
     margin-bottom: 4px;
 }
 
+.meta {
+    color: var(--c4);
+    font-size: 14px;
+}
+
 /* Status Chips */
 .statusBox {
     padding: 4px 12px;
-    border-radius: 8px;
+    border-radius: 0px;
     font-weight: 600;
     font-size: 14px;
     height: fit-content;

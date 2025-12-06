@@ -1,0 +1,49 @@
+/* NewArrivalSection.module.css */
+/* Colors */
+
+.arrivalWrapper {
+    background: transparent !important;
+    padding: 120px 0 80px 0;
+    font-family: 'Urbanist', sans-serif;
+    animation: fadeInArrival 0.5s ease-in-out;
+}
+
+.arrivalTitle {
+    text-align: center;
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--c6);
+    letter-spacing: 0.3px;
+}
+
+.arrivalSubtext {
+    text-align: center;
+    color: var(--c4);
+    font-size: 15px;
+    margin-top: 6px;
+}
+
+.arrivalLine {
+    width: 60px;
+    height: 3px;
+    margin: 14px auto 50px auto;
+    background: var(--c5);
+    border-radius: 4px;
+}
+
+.arrivalRow {
+    display: flex;
+}
+
+/* Animations */
+@keyframes fadeInArrival {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

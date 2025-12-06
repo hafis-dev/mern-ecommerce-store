@@ -24,7 +24,7 @@ const Footer = () => {
                     {/* BRAND */}
                     <Col md={4} className="mb-3">
                         <h5 className={`text-uppercase fw-bold ${styles.brandTitle}`}>
-                            MyShop
+                            ShopX
                         </h5>
                         <p className={styles.brandTagline}>
                             Quality products. Fast delivery. Trusted service.
@@ -103,7 +103,7 @@ const Footer = () => {
                 <Row>
                     <Col className="text-center">
                         <small className={styles.bottomLine}>
-                            © {new Date().getFullYear()} MyShop — All Rights Reserved
+                            © {new Date().getFullYear()} ShopX — All Rights Reserved
                         </small>
                     </Col>
                 </Row>

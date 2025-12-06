@@ -2,18 +2,15 @@ import { useContext, useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import styles from "./ProductEditPage.module.css";
-import { AdminContext } from "../../context/AdminContext";
+import api from "../../services/api/axios";
 
 const ProductEditPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const {
-        singleProduct,
-        loadSingleProduct,
-        updateProduct
-    } = useContext(AdminContext);
+    const [product, setProduct] = useState(null);
 
     const [loading, setLoading] = useState(true);
 
@@ -31,32 +28,56 @@ const ProductEditPage = () => {
         isNewArrival: false,
     });
 
-    // --------------------------
-    // LOAD PRODUCT USING CONTEXT
-    // --------------------------
+    // Load single product
+    const loadProduct = async () => {
+        try {
+            const res = await api.get(`/products/${id}`);
+            setProduct(res.data.product);
+        } catch (err) {
+            console.log(err);
+            toast.error("Failed to load product");
+        }
+    };
+    // UPDATE PRODUCT
+    const updateProduct = async (id, formData) => {
+        try {
+            await api.put(`/products/${id}`, formData);
+            toast.success("Product updated successfully!");
+            return true;
+        } catch (err) {
+            console.log(err)
+            toast.error("Failed to update product");
+            return false;
+        }
+    };
+    // FIXED: Wait for product to load before setting formData
     useEffect(() => {
         const fetchData = async () => {
-            const data = await loadSingleProduct(id);
-            if (!data) return;
-
-            setFormData({
-                name: data.name,
-                description: data.description,
-                price: data.price,
-                stock: data.stock,
-                category: data.category,
-                attributes: data.attributes || {},
-                isFeatured: data.isFeatured,
-                isNewArrival: data.isNewArrival,
-            });
-
-            setPreviewImages(data.images);
-            setLoading(false);
+            await loadProduct();
         };
-
         fetchData();
     }, [id]);
 
+    // When product is fetched → fill the form
+    useEffect(() => {
+        if (!product) return;
+
+        setFormData({
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            stock: product.stock,
+            category: product.category,
+            attributes: product.attributes || {},
+            isFeatured: product.isFeatured,
+            isNewArrival: product.isNewArrival,
+        });
+
+        setPreviewImages(product.images || []);
+        setLoading(false);
+    }, [product]);
+
+    // Input handler
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData((prev) => ({
@@ -65,6 +86,7 @@ const ProductEditPage = () => {
         }));
     };
 
+    // Attribute change
     const handleAttributeChange = (key, value) => {
         setFormData((prev) => ({
             ...prev,
@@ -72,12 +94,15 @@ const ProductEditPage = () => {
         }));
     };
 
+    // Image upload
     const handleImageUpload = (e) => {
         const files = Array.from(e.target.files);
+
         if (previewImages.length + files.length > 5) {
             toast.error("Maximum 5 images allowed.");
             return;
         }
+
         setImages((prev) => [...prev, ...files]);
         setPreviewImages((prev) => [
             ...prev,
@@ -85,14 +110,13 @@ const ProductEditPage = () => {
         ]);
     };
 
+    // Remove image
     const removeImage = (index) => {
         setPreviewImages((prev) => prev.filter((_, i) => i !== index));
         setImages((prev) => prev.filter((_, i) => i !== index));
     };
 
-    // --------------------------
-    // UPDATE PRODUCT USING CONTEXT
-    // --------------------------
+    // Submit update
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -109,7 +133,6 @@ const ProductEditPage = () => {
         images.forEach((img) => fd.append("images", img));
 
         const success = await updateProduct(id, fd);
-
         if (success) navigate("/admin/products");
     };
 
@@ -136,9 +159,7 @@ const ProductEditPage = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-2">
-                                <Form.Label className={styles.label}>
-                                    Description
-                                </Form.Label>
+                                <Form.Label className={styles.label}>Description</Form.Label>
                                 <Form.Control
                                     required
                                     as="textarea"
@@ -230,7 +251,6 @@ const ProductEditPage = () => {
 
                                     <Button
                                         size="sm"
-                                        variant="outline-danger"
                                         className={styles.removeBtn}
                                         onClick={() => {
                                             const updated = { ...formData.attributes };

@@ -11,7 +11,6 @@ import {
     faRotateLeft,
     faLock
 } from "@fortawesome/free-solid-svg-icons";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ProductPage = () => {
@@ -23,7 +22,7 @@ const ProductPage = () => {
     const [selectedImage, setSelectedImage] = useState("");
 
     const isInCart = cart.some(
-        (item) => (item.product._id || item.product) === id
+        (item) => (item.product?._id || item.product) === id
     );
 
 

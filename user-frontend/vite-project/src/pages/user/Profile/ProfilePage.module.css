@@ -1,0 +1,119 @@
+/* Card Containers */
+.customCard {
+    background: var(--c1);
+    border: 1px solid var(--c3);
+    border-radius: 0px !important;
+    /* Optional: smooths corners slightly */
+}
+
+/* Profile Header Section */
+.avatar {
+    aspect-ratio: 1 / 1;
+    width: 80px;
+    min-width: 50px;
+    background: var(--c5);
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* Use :global(.active) to target the un-hashed 'active' class 
+   added dynamically by Bootstrap 
+*/
+.navLink:global(.active) {
+    background-color: var(--c5) !important;
+    color: var(--c1) !important;
+}
+
+.username {
+    color: var(--c6);
+    margin-bottom: 0.25rem;
+}
+
+.email {
+    color: var(--c4);
+    margin-bottom: 0.5rem;
+}
+
+.joinedDate {
+    color: var(--c4);
+    font-size: 0.875em;
+}
+
+/* Navigation Tabs */
+.navLink {
+    color: var(--c6) !important;
+    /* Important ensures bootstrap doesn't override */
+    cursor: pointer;
+    border-radius: 0px !important;
+    transition: background 0.2s;
+}
+
+.navLink:hover {
+    background: var(--c2);
+}
+
+/* Forms & Typography */
+.sectionTitle {
+    color: var(--c6);
+    border-color: var(--c3) !important;
+    /* Bootstrap uses border-color */
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid;
+}
+
+.formLabel {
+    color: var(--c5);
+}
+
+.formControl {
+    background: transparent;
+    color: var(--c6);
+    border: 1px solid var(--c3) !important;
+    border-radius: 0px !important;
+}
+
+.formControl:focus {
+    background: transparent;
+    color: var(--c6);
+    border-color: var(--c5) !important;
+    /* Optional: Highlight color on focus */
+    box-shadow: none;
+}
+
+/* Automatically style disabled inputs */
+.formControl:disabled {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--c4);
+    opacity: 1;
+}
+
+/* Buttons */
+.formBtn {
+    background: var(--c5) !important;
+    border: none !important;
+    border-radius: 0px !important;
+    padding: 10px 25px;
+    color: #fff;
+}
+
+.pwdBtn {
+    background: var(--c5) !important;
+    border: none !important;
+    border-radius: 0px !important;
+    padding: 10px 25px;
+    color: #fff;
+}
+
+.formBtn:hover,
+.pwdBtn:hover {
+    opacity: 0.9;
+    color: #fff;
+}
+
+.loadingText {
+    color: var(--c6);
+    text-align: center;
+    margin-top: 3rem;
+}

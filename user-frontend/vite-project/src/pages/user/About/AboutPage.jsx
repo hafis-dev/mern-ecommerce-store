@@ -1,169 +1,80 @@
+import React from 'react';
 import { Container, Row, Col } from "react-bootstrap";
+import styles from "./AboutPage.module.css";
 
 const AboutPage = () => {
     return (
-        <>
-            <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap');
+        <div className={styles.aboutWrapper}>
 
-                
+            {/* HERO SECTION */}
+            <Container className={styles.aboutHero}>
+                <h1 className={styles.aboutTitle}>About ShopX</h1>
+                <p className={styles.aboutSubtext}>
+                    We believe shopping should be simple, enjoyable, and trustworthy.
+                    Our mission is to bring premium quality products directly to your door.
+                </p>
+                <div className={styles.aboutLine}></div>
+            </Container>
 
-                .about-wrapper {
-                    padding-top: 120px;
-                    font-family: 'Urbanist', sans-serif;
-                    color: var(--c6);
-                }
+            {/* MISSION SECTION */}
+            <Container className={styles.aboutSection}>
+                <Row className="gy-4"> {/* Added gy-4 for vertical gap on mobile */}
+                    <Col md={6}>
+                        <h2 className={styles.sectionTitle}>Our Mission</h2>
+                        <p className={styles.sectionText}>
+                            At ShopX, we aim to provide a seamless online shopping experience
+                            with high-quality products, fast delivery, secure payments,
+                            and excellent customer support. Your satisfaction is our priority.
+                        </p>
+                    </Col>
 
-                .about-hero {
-                    text-align: center;
-                    margin-bottom: 60px;
-                }
+                    <Col md={6}>
+                        <h2 className={styles.sectionTitle}>Who We Are</h2>
+                        <p className={styles.sectionText}>
+                            We are a passionate team dedicated to offering curated collections,
+                            affordable pricing, and a smooth checkout experience. From trending
+                            items to daily essentials, we bring you the best of everything.
+                        </p>
+                    </Col>
+                </Row>
+            </Container>
 
-                .about-title {
-                    font-size: 40px;
-                    font-weight: 800;
-                    color: var(--c6);
-                }
-
-                .about-subtext {
-                    font-size: 16px;
-                    color: var(--c4);
-                    width: 70%;
-                    margin: 10px auto;
-                }
-
-                .about-line {
-                    width: 70px;
-                    height: 3px;
-                    background: var(--c5);
-                    margin: 20px auto 0;
-                    border-radius: 4px;
-                }
-
-                /* Mission Section */
-                .about-section {
-                    padding: 50px 0;
-                }
-
-                .section-title {
-                    font-size: 28px;
-                    font-weight: 700;
-                    margin-bottom: 15px;
-                }
-
-                .section-text {
-                    font-size: 16px;
-                    color: var(--c4);
-                    line-height: 1.7;
-                }
-
-                /* Highlights */
-                .highlight-box {
-                    background: var(--c0);
-                    border: 1px solid var(--c2);
-                    border-radius: 12px;
-                    padding: 25px;
-                    text-align: center;
-                    transition: 0.3s ease;
-                }
-
-                .highlight-box:hover {
-                    transform: translateY(-5px);
-                    border-color: var(--c5);
-                }
-
-                .highlight-icon {
-                    font-size: 40px;
-                    color: var(--c5);
-                    margin-bottom: 15px;
-                }
-
-                .highlight-title {
-                    font-size: 18px;
-                    font-weight: 700;
-                    margin-bottom: 10px;
-                }
-
-                .highlight-text {
-                    font-size: 14px;
-                    color: var(--c4);
-                }
-            `}</style>
-
-            <div className="about-wrapper">
-
-                {/* HERO SECTION */}
-                <Container className="about-hero">
-                    <h1 className="about-title">About MyShop</h1>
-                    <p className="about-subtext">
-                        We believe shopping should be simple, enjoyable, and trustworthy.
-                        Our mission is to bring premium quality products directly to your door.
-                    </p>
-                    <div className="about-line"></div>
-                </Container>
-
-                {/* MISSION SECTION */}
-                <Container className="about-section">
-                    <Row>
-                        <Col md={6}>
-                            <h2 className="section-title">Our Mission</h2>
-                            <p className="section-text">
-                                At MyShop, we aim to provide a seamless online shopping experience
-                                with high-quality products, fast delivery, secure payments,
-                                and excellent customer support. Your satisfaction is our priority.
+            {/* HIGHLIGHTS SECTION */}
+            <Container className={styles.aboutSection}>
+                <Row className="g-4">
+                    <Col md={4}>
+                        <div className={styles.highlightBox}>
+                            <div className={styles.highlightIcon}>🚚</div>
+                            <h4 className={styles.highlightTitle}>Fast Delivery</h4>
+                            <p className={styles.highlightText}>
+                                Quick and reliable shipping across all regions.
                             </p>
-                        </Col>
+                        </div>
+                    </Col>
 
-                        <Col md={6}>
-                            <h2 className="section-title">Who We Are</h2>
-                            <p className="section-text">
-                                We are a passionate team dedicated to offering curated collections,
-                                affordable pricing, and a smooth checkout experience. From trending
-                                items to daily essentials, we bring you the best of everything.
+                    <Col md={4}>
+                        <div className={styles.highlightBox}>
+                            <div className={styles.highlightIcon}>🔐</div>
+                            <h4 className={styles.highlightTitle}>Secure Payments</h4>
+                            <p className={styles.highlightText}>
+                                100% secure transactions with verified payment gateways.
                             </p>
-                        </Col>
-                    </Row>
-                </Container>
+                        </div>
+                    </Col>
 
-                {/* HIGHLIGHTS SECTION */}
-                <Container className="about-section">
-                    <Row className="g-4">
+                    <Col md={4}>
+                        <div className={styles.highlightBox}>
+                            <div className={styles.highlightIcon}>🎁</div>
+                            <h4 className={styles.highlightTitle}>Quality Products</h4>
+                            <p className={styles.highlightText}>
+                                Every item is checked and verified before shipping.
+                            </p>
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
 
-                        <Col md={4} >
-                            <div className="highlight-box" style={{ borderRadius: "0px" }}>
-                                <div className="highlight-icon">🚚</div>
-                                <h4 className="highlight-title">Fast Delivery</h4>
-                                <p className="highlight-text">
-                                    Quick and reliable shipping across all regions.
-                                </p>
-                            </div>
-                        </Col>
-
-                        <Col md={4}>
-                            <div className="highlight-box" style={{ borderRadius: "0px" }}>
-                                <div className="highlight-icon">🔐</div>
-                                <h4 className="highlight-title">Secure Payments</h4>
-                                <p className="highlight-text">
-                                    100% secure transactions with verified payment gateways.
-                                </p>
-                            </div>
-                        </Col>
-
-                        <Col md={4}>
-                            <div className="highlight-box" style={{ borderRadius: "0px" }}>
-                                <div className="highlight-icon">🎁</div>
-                                <h4 className="highlight-title">Quality Products</h4>
-                                <p className="highlight-text">
-                                    Every item is checked and verified before shipping.
-                                </p>
-                            </div>
-                        </Col>
-
-                    </Row>
-                </Container>
-
-            </div>
-        </>
+        </div>
     );
 };
 

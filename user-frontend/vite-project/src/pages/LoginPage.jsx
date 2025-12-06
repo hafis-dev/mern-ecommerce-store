@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import { CartContext } from "../context/CartContext";
 import { toast } from "react-toastify";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import styles from "./login.module.css";
@@ -8,6 +9,7 @@ import styles from "./login.module.css";
 const LoginPage = () => {
     const navigate = useNavigate()
     const { user, login } = useContext(AuthContext);
+    const {loadCart} = useContext(CartContext)
     const [emailOrPhone, setEmailOrPhone] = useState("");
     const [password, setPassword] = useState("");
     // REGEX patterns
@@ -52,6 +54,7 @@ const LoginPage = () => {
             });
 
             login(res.data);
+            loadCart()
             toast.success("Login successful");
             // 🔥 Redirect based on admin or user
             if (res.data.user.isAdmin) {
