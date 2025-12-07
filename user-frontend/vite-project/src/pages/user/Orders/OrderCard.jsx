@@ -51,13 +51,13 @@ const OrderCard = ({ order, onCancelOrder }) => {
 
                             {/* IMAGE */}
                             <div className="col-auto">
-                                <Image src={item.image} className={styles.itemImg} rounded />
+                                <Image src={item.image} className={styles.itemImg}  />
                             </div>
 
                             {/* NAME + PRICE + QTY */}
                             <div className="col d-flex flex-column">
                                 <p className={styles.itemName}>{item.name}</p>
-                                <p className="text-muted m-0">Qty: {item.qty}</p>
+                                <p className={` m-0 ${styles.itemQty}`}>Qty: {item.qty}</p>
                                 <p className={styles.itemPrice}>₹{item.price}</p>
                             </div>
                         </div>

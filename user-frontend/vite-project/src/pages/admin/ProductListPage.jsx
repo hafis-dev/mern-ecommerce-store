@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../services/api/axios";
 
-import styles from "./ProductListPage.module.css";
+import styles from "./productListPage.module.css";
 
 export default function ProductListPage() {
     const [products, setProducts] = useState([]);

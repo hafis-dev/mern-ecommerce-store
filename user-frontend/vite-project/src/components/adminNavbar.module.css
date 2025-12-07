@@ -15,7 +15,7 @@
 .brand {
     font-size: 26px;
     font-weight: 800;
-    color: var(--c6);
+    color: var(--c6) !important;
     text-transform: uppercase;
     font-family: Georgia, 'Times New Roman', serif;
     letter-spacing: 0.5px;
@@ -39,7 +39,7 @@
 /* Active page indicator */
 .active {
     color: var(--c6) !important;
-    text-shadow: 0 0 1px var(--c5);
+    text-shadow: 0 0 2px var(--c6);
     border-bottom: 2px solid var(--c5);
     padding-bottom: 3px;
 }

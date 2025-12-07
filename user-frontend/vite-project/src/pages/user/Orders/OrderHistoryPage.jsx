@@ -36,10 +36,14 @@ const OrderHistoryPage = () => {
     return (
         <>
             <Container className="history-container mt-4 pt-5">
-                <h2 className="fw-bold mb-4">My Orders</h2>
+                <h2 className="fw-bold mb-4" style={{
+                    color:"var(--c6)"
+                }}>My Orders</h2>
 
                 {orders.length === 0 && (
-                    <p className="text-muted text-center">No orders found</p>
+                    <p className="text-muted text-center" style={{
+                        color: "var(--c6)"
+                    }}>No orders found</p>
                 )}
 
                 {orders.map((order) => (

@@ -17,6 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./appbar.module.css";
+import ThemeToggleButton from "./ThemeToggleButton";
 
 const AppNavbar = () => {
     const {  user,logout } = useContext(AuthContext);
@@ -41,7 +42,7 @@ const AppNavbar = () => {
                 <Navbar.Brand as={NavLink} to="/" className={styles.brand}>
                     ShopX
                 </Navbar.Brand>
-
+<ThemeToggleButton/>
                 {/* MOBILE LINKS */}
                 <Nav className="me-auto gap-2 d-flex flex-row d-lg-none">
                     <Nav.Link as={NavLink} to="/" className={setActive}>
@@ -156,7 +157,7 @@ const AppNavbar = () => {
                                     <FontAwesomeIcon
                                         icon={faCircleUser}
                                         size="lg"
-                                        style={{ color: "#1b1a19" }}
+                                        style={{ color: "var(--c6)" }}
                                     />
                                 )
                             }

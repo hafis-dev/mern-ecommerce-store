@@ -12,12 +12,14 @@ import {
     faLock
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AuthContext } from "../../../context/AuthContext";
+import { toast } from "react-toastify";
 
 const ProductPage = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const {  cart, setCart } = useContext(CartContext);
-
+const {  user } = useContext(AuthContext);
     const [product, setProduct] = useState(null);
     const [selectedImage, setSelectedImage] = useState("");
 
@@ -31,10 +33,16 @@ const ProductPage = () => {
     // ==========================
     const addToCart = async (productId, quantity = 1) => {
         try {
+            if(!user){
+                toast.error("Please login to add items to cart !");
+                return;
+            }
             const res = await api.post("/cart/add", { productId, quantity });
             setCart(res.data.cart.items || []);
+            toast.success("Added to cart")
         } catch (err) {
             console.log("addToCart error:", err);
+            toast.error("Something went wrong!")
         }
     };
     useEffect(() => {
@@ -68,8 +76,8 @@ const ProductPage = () => {
                                 src={img}
                                 className={`${styles.thumbnail} mb-md-2 ${selectedImage === img ? styles.thumbnailActive : ""
                                     }`}
-                                onClick={() => setSelectedImage(img)}
                                 loading="lazy"
+                                onMouseOver={() => setSelectedImage(img)}
                             />
                         ))}
                     </div>
@@ -99,8 +107,10 @@ const ProductPage = () => {
 
                     <p className={styles.productDescription}>{product.description}</p>
                     {/* ATTRIBUTES LIST */}
+                    <div className={styles.attributeSection}>
                     {product.attributes && (
-                        <ul className={styles.attributeList}>
+                     
+                          <ul className={styles.attributeList}>
                             {Object.entries(product.attributes).map(([key, value]) => (
                                 <li key={key}>
                                     <span className={styles.attrKey}>
@@ -109,10 +119,12 @@ const ProductPage = () => {
                                     <span className={styles.attrValue}>{value}</span>
                                 </li>
                             ))}
-                        </ul>
+                        </ul>  
+                       
+                        
                     )}
 
-
+                    </div>
 
                     {/* OUT OF STOCK */}
                     {product.stock <= 0 ? (

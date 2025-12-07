@@ -19,7 +19,7 @@
 .statCard,
 .revenueCard,
 .orderCard {
-    background: var(--c1);
+    background: var(--c1) !important;
     border: 1px solid var(--c3) !important;
     border-radius: 0px !important;
 }

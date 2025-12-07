@@ -93,7 +93,12 @@ const Footer = () => {
                         </p>
 
                         <p className={`mb-1 ${styles.contactText}`}>
-                            <FontAwesomeIcon icon={faEnvelope} /> &nbsp; support@myshop.com
+                            
+                          
+                            <Link to="mailto:support@shopx.com" className={styles.linkItem}>
+                                <FontAwesomeIcon icon={faEnvelope} /> &nbsp; 
+                                support@shopx.com
+                            </Link>
                         </p>
                     </Col>
 

@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import styles from "./adminNavbar.module.css";
+import ThemeToggleButton from "./ThemeToggleButton";
 
 const AdminNavbar = () => {
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ const AdminNavbar = () => {
                 >
                     Admin Panel
                 </Navbar.Brand>
-
+<ThemeToggleButton/>
                 <Navbar.Toggle aria-controls="admin-navbar" className={styles.togglerIcon} />
 
                 <Navbar.Collapse id="admin-navbar">

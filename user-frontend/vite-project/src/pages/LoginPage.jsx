@@ -1,11 +1,10 @@
 import { useState, useContext } from "react";
-import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import { CartContext } from "../context/CartContext";
 import { toast } from "react-toastify";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import styles from "./login.module.css";
-
+import api from '../services/api/axios'
 const LoginPage = () => {
     const navigate = useNavigate()
     const { user, login } = useContext(AuthContext);
@@ -48,7 +47,7 @@ const LoginPage = () => {
 
         // API request
         try {
-            const res = await axios.post("http://localhost:3000/api/auth/login", {
+            const res = await api.post("/auth/login", {
                 emailOrPhone: value,
                 password: passwordValue,
             });

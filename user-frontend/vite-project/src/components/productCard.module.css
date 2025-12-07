@@ -4,7 +4,7 @@
     cursor: pointer;
     border-radius: 0px !important;
     background-color: transparent !important;
-    border: 1px solid var(--c4);
+    border: 1px solid var(--c4) !important;
 }
 
 /* Hover border with theme color */
@@ -33,7 +33,7 @@
     font-family: "Urbanist", sans-serif;
     font-weight: 600;
     font-size: 16px !important;
-    color: var(--c6);
+    color: var(--c6) !important;
     margin-bottom: 0 !important;
     letter-spacing: 0.2px;
 

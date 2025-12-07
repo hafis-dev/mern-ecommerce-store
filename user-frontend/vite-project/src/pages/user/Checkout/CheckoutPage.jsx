@@ -19,6 +19,23 @@ const CheckoutPage = () => {
         country: "India",
     });
 
+    const validateForm = () => {
+        const { phone, street, city, state, zipCode, country } = shippingAddress;
+
+        if (!phone.trim()) return "Phone number is required";
+        if (!/^\d{10}$/.test(phone)) return "Phone number must be 10 digits";
+
+        if (!street.trim()) return "Street address is required";
+        if (!city.trim()) return "City is required";
+        if (!state.trim()) return "State is required";
+
+        if (!zipCode.trim()) return "Zip code is required";
+        if (!/^\d{5,6}$/.test(zipCode)) return "Enter a valid 5 or 6-digit zip code";
+
+        if (!country.trim()) return "Country is required";
+
+        return null; // no errors
+    };
 
     const totalAmount = cart.reduce(
         (sum, item) => sum + item.product.price * item.quantity,
@@ -37,18 +54,25 @@ const CheckoutPage = () => {
     };
     const placeOrder = async () => {
         try {
+            // Validate BEFORE sending API
+            const error = validateForm();
+            if (error) {
+                toast.error(error);
+                return;
+            }
+
             await api.post("/checkout/place", { shippingAddress });
 
             toast.success("Order placed successfully!");
-
+            clearCart();
             navigate("/order-success");
 
-            clearCart()
         } catch (err) {
-            console.log(err)
+            console.log(err);
             toast.error("Something went wrong! Try again.");
         }
     };
+
 
     return (
         <div className={`${styles.checkoutContainer} mt-4 pt-5 mt-lg-0 mt-md-4 mt-sm-3`} >
@@ -62,6 +86,7 @@ const CheckoutPage = () => {
                             <Form.Group className="mb-3">
                                 <Form.Label>Phone</Form.Label>
                                 <Form.Control
+                                className={styles.input}
                                     type="text"
                                     value={shippingAddress.phone}
                                     onChange={(e) =>
@@ -74,6 +99,7 @@ const CheckoutPage = () => {
                             <Form.Group className="mb-3">
                                 <Form.Label>Street</Form.Label>
                                 <Form.Control
+                                    className={styles.input}
                                     type="text"
                                     value={shippingAddress.street}
                                     onChange={(e) =>
@@ -88,6 +114,7 @@ const CheckoutPage = () => {
                                     <Form.Group className="mb-3">
                                         <Form.Label>City</Form.Label>
                                         <Form.Control
+                                            className={styles.input}
                                             type="text"
                                             value={shippingAddress.city}
                                             onChange={(e) =>
@@ -101,6 +128,7 @@ const CheckoutPage = () => {
                                     <Form.Group className="mb-3">
                                         <Form.Label>State</Form.Label>
                                         <Form.Control
+                                            className={styles.input}
                                             type="text"
                                             value={shippingAddress.state}
                                             onChange={(e) =>
@@ -117,6 +145,7 @@ const CheckoutPage = () => {
                                     <Form.Group className="mb-3">
                                         <Form.Label>Zip Code</Form.Label>
                                         <Form.Control
+                                            className={styles.input}
                                             type="text"
                                             value={shippingAddress.zipCode}
                                             onChange={(e) =>
@@ -130,6 +159,7 @@ const CheckoutPage = () => {
                                     <Form.Group className="mb-3">
                                         <Form.Label>Country</Form.Label>
                                         <Form.Control
+                                            className={styles.input}
                                             type="text"
                                             value={shippingAddress.country}
                                             onChange={(e) =>

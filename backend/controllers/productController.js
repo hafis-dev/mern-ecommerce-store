@@ -221,13 +221,12 @@ exports.updateProduct = async (req, res) => {
       return res.status(400).json({ message: "Invalid product ID" });
     }
 
-    // Fetch the existing product
+    // Fetch existing product
     const existingProduct = await Product.findById(productId);
     if (!existingProduct) {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    // Allowed fields
     const allowedFields = [
       "name",
       "description",
@@ -241,52 +240,84 @@ exports.updateProduct = async (req, res) => {
 
     const updates = {};
 
-    // Assign only allowed fields
+    // ------- APPLY NORMAL UPDATES -------
     Object.keys(req.body).forEach((key) => {
       if (allowedFields.includes(key)) {
-        if (key === "attributes") {
-          try {
-            updates.attributes = JSON.parse(req.body.attributes);
-          } catch {
-            updates.attributes = existingProduct.attributes;
-          }
-        } else {
+        if (key !== "attributes") {
           updates[key] = req.body[key];
         }
       }
     });
 
+    // ------- NORMALIZE ATTRIBUTES -------
+    if ("attributes" in req.body) {
+      let finalAttributes = {};
+
+      try {
+        const raw =
+          typeof req.body.attributes === "string"
+            ? JSON.parse(req.body.attributes)
+            : req.body.attributes;
+
+        Object.entries(raw).forEach(([key, value]) => {
+          const normalizedKey = key.trim().toLowerCase();
+          finalAttributes[normalizedKey] =
+            typeof value === "string" ? value.trim() : value;
+        });
+      } catch (error) {
+        // If parsing failed → keep existing attributes
+        finalAttributes = existingProduct.attributes;
+      }
+
+      updates.attributes = finalAttributes;
+    }
+
     // Convert price/stock to numbers
     if (updates.price !== undefined) updates.price = Number(updates.price);
     if (updates.stock !== undefined) updates.stock = Number(updates.stock);
 
-    // Upload new images if provided
-    let finalImages = existingProduct.images; // default = keep old images
+    // ------- IMAGE HANDLING -------
+   let finalImages = existingProduct.images;
 
-    if (req.files && req.files.length > 0) {
-      const uploadBuffer = (fileBuffer) => {
-        return new Promise((resolve, reject) => {
-          const upload = cloudinary.uploader.upload_stream(
-            { folder: "ecommerce_products" },
-            (err, result) => {
-              if (err) reject(err);
-              else resolve(result.secure_url);
-            }
-          );
-          upload.end(fileBuffer);
-        });
-      };
+   // ------- REMOVE IMAGES (ONLY FROM DB) -------
+   if (req.body.removeImages) {
+     try {
+       const indexesToRemove = JSON.parse(req.body.removeImages);
+       finalImages = finalImages.filter(
+         (_, idx) => !indexesToRemove.includes(idx)
+       );
+     } catch (err) {
+       console.log("Failed to parse removeImages:", err);
+     }
+   }
 
-      const uploadedImages = await Promise.all(
-        req.files.map((file) => uploadBuffer(file.buffer))
-      );
+   // ------- ADD NEW IMAGES -------
+   if (req.files && req.files.length > 0) {
+     const uploadBuffer = (fileBuffer) => {
+       return new Promise((resolve, reject) => {
+         const upload = cloudinary.uploader.upload_stream(
+           { folder: "ecommerce_products" },
+           (err, result) => {
+             if (err) reject(err);
+             else resolve(result.secure_url);
+           }
+         );
+         upload.end(fileBuffer);
+       });
+     };
 
-      finalImages = uploadedImages; // replace images
-    }
+     const uploadedImages = await Promise.all(
+       req.files.map((file) => uploadBuffer(file.buffer))
+     );
 
-    updates.images = finalImages;
+     // Append, don't replace
+     finalImages = [...finalImages, ...uploadedImages];
+   }
 
-    // Update product
+   updates.images = finalImages;
+
+
+    // ------- UPDATE PRODUCT -------
     const updatedProduct = await Product.findByIdAndUpdate(productId, updates, {
       new: true,
     });
@@ -302,6 +333,7 @@ exports.updateProduct = async (req, res) => {
       .json({ message: "Server error", error: err.message });
   }
 };
+
 
 
 // ==============================

@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { Container, Card, Row, Col } from "react-bootstrap";
 import { AdminContext } from "../../context/AdminContext";
-import styles from "./DashBoard.module.css";
+import styles from "./dashBoard.module.css";
 
 const DashBoard = () => {
     const { orders, loadAllOrders } = useContext(AdminContext);

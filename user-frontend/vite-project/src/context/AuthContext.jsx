@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { setLogoutHandler } from "../services/api/axios";
+import api, { setLogoutHandler } from "../services/api/axios";
 
 export const AuthContext = createContext();
 
@@ -23,11 +23,18 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await api.post("/auth/logout"); // backend route to remove cookie
+    } catch (err) {
+      console.log("Logout error:", err);
+    }
+
     localStorage.removeItem("accessToken");
     localStorage.removeItem("user");
     setUser(null);
   };
+
   useEffect(() => {
     setLogoutHandler(logout);
   }, []);

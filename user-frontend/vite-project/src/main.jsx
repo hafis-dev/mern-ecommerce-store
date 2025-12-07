@@ -10,19 +10,22 @@ import "bootstrap-icons/font/bootstrap-icons.min.css";
 
 import { CartProvider } from './context/CartContext.jsx'
 import { AdminProvider } from './context/AdminContext.jsx'
+import { ThemeProvider } from './context/ThemeContext.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
       <CartProvider>
 
 
-        
-          <AdminProvider>
 
-             <App />
-          </AdminProvider>
-         
-        
+        <AdminProvider>
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
+
+        </AdminProvider>
+
+
       </CartProvider>
     </AuthProvider>
 

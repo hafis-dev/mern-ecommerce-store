@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card, Form, Button } from "react-bootstrap";
 import api from "../../../services/api/axios";
-import styles from "./FilterSidebar.module.css";
+import styles from "./filterSidebar.module.css";
 
 const FilterSidebar = ({ onApply, onClear }) => {
     const [filters, setFilters] = useState({});

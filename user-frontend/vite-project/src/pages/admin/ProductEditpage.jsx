@@ -3,7 +3,7 @@ import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import styles from "./ProductEditPage.module.css";
+import styles from "./productEditPage.module.css";
 import api from "../../services/api/axios";
 
 const ProductEditPage = () => {
@@ -111,10 +111,18 @@ const ProductEditPage = () => {
     };
 
     // Remove image
+    const [removedIndexes, setRemovedIndexes] = useState([]);
+
     const removeImage = (index) => {
+        // Add index to removed list (only original images)
+        if (!images[index]) {
+            setRemovedIndexes((prev) => [...prev, index]);
+        }
+
         setPreviewImages((prev) => prev.filter((_, i) => i !== index));
         setImages((prev) => prev.filter((_, i) => i !== index));
     };
+
 
     // Submit update
     const handleSubmit = async (e) => {
@@ -130,11 +138,16 @@ const ProductEditPage = () => {
             }
         });
 
+        // Send removed image indexes
+        fd.append("removeImages", JSON.stringify(removedIndexes));
+
+        // Append new images
         images.forEach((img) => fd.append("images", img));
 
         const success = await updateProduct(id, fd);
         if (success) navigate("/admin/products");
     };
+
 
     if (loading) return <p className="text-center mt-5">Loading...</p>;
 

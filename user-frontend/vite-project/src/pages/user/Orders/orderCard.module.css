@@ -1,7 +1,7 @@
 
 .orderCard {
-    background: var(--c1);
-    border: 1px solid var(--c2);
+    background: var(--c1) !important;
+    border: 1px solid var(--c2) !important;
     border-radius: 0px !important;
     font-family: "Urbanist", sans-serif;
     transition: 0.2s ease;
@@ -9,7 +9,7 @@
 }
 
 .orderCard:hover {
-    border-color: var(--c5);
+    border-color: var(--c5) !important;
 }
 
 .orderHeader {
@@ -43,7 +43,7 @@
     width: 65px;
     height: 65px;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 0px !important;
 }
 
 /* NAME + QTY */
@@ -67,7 +67,9 @@
         color: var(--c6);
         margin-top: 0px;
 }
-
+.itemQty{
+    color: var(--c5) !important;
+}
 /* STATUS */
 .itemStatus {
     flex: 0 0 110px;
@@ -93,7 +95,7 @@
 /* STATUS BADGES */
 .statusBadge {
     padding: 4px 10px;
-    border-radius: 6px;
+    border-radius: 0px;
     font-size: 13px;
     margin-top: 4px;
     display: inline-block;

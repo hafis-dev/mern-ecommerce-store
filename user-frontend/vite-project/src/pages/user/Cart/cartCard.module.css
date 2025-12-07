@@ -1,47 +1,69 @@
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap');
 
-
 .cartRow {
     padding: 18px 10px;
-    border-top: 1px solid var(--c2);
-    border-bottom: 1px solid var(--c2);
+    border-top: 1px solid var(--c2) !important;
+    border-bottom: 1px solid var(--c2) !important;
     cursor: pointer;
     font-family: "Urbanist", sans-serif;
     transition: 0.25s ease;
+    background: var(--c1);
+    box-shadow: 0 1px 1px var(--c6);
 }
 
 .cartRow:hover {
-    background: var(--c1);
-    border-color: var(--c3);
+    background: var(--c2) !important;
+    border-color: var(--c3) !important;
 }
 
+/* Product image */
+.productImage {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border: 1px solid var(--c5) !important;
+}
+
+/* Title */
 .cartTitle {
     font-size: 16px;
     font-weight: 700;
     margin: 0;
-    color: var(--c6);
+    color: var(--c6) !important;
     letter-spacing: 0.3px;
 }
 
-.priceText {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--c5);
-    margin-top: 4px;
+.titleClamp {
+    max-width: 150px;
 }
 
+/* Muted price */
+.priceMuted {
+    color: var(--c4) ;
+}
+
+/* Low stock text */
+.lowStock {
+    font-size: 10px;
+    color: red;
+    margin-top: 2px;
+}
+
+/* Quantity box */
 .qtyBox {
-    border: 1px solid var(--c3);
+    border: 1px solid var(--c3) !important;
     padding: 6px 14px;
-    border-radius: 8px;
+    border-radius: 0px !important;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
+    color: var(--c6);
     background: transparent;
     transition: 0.2s ease;
 }
 
+/* Quantity buttons */
 .qtyBtn {
     border: none;
     background: transparent !important;
@@ -57,15 +79,34 @@
     cursor: not-allowed;
 }
 
+/* Max stock label */
+.maxStockLabel {
+    font-size: 9px;
+    color: red;
+    margin-top: 2px;
+}
+
+/* Disabled state for + button */
+.qtyDisabled {
+    cursor: not-allowed !important;
+    opacity: 0.5 !important;
+}
+
+/* Trash button */
 .trashBtn {
     border: none;
     background: transparent !important;
-    font-size: 20px;
-    color: var(--c4);
     cursor: pointer;
     transition: 0.2s ease;
 }
 
-.trashBtn:hover {
-    color: var(--c5);
+/* Trash icon */
+.trashIcon {
+    color: var(--c4);
+    font-size: 18px;
+    transition: 0.2s ease;
+}
+
+.trashIcon:hover {
+    color: var(--c5) !important;
 }

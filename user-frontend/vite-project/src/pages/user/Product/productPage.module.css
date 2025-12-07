@@ -57,7 +57,9 @@
     font-weight: 700;
     letter-spacing: 0.3px;
 }
-
+.limitedStock{
+    color: var(--c5);
+}
 /* Product Details Section */
 .productName {
     font-size: 24px;
@@ -85,6 +87,10 @@
 /*  ATTRIBUTE SECTION (THEMED)   */
 /* ============================= */
 
+.attributeSection{
+    overflow-y: auto;
+    max-height: 140px;
+}
 .attributeList {
     margin-top: 20px;
     padding-left: 22px;
@@ -140,6 +146,9 @@
 /* Add to cart button */
 .addBtn,
 .cartBtn {
+    border: 1px solid var(--c6) !important;
+    color: var(--c6) !important;
+    background-color: transparent !important;
     width: 150px;
     padding: 14px;
     margin-top: auto;
@@ -149,7 +158,9 @@
     font-weight: 600;
 }
 
-/* Highlights / Guarantee section */
+.addBtn:hover,.cartBtn:hover{
+    background-color: var(--c5) !important;
+}/* Highlights / Guarantee section */
 .highlights {
     margin-top: 5px;
     padding-top: 20px;

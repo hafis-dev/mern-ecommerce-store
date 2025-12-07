@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import api from "../../../services/api/axios";
 import ProductCard from "../../../components/ProductCard";
-import styles from "./FeaturedSection.module.css";
+import styles from "./featuredSection.module.css";
 
 const FeaturedSection = () => {
     const [featured, setFeatured] = useState([]);

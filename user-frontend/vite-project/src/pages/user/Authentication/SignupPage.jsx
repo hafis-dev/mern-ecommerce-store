@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext.jsx";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { Link, Navigate } from "react-router-dom";
 import styles from "./signup.module.css";
+import api from "../../../services/api/axios.js";
 
 function SignupPage() {
     const { user, login } = useContext(AuthContext);
@@ -60,7 +60,7 @@ function SignupPage() {
 
         // SEND REQUEST AFTER VALIDATION
         try {
-            const res = await axios.post("http://localhost:3000/api/auth/register", {
+            const res = await api.post("/auth/register", {
                 username,
                 email,
                 phone,

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Card, Form, Button, Row, Col, Nav, Tab, Badge } from "react-bootstrap";
 import { toast } from "react-toastify";
 import api from "../../../services/api/axios";
-import styles from "./ProfilePage.module.css"; // Import the CSS Module
+import styles from "./profilePage.module.css"; // Import the CSS Module
 
 const ProfilePage = () => {
     const [loading, setLoading] = useState(true);

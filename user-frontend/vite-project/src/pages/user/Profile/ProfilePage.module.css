@@ -1,7 +1,7 @@
 /* Card Containers */
 .customCard {
-    background: var(--c1);
-    border: 1px solid var(--c3);
+    background: var(--c1) !important;
+    border: 1px solid var(--c3) !important;
     border-radius: 0px !important;
     /* Optional: smooths corners slightly */
 }
@@ -11,7 +11,7 @@
     aspect-ratio: 1 / 1;
     width: 80px;
     min-width: 50px;
-    background: var(--c5);
+    background: var(--c5) !important;
     color: #fff;
     font-size: 2rem;
     font-weight: bold;
@@ -68,8 +68,8 @@
 }
 
 .formControl {
-    background: transparent;
-    color: var(--c6);
+    background: transparent !important;
+    color: var(--c6) !important;
     border: 1px solid var(--c3) !important;
     border-radius: 0px !important;
 }

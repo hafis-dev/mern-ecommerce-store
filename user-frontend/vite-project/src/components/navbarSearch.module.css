@@ -5,8 +5,8 @@
 
 .searchInput {
     border-radius: 0px !important;
-    background-color: var(--c2);
-    border: 1px solid var(--c3);
+    background-color: var(--c2) !important;
+    border: 1px solid var(--c3) !important;
     color: var(--c6);
 }
 .searchInput:focus {
@@ -15,11 +15,11 @@
     /* Your theme color */
     box-shadow: none !important;
     /* Remove blue glow */
-    background-color: var(--c2);
+    background-color: var(--c2) !important;
     color: var(--c6);
 }
 .searchInput::placeholder {
-    color: var(--c4);
+    color: var(--c4) !important;
 }
 
 .searchButton {

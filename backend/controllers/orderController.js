@@ -1,5 +1,5 @@
 const Order = require("../models/Order");
-
+const Product = require("../models/Product");
 // USER: Get my orders
 exports.getMyOrders = async (req, res) => {
   try {
@@ -24,19 +24,30 @@ exports.cancelFullOrder = async (req, res) => {
 
     if (!order) return res.status(404).json({ message: "Order not found" });
 
-    // Only cancel the order (no item-level cancelling)
+    // If already cancelled or delivered, prevent duplicate stock updates
+    if (order.status === "Cancelled") {
+      return res.status(400).json({ message: "Order already cancelled" });
+    }
+
+    // Restore stock for each item
+    for (let item of order.orderItems) {
+      await Product.findByIdAndUpdate(
+        item.product,
+        { $inc: { stock: item.qty } } // Increase stock back
+      );
+    }
+
+    // Cancel the order
     order.status = "Cancelled";
-
-    // Optional: Set price to 0
-    order.totalPrice = 0;
-
     await order.save();
 
-    res.json({ message: "Order cancelled", order });
+    res.json({ message: "Order cancelled & stock restored", order });
   } catch (err) {
+    console.error("cancelFullOrder error:", err);
     res.status(500).json({ message: "Error cancelling order" });
   }
 };
+
 
 // ADMIN: Get all orders
 exports.getAllOrders = async (req, res) => {

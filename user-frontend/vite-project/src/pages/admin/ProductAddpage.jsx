@@ -203,10 +203,10 @@ const ProductAddPage = () => {
                                     className={styles.input}
                                     required
                                 >
-                                    <option value="">Select</option>
-                                    <option value="Wallet">Wallet</option>
-                                    <option value="Watch">Watch</option>
-                                    <option value="Glass">Glass</option>
+                                    <option className={styles.option} value="">Select</option>
+                                    <option className={styles.option} value="Wallet">Wallet</option>
+                                    <option className={styles.option} value="Watch">Watch</option>
+                                    <option className={styles.option} value="Glass">Glass</option>
                                 </Form.Select>
                             </Form.Group>
 

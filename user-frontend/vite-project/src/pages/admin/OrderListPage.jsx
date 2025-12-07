@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Container, Badge, Spinner, Card, Dropdown } from "react-bootstrap";
 import { AdminContext } from "../../context/AdminContext";
-import styles from "./OrderListPage.module.css";
+import styles from "./orderListPage.module.css";
 import api from "../../services/api/axios";
 import { toast } from "react-toastify";
 
@@ -86,23 +86,22 @@ export default function OrderListPage() {
                             <Dropdown onClick={(e) => e.stopPropagation()}>
                                 <Dropdown.Toggle
                                     size="sm"
-                                    variant="outline-dark"
                                     className={styles.btnAct}
                                 >
                                     Update Status
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu className={styles.dropdownMenu}>
-                                    <Dropdown.Item onClick={() => updateOrderStatus(order._id, "Processing")}>
+                                    <Dropdown.Item className={styles.dropdownItem} onClick={() => updateOrderStatus(order._id, "Processing")}>
                                         Processing
                                     </Dropdown.Item>
-                                    <Dropdown.Item onClick={() => updateOrderStatus(order._id, "Shipped")}>
+                                    <Dropdown.Item className={styles.dropdownItem} onClick={() => updateOrderStatus(order._id, "Shipped")}>
                                         Shipped
                                     </Dropdown.Item>
-                                    <Dropdown.Item onClick={() => updateOrderStatus(order._id, "Delivered")}>
+                                    <Dropdown.Item className={styles.dropdownItem} onClick={() => updateOrderStatus(order._id, "Delivered")}>
                                         Delivered
                                     </Dropdown.Item>
-                                    <Dropdown.Item className="text-danger"
+                                    <Dropdown.Item className={`${styles.dropdownItem} text-danger`}  
                                         onClick={() => updateOrderStatus(order._id, "Cancelled")}
                                     >
                                         Cancelled
@@ -128,7 +127,7 @@ export default function OrderListPage() {
                                     <div className={styles.itemRow} key={item._id}>
                                         <img src={item.image} className={styles.itemImg} />
                                         <div>
-                                            <div><b>{item.name}</b></div>
+                                            <div className={styles.itemName}><b>{item.name}</b></div>
                                             <div className={styles.meta}>Qty: {item.qty}</div>
                                             <div className={styles.meta}>₹{item.price}</div>
                                         </div>

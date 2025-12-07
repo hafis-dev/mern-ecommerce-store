@@ -1,13 +1,31 @@
 /* Colors */
 :root {
+    --c0: white;
     --c1: #fafafb;
     --c2: #dbd9d9;
     --c3: #beb7b3;
     --c4: #908681;
     --c5: #6d5a4e;
     --c6: #1b1a19;
+    --c7: black
 }
 
+.dark {
+    --c0: black;
+    --c1: #111111;
+    /* dark background */
+    --c2: #2b2b2b;
+    /* card */
+    --c3: #3a3a3a;
+    /* border */
+    --c4: #908681;
+    /* unchanged or lighter */
+    --c5: #b9a18c;
+    /* accent */
+    --c6: #fafafb;
+    /* light text */
+    --c7: white;
+}
 
 /* Hide scrollbar for Chrome, Safari, Edge */
 ::-webkit-scrollbar {
@@ -26,6 +44,6 @@ body,
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #fafafb;
-    /* your color */
+    background-color: var(--c1)
+        /* your color */
 }

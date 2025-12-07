@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import api from "../../../services/api/axios";
 import ProductCard from "../../../components/ProductCard";
-import styles from "./NewArrivalSection.module.css";
+import styles from "./newArrivalSection.module.css";
 
 const NewArrivalSection = () => {
     const [newArrival, setNewArrival] = useState([]);

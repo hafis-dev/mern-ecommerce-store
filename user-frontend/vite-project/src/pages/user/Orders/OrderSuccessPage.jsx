@@ -1,6 +1,6 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import styles from "./OrderSuccessPage.module.css";
+import styles from "./orderSuccessPage.module.css";
 
 const OrderSuccessPage = () => {
     const navigate = useNavigate();
