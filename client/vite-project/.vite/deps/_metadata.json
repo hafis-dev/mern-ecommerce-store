@@ -1,0 +1,79 @@
+{
+  "hash": "955c76e8",
+  "configHash": "def8d448",
+  "lockfileHash": "74f71cb1",
+  "browserHash": "a66a41a4",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "013a9abf",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "4dcaa9be",
+      "needsInterop": true
+    },
+    "react-toastify": {
+      "src": "../../node_modules/react-toastify/dist/index.mjs",
+      "file": "react-toastify.js",
+      "fileHash": "751d1f9e",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "f590d592",
+      "needsInterop": false
+    },
+    "react-bootstrap": {
+      "src": "../../node_modules/react-bootstrap/esm/index.js",
+      "file": "react-bootstrap.js",
+      "fileHash": "96c930ba",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "7a0c6557",
+      "needsInterop": false
+    },
+    "@fortawesome/react-fontawesome": {
+      "src": "../../node_modules/@fortawesome/react-fontawesome/dist/index.js",
+      "file": "@fortawesome_react-fontawesome.js",
+      "fileHash": "89e409b4",
+      "needsInterop": false
+    },
+    "@fortawesome/free-solid-svg-icons": {
+      "src": "../../node_modules/@fortawesome/free-solid-svg-icons/index.mjs",
+      "file": "@fortawesome_free-solid-svg-icons.js",
+      "fileHash": "8a8839ab",
+      "needsInterop": false
+    },
+    "react-bootstrap/Carousel": {
+      "src": "../../node_modules/react-bootstrap/esm/Carousel.js",
+      "file": "react-bootstrap_Carousel.js",
+      "fileHash": "1f967321",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-NW72UHIQ": {
+      "file": "chunk-NW72UHIQ.js"
+    },
+    "chunk-R3OQ3HAY": {
+      "file": "chunk-R3OQ3HAY.js"
+    },
+    "chunk-KP7BIHBJ": {
+      "file": "chunk-KP7BIHBJ.js"
+    },
+    "chunk-ULSRCYB6": {
+      "file": "chunk-ULSRCYB6.js"
+    },
+    "chunk-G3PMV62Z": {
+      "file": "chunk-G3PMV62Z.js"
+    }
+  }
+}
