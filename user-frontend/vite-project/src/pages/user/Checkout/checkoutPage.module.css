@@ -74,13 +74,13 @@
 
 /* Button */
 .placeBtn {
-    background: var(--c5) !important;
+    background: var(--c6) !important;
     border: none !important;
     padding: 14px;
     width: 100%;
     font-size: 17px;
     font-weight: 600;
-    color: var(--c0);
+    color: var(--c1) !important;
     border-radius: 0px !important;
     margin-top: 20px;
     transition: 0.25s ease;

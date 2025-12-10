@@ -39,7 +39,7 @@
     border-radius: 0px !important;
     border: 1px solid var(--c3) !important;
     background: var(--c1) !important;
-    color: var(--c6);
+    color: var(--c6) !important;
 }
 
 .label {
@@ -87,7 +87,7 @@
     padding: 4px 10px !important;
     border-radius: 0px !important;
     margin-bottom: 10px;
-    background-color: var(--c5) !important;
+    background-color: var(--c6) !important;
 }
 
 /* Image preview */
@@ -130,7 +130,7 @@
 
 /* Submit Button */
 .submitBtn {
-    background: var(--c5) !important;
+    background: var(--c6) !important;
     border-color: var(--c5) !important;
     padding: 8px 18px !important;
     font-size: 14px !important;

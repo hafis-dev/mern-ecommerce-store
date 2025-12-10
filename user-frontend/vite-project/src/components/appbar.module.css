@@ -24,7 +24,6 @@
 .active {
     color: var(--c5) !important;
     font-weight: 600;
-    
     border-bottom: 2px solid var(--c5);
 }
 
@@ -54,7 +53,7 @@
     font-weight: 600;
 }
 
-/* Cart badge (mobile) */
+/* Mobile badge */
 .cartBadge {
     width: 18px;
     height: 18px;
@@ -67,7 +66,7 @@
     font-weight: 700;
 }
 
-/* Desktop cart badge */
+/* Desktop badge */
 .cartBadgeDesktop {
     width: 18px;
     height: 18px;
@@ -79,34 +78,44 @@
     font-weight: 700;
 }
 
-/* FIX: Force dropdown background (Bootstrap override) */
-.dropdown-menu {
+/* ⭐ FIX: Bootstrap dropdown background override (global) */
+:global(.dropdown-menu) {
     background-color: var(--c1) !important;
     border: 1px solid var(--c2) !important;
 }
 
-/* Dropdown items */
+/* Dropdown text */
 .dropdownItem {
     color: var(--c6) !important;
-    /* FIXED: use text color */
     background-color: var(--c1) !important;
     font-weight: 600 !important;
     font-size: 15px;
     transition: 0.15s ease;
 }
 
+/* Hover */
 .dropdownItem:hover {
     background-color: var(--c2) !important;
     color: var(--c5) !important;
 }
 
-/* Active dropdown item */
-.dropdownItem:global(.active) {
-    background-color: var(--c5) !important;
+/* ⭐ FIX: Active dropdown item (Bootstrap's active class) */
+:global(.dropdown-item.active),
+:global(.dropdown-item:active) {
+    background-color: var(--c6) !important;
     color: var(--c1) !important;
 }
 
-/* Divider hover fix */
+/* Divider */
 .dropdownDivider:hover {
     background-color: transparent !important;
+}
+.togglerIcon {
+    background-color: rgb(255, 255, 0) !important;
+}
+.themeBtn{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+    margin-top:8px;
 }

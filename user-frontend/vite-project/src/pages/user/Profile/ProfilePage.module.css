@@ -11,8 +11,8 @@
     aspect-ratio: 1 / 1;
     width: 80px;
     min-width: 50px;
-    background: var(--c5) !important;
-    color: #fff;
+    background: var(--c6) !important;
+    color: var(--c1);
     font-size: 2rem;
     font-weight: bold;
 }
@@ -21,7 +21,7 @@
    added dynamically by Bootstrap 
 */
 .navLink:global(.active) {
-    background-color: var(--c5) !important;
+    background-color: var(--c6) !important;
     color: var(--c1) !important;
 }
 
@@ -91,19 +91,19 @@
 
 /* Buttons */
 .formBtn {
-    background: var(--c5) !important;
+    background: var(--c6) !important;
     border: none !important;
     border-radius: 0px !important;
     padding: 10px 25px;
-    color: #fff;
+    color: var(--c1) !important;
 }
 
 .pwdBtn {
-    background: var(--c5) !important;
+    background: var(--c6) !important;
     border: none !important;
     border-radius: 0px !important;
     padding: 10px 25px;
-    color: #fff;
+    color: var(--c1) !important;
 }
 
 .formBtn:hover,

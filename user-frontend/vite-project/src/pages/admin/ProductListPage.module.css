@@ -52,7 +52,7 @@
 }
 
 .btnEdit {
-    background: var(--c5) !important;
+    background: var(--c6) !important;
     border: none !important;
     border-radius: 0px !important;
     color: var(--c1) !important;
@@ -61,7 +61,7 @@
 }
 
 .btnEdit:hover {
-    background: #59483d !important;
+    opacity: 0.8 !important;
 }
 
 .btnDelete {

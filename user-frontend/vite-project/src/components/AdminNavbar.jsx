@@ -28,11 +28,15 @@ const AdminNavbar = () => {
                 >
                     Admin Panel
                 </Navbar.Brand>
-<ThemeToggleButton/>
+               
                 <Navbar.Toggle aria-controls="admin-navbar" className={styles.togglerIcon} />
 
                 <Navbar.Collapse id="admin-navbar">
-                    <Nav className="ms-auto" style={{ gap: "18px" }}>
+                    <Nav className="ms-auto" >
+                        <div className={styles.themeBtn}>
+                            <ThemeToggleButton />
+
+                        </div>
                         <Nav.Link
                             as={Link}
                             to="/admin/dashboard"

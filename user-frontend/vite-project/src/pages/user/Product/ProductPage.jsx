@@ -67,8 +67,8 @@ const {  user } = useContext(AuthContext);
             <Row>
                 {/* LEFT SECTION */}
                 <Col md={6} className="d-flex flex-column flex-md-row">
-
-                    {/* THUMBNAILS */}
+<div className={styles.thumbnailOuter}>
+     {/* THUMBNAILS */}
                     <div className={`d-flex d-md-block gap-2 mb-3 mb-md-0 ${styles.thumbnailBox}`}>
                         {product.images?.map((img, index) => (
                             <img
@@ -81,6 +81,8 @@ const {  user } = useContext(AuthContext);
                             />
                         ))}
                     </div>
+</div>
+                   
 
                     {/* MAIN IMAGE */}
                     <div className={`flex-grow-1 ms-md-3 ${styles.mainImgWrapper}`}>

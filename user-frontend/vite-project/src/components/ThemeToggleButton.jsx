@@ -8,8 +8,6 @@ const ThemeToggleButton = () => {
     return (
         <div className={styles.switchWrapper} onClick={toggleTheme}>
             <div className={`${styles.switch} ${theme === "dark" ? styles.dark : ""}`}>
-                <span className={styles.iconLeft}>🌙</span>
-                <span className={styles.iconRight}>☀️</span>
                 <div className={styles.circle}></div>
             </div>
         </div>

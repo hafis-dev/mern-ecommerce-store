@@ -7,7 +7,7 @@
     border-radius: 0px !important;
     background-color: var(--c2) !important;
     border: 1px solid var(--c3) !important;
-    color: var(--c6);
+    color: var(--c6) !important;
 }
 .searchInput:focus {
     outline: none !important;
@@ -23,7 +23,7 @@
 }
 
 .searchButton {
-    background-color: var(--c5);
+    background-color: var(--c6);
     color: var(--c1);
     border: none;
     border-radius: 0px;
@@ -31,7 +31,6 @@
 }
 
 .searchButton:hover {
-    background-color: var(--c4);
+    opacity: 0.8;
     color: var(--c1);
-    border: none;
 }

@@ -6,7 +6,10 @@
     padding-top: 40px;
     min-height: 85vh;
 }
-
+.thumbnailOuter{
+    max-width: 400px;
+    overflow-x: auto;
+}
 /* Left Section */
 .thumbnailBox {
     width: 110px;
@@ -30,8 +33,8 @@
 
 .mainImgWrapper {
     width: 100%;
-    max-width: 500px;
-    height: 550px;
+    aspect-ratio: 1/1;
+   max-width: 500px;
     /* FIXED HEIGHT = IMPORTANT */
     overflow: hidden;
     border: 1px solid var(--c5);
@@ -77,6 +80,8 @@
 
 .productDescription {
     max-width: 75%;
+    max-height: 103px;
+    overflow-y: auto;
     margin-top: 18px;
     font-size: 16px;
     color: var(--c4);
@@ -89,10 +94,9 @@
 
 .attributeSection{
     overflow-y: auto;
-    max-height: 140px;
+    max-height: 110px;
 }
 .attributeList {
-    margin-top: 20px;
     padding-left: 22px;
     list-style-type: disc;
 
@@ -111,7 +115,7 @@
     list-style-type: none;
     /* Background + border theme */
     background: var(--c1);
-    border-left: 4px solid var(--c5);
+    border-left: 4px solid var(--c6);
 
     /* smooth hover */
     transition: 0.25s ease-in-out;
@@ -147,8 +151,8 @@
 .addBtn,
 .cartBtn {
     border: 1px solid var(--c6) !important;
-    color: var(--c6) !important;
-    background-color: transparent !important;
+    color: var(--c1) !important;
+    background-color: var(--c6) !important;
     width: 150px;
     padding: 14px;
     margin-top: auto;
@@ -159,7 +163,7 @@
 }
 
 .addBtn:hover,.cartBtn:hover{
-    background-color: var(--c5) !important;
+    opacity: 0.8;
 }/* Highlights / Guarantee section */
 .highlights {
     margin-top: 5px;

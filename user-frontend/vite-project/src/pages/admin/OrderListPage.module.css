@@ -39,6 +39,7 @@
 }
 .statusBar{
     border-radius: 0px !important;
+    margin:auto;
 }
 .orderHeader {
     font-size: 18px;

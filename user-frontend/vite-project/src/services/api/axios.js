@@ -25,6 +25,16 @@ api.interceptors.response.use(
     console.log("Interceptor triggered:", error?.response?.status);
 
     const original = error.config;
+    const skipUrls = [
+      "/auth/login",
+      "/auth/register",
+      "/auth/logout",
+      "/auth/refresh-token",
+    ];
+
+    if (skipUrls.some((url) => original.url.includes(url))) {
+      return Promise.reject(error);
+    }
 
     // Prevent infinite loop
     if (original.url.includes("/auth/refresh-token")) {
@@ -49,7 +59,6 @@ api.interceptors.response.use(
         console.log("Refresh failed:", err.response?.data || err);
 
         if (logoutHandler) logoutHandler();
-
       }
     }
 

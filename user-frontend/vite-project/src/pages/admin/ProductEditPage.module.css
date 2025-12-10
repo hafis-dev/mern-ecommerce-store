@@ -73,7 +73,7 @@
     
     color: var(--c1) !important;
     border-radius:0px !important;
-    background-color: var(--c5) !important;
+    background-color: var(--c6) !important;
     border:none !important;
 }
 
@@ -83,7 +83,7 @@
     color: var(--c1) !important;
     padding: 4px 10px !important;
     border-radius: 0px !important;
-    background-color: var(--c5) !important;
+    background-color: var(--c6) !important;
     margin-bottom: 10px;
 }
 
@@ -126,7 +126,7 @@
 
 /* Submit Button */
 .submitBtn {
-    background: var(--c5) !important;
+    background: var(--c6) !important;
     border-color: var(--c5) !important;
     padding: 8px 18px !important;
     font-size: 14px !important;

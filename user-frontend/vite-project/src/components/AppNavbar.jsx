@@ -20,7 +20,7 @@ import styles from "./appbar.module.css";
 import ThemeToggleButton from "./ThemeToggleButton";
 
 const AppNavbar = () => {
-    const {  user,logout } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
     const { cartCount } = useContext(CartContext);
     const navigate = useNavigate()
     // 🔥 Helper for active class
@@ -42,7 +42,7 @@ const AppNavbar = () => {
                 <Navbar.Brand as={NavLink} to="/" className={styles.brand}>
                     ShopX
                 </Navbar.Brand>
-<ThemeToggleButton/>
+
                 {/* MOBILE LINKS */}
                 <Nav className="me-auto gap-2 d-flex flex-row d-lg-none">
                     <Nav.Link as={NavLink} to="/" className={setActive}>
@@ -72,7 +72,7 @@ const AppNavbar = () => {
                 </Nav.Link>
 
                 {/* TOGGLE */}
-                <Navbar.Toggle aria-controls="main-navbar" />
+                <Navbar.Toggle aria-controls="main-navbar"  className={styles.togglerIcon} />
 
                 {/* MOBILE SEARCH */}
                 <div className="d-lg-none w-100 mt-2">
@@ -105,12 +105,16 @@ const AppNavbar = () => {
 
                     {/* MOBILE MENU */}
                     <Nav className="d-lg-none">
+                        <div className={styles.themeBtn}>
+                            <ThemeToggleButton />
+                        </div>
                         <Nav.Link as={NavLink} to="/about" className={setActive} >
                             ABOUT
                         </Nav.Link>
 
                         {user ? (
                             <>
+
                                 <Nav.Link as={NavLink} to="/orders" className={setActive} >
                                     MY ORDERS
                                 </Nav.Link>
@@ -122,6 +126,7 @@ const AppNavbar = () => {
                                 </Nav.Link>
                             </>
                         ) : (
+
                             <Nav.Link as={NavLink} to="/login" className={`${setActive} ${styles.dropdownItem}`}>
                                 LOGIN
                             </Nav.Link>
@@ -164,20 +169,25 @@ const AppNavbar = () => {
                         >
                             {user ? (
                                 <>
+                                    <div className={styles.themeBtn}>
+                                        <ThemeToggleButton />
+
+                                    </div>
                                     <NavDropdown.Item
+
                                         as={NavLink}
                                         to="/orders"
-                                        className={`${setActive}  ${styles.dropdownItem}`} 
+                                        className={`${setActive}  ${styles.dropdownItem}`}
                                     >
                                         MY ORDERS
                                     </NavDropdown.Item>
                                     <NavDropdown.Item
                                         as={NavLink}
                                         to="/profile"
-                                        className={`${setActive}  ${styles.dropdownItem}`} 
+                                        className={`${setActive}  ${styles.dropdownItem}`}
                                     >
                                         PROFILE
-                                    </NavDropdown.Item>
+                                    </NavDropdown.Item >
                                     <NavDropdown.Divider className={styles.dropdownDivider} />
 
                                     <NavDropdown.Item onClick={handleLogout} className={styles.dropdownItem}>
@@ -185,13 +195,20 @@ const AppNavbar = () => {
                                     </NavDropdown.Item>
                                 </>
                             ) : (
-                                <NavDropdown.Item
-                                    as={NavLink}
-                                    to="/login"
-                                    className={styles.dropdownItem}
-                                >
-                                    LOGIN
-                                </NavDropdown.Item>
+                                <>
+                                    <div className={styles.themeBtn}>
+                                        <ThemeToggleButton />
+
+                                    </div>
+                                    <NavDropdown.Item
+                                        as={NavLink}
+                                        to="/login"
+                                        className={styles.dropdownItem}
+                                    >
+                                        LOGIN
+                                    </NavDropdown.Item>
+                                </>
+
                             )}
                         </NavDropdown>
                     </Nav>

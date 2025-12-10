@@ -32,6 +32,8 @@
 
 .productContainer {
     display: flex;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
 }
 
 /* Animations */

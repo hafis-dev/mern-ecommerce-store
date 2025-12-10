@@ -54,7 +54,7 @@
 
 /* Mobile toggler */
 .togglerIcon {
-    filter: brightness(0.2);
+    background-color: rgb(255, 255, 0) !important;
 }
 
 /* Mobile responsiveness */
@@ -70,4 +70,10 @@
         border: none !important;
         color: var(--c5) !important;
     }
+}
+
+.themeBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

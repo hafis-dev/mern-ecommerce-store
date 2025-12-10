@@ -7,6 +7,7 @@ import api from "../../services/api/axios";
 const ProductAddPage = () => {
     const [images, setImages] = useState([]);
     const [previewImages, setPreviewImages] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -91,11 +92,11 @@ const ProductAddPage = () => {
     // =============================
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);   // ⬅ Start loading
 
         try {
             const fd = new FormData();
 
-            // append text values
             Object.keys(formData).forEach((key) => {
                 if (key === "attributes") {
                     fd.append("attributes", JSON.stringify(formData.attributes));
@@ -104,14 +105,13 @@ const ProductAddPage = () => {
                 }
             });
 
-            // append image files
             images.forEach((img) => fd.append("images", img));
 
-            // API call
-            const res = await api.post("/products/create", fd);
+            await api.post("/products/create", fd);
+
             toast.success("Product created successfully!");
 
-            // Reset form
+            // Reset
             setFormData({
                 name: "",
                 description: "",
@@ -128,8 +128,11 @@ const ProductAddPage = () => {
         } catch (err) {
             console.error("Create product error:", err);
             toast.error(err?.response?.data?.message || "Failed to create product");
+        } finally {
+            setLoading(false);   // ⬅ Stop loading
         }
     };
+
 
     return (
         <Container className={styles.wrapper}>
@@ -261,6 +264,7 @@ const ProductAddPage = () => {
                                                     attributes: updated,
                                                 });
                                             } catch (err) {
+                                                console.log(err)
                                                 toast.error("Failed to remove attribute");
                                             }
                                         }}
@@ -278,6 +282,7 @@ const ProductAddPage = () => {
                                         const key = prompt("Enter attribute name");
                                         if (key) handleAttributeChange(key, "");
                                     } catch (err) {
+                                        console.log(err)
                                         toast.error("Failed to add attribute");
                                     }
                                 }}
@@ -320,9 +325,21 @@ const ProductAddPage = () => {
                     </Col>
                 </Row>
 
-                <Button type="submit" className={styles.submitBtn}>
-                    Create Product
+                <Button
+                    type="submit"
+                    className={styles.submitBtn}
+                    disabled={loading}   // disable when loading
+                >
+                    {loading ? (
+                        <>
+                            <span className="spinner-border spinner-border-sm me-2"></span>
+                            Uploading...
+                        </>
+                    ) : (
+                        "Create Product"
+                    )}
                 </Button>
+
             </Form>
         </Container>
     );
