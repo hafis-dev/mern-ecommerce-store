@@ -12,21 +12,21 @@ backend/.cache/
 
 
 # =========================
-# React / Vite Frontend
+# React / Vite client
 # =========================
-frontend/node_modules/
-frontend/.env
-frontend/.env.local
-frontend/.env.production
-frontend/.env.development
-frontend/dist/
-frontend/build/
-frontend/.vite/
-frontend/.cache/
+client/node_modules/
+client/.env
+client/.env.local
+client/.env.production
+client/.env.development
+client/dist/
+client/build/
+client/.vite/
+client/.cache/
 
 # Vite extra cache
-frontend/.vite/deps/
-frontend/.vite/cache/
+client/.vite/deps/
+client/.vite/cache/
 
 # Root env safety
 .env

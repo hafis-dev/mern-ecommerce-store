@@ -12,7 +12,7 @@
 }
 /* Left Section */
 .thumbnailBox {
-    width: 110px;
+    max-width: 110px;
 }
 
 .thumbnail {

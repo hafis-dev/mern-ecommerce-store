@@ -13,6 +13,7 @@ const ProductEditPage = () => {
     const [product, setProduct] = useState(null);
 
     const [loading, setLoading] = useState(true);
+    const [submitLoading, setSubmitLoading] = useState(false);
 
     const [images, setImages] = useState([]);
     const [previewImages, setPreviewImages] = useState([]);
@@ -127,6 +128,7 @@ const ProductEditPage = () => {
     // Submit update
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setSubmitLoading(true); // start loading
 
         const fd = new FormData();
 
@@ -138,15 +140,16 @@ const ProductEditPage = () => {
             }
         });
 
-        // Send removed image indexes
         fd.append("removeImages", JSON.stringify(removedIndexes));
-
-        // Append new images
         images.forEach((img) => fd.append("images", img));
 
         const success = await updateProduct(id, fd);
+
+        setSubmitLoading(false); // stop loading
+
         if (success) navigate("/admin/products");
     };
+
 
 
     if (loading) return <p className="text-center mt-5">Loading...</p>;
@@ -325,9 +328,22 @@ const ProductEditPage = () => {
                     </Col>
                 </Row>
 
-                <Button type="submit" className={styles.submitBtn}>
-                    Save Changes
+                <Button
+                    type="submit"
+                    className={styles.submitBtn}
+                    disabled={submitLoading}
+                >
+                    {submitLoading ? (
+                        <>
+                            <span className="spinner-border spinner-border-sm me-2"></span>
+                            Saving...
+                        </>
+                    ) : (
+                        "Save Changes"
+                    )}
+
                 </Button>
+
             </Form>
         </Container>
     );

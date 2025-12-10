@@ -25,8 +25,16 @@ export const CartProvider = ({ children }) => {
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
-        if (token) loadCart();
+
+        if (!token) return;
+
+        const load = async () => {
+            await loadCart();
+        };
+
+        load();
     }, []);
+
     return (
         <CartContext.Provider
             value={{
