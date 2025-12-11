@@ -1,8 +1,9 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { CATEGORY_OPTIONS } from "../../constants/categories";
+import Select from "react-select";
+import { CATEGORY_GROUPS } from "../../constants/categories";
 import styles from "./productEditPage.module.css";
 import api from "../../services/api/axios";
 
@@ -231,19 +232,56 @@ const ProductEditPage = () => {
                             {/* CATEGORY */}
                             <Form.Group className="mb-2">
                                 <Form.Label className={styles.label}>Category</Form.Label>
-                                <Form.Select
-                                    required
-                                    name="category"
-                                    value={formData.category}
-                                    onChange={handleInputChange}
-                                    className={styles.input}
-                                >
-                                    <option value="">Select</option>
-                                    {CATEGORY_OPTIONS.map((cat) => (
-                                        <option key={cat} value={cat}>{cat}</option>
-                                    ))}
-                                </Form.Select>
+
+                                <Select
+                                    value={
+                                        formData.category
+                                            ? { value: formData.category, label: formData.category }
+                                            : null
+                                    }
+                                    onChange={(option) =>
+                                        setFormData(prev => ({ ...prev, category: option.value }))
+                                    }
+                                    placeholder="Select Category"
+                                    options={CATEGORY_GROUPS.map(group => ({
+                                        label: (
+                                            <div style={{ fontWeight: "bold", fontSize: "14px" }}>
+                                                {group.icon} {group.label}
+                                            </div>
+                                        ),
+                                        options: group.items.map(item => ({
+                                            value: item.name,
+                                            label: (
+                                                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                                    {item.icon} {item.name}
+                                                </div>
+                                            )
+                                        }))
+                                    }))}
+                                    menuPlacement="bottom"
+                                    className="reactSelect"
+                                    styles={{
+                                        control: (base) => ({
+                                            ...base,
+                                            backgroundColor: "var(--c1)",
+                                            borderColor: "var(--c3)",
+                                            borderRadius: 0,
+                                            minHeight: 36,
+                                            color: "var(--c6)",
+                                        }),
+                                        menu: (base) => ({
+                                            ...base,
+                                            zIndex: 9999,
+                                            backgroundColor: "var(--c1)",
+                                        }),
+                                        singleValue: (base) => ({
+                                            ...base,
+                                            color: "var(--c6)",
+                                        }),
+                                    }}
+                                />
                             </Form.Group>
+
 
 
                             {/* ⭐ GENDER */}

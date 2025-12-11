@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Card, Form, Button } from "react-bootstrap";
 import api from "../../../services/api/axios";
 import styles from "./filterSidebar.module.css";
-import { CATEGORY_OPTIONS } from "../../../constants/categories";
+import Select from "react-select";
+import { CATEGORY_GROUPS} from "../../../constants/categories";
 
 const FilterSidebar = ({ onApply, onClear }) => {
     const [filters, setFilters] = useState({});
@@ -116,23 +117,67 @@ const FilterSidebar = ({ onApply, onClear }) => {
                 {/* CATEGORY */}
                 <Form.Group className="mb-3">
                     <Form.Label className={styles.filterLabel}>Category</Form.Label>
-                    <Form.Select
-                        value={category}
-                        onChange={(e) => {
-                            setCategory(e.target.value);
+
+                    <Select
+                        value={
+                            category
+                                ? { value: category, label: category }
+                                : null
+                        }
+                        onChange={(option) => {
+                            setCategory(option?.value || "");
                             setAttributes({});
                         }}
-                        className={styles.filterSelect}
-                    >
-                        <option value="">All</option>
-
-                        {CATEGORY_OPTIONS.map((cat) => (
-                            <option key={cat} value={cat}>
-                                {cat}
-                            </option>
-                        ))}
-                    </Form.Select>
+                        placeholder="All Categories"
+                        isClearable
+                        options={CATEGORY_GROUPS.map(group => ({
+                            label: (
+                                <div style={{ fontWeight: "bold", fontSize: "14px" }}>
+                                    {group.icon} {group.label}
+                                </div>
+                            ),
+                            options: group.items.map(item => ({
+                                value: item.name,
+                                label: (
+                                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                        {item.icon} {item.name}
+                                    </div>
+                                )
+                            }))
+                        }))}
+                        menuPlacement="auto"
+                        className="reactSelect"
+                        styles={{
+                            control: (base) => ({
+                                ...base,
+                                backgroundColor: "var(--c1)",
+                                borderColor: "var(--c3)",
+                                borderRadius: 0,
+                                minHeight: 36,
+                                color: "var(--c6)",
+                            }),
+                            menu: (base) => ({
+                                ...base,
+                                zIndex: 99999,
+                                backgroundColor: "var(--c1)",
+                            }),
+                            singleValue: (base) => ({
+                                ...base,
+                                color: "var(--c6)",
+                            }),
+                            option: (base, state) => ({
+                                ...base,
+                                color: "var(--c6)",
+                                backgroundColor: state.isSelected
+                                    ? "var(--c3)"
+                                    : state.isFocused
+                                        ? "var(--c2)"
+                                        : "var(--c1)",
+                            }),
+                        }}
+                    />
                 </Form.Group>
+
 
 
                 {/* PRICE FILTERS */}

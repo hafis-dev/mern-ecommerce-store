@@ -3,8 +3,8 @@ import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { toast } from "react-toastify";
 import styles from "./ProductAddPage.module.css";
 import api from "../../services/api/axios";
-import { CATEGORY_OPTIONS } from "../../constants/categories";
-
+import { CATEGORY_GROUPS } from "../../constants/categories";
+import Select from "react-select";
 const ProductAddPage = () => {
     const [images, setImages] = useState([]);
     const [previewImages, setPreviewImages] = useState([]);
@@ -203,21 +203,50 @@ const ProductAddPage = () => {
                             </Row>
 
                             {/* CATEGORY */}
-                            <Form.Group className="mb-2">
-                                <Form.Label className={styles.label}>Category</Form.Label>
-                                <Form.Select
-                                    name="category"
-                                    value={formData.category}
-                                    onChange={handleInputChange}
-                                    className={styles.input}
-                                    required
-                                >
-                                    <option value="">Select</option>
-                                    {CATEGORY_OPTIONS.map((cat) => (
-                                        <option key={cat} value={cat}>{cat}</option>
-                                    ))}
-                                </Form.Select>
-                            </Form.Group>
+                            
+                            <Select
+                                value={
+                                    formData.category
+                                        ? { value: formData.category, label: formData.category }
+                                        : null
+                                }
+                                onChange={(option) =>
+                                    setFormData(prev => ({ ...prev, category: option.value }))
+                                }
+                                placeholder="Select Category"
+                                options={CATEGORY_GROUPS.map(group => ({
+                                    label: (
+                                        <div style={{ fontWeight: "bold", fontSize: "14px" }}>
+                                            {group.icon} {group.label}
+                                        </div>
+                                    ),
+                                    options: group.items.map(item => ({
+                                        value: item.name,
+                                        label: (
+                                            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                                {item.icon} {item.name}
+                                            </div>
+                                        )
+                                    }))
+                                }))}
+                                menuPlacement="bottom"
+                                className="reactSelect"
+                                styles={{
+                                    control: (base) => ({
+                                        ...base,
+                                        backgroundColor: "var(--c1)",
+                                        borderColor: "var(--c3)",
+                                        borderRadius: 0,
+                                        minHeight: 36,
+                                    }),
+                                    menu: (base) => ({
+                                        ...base,
+                                        zIndex: 9999,
+                                    })
+                                }}
+                            />
+
+
 
 
 
