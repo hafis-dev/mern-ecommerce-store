@@ -2,10 +2,15 @@ import { useState, useEffect } from "react";
 import { Card, Form, Button } from "react-bootstrap";
 import api from "../../../services/api/axios";
 import styles from "./filterSidebar.module.css";
+import { CATEGORY_OPTIONS } from "../../../constants/categories";
 
 const FilterSidebar = ({ onApply, onClear }) => {
     const [filters, setFilters] = useState({});
     const [category, setCategory] = useState("");
+
+    // ⭐ GENDER ARRAY STATE
+    const [gender, setGender] = useState([]);
+
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
     const [sort, setSort] = useState("");
@@ -26,10 +31,26 @@ const FilterSidebar = ({ onApply, onClear }) => {
 
     const dynamicAttrs = category ? Object.keys(filters[category] || {}) : [];
 
+    // ⭐ CHECKBOX HANDLER FOR GENDER
+    const handleGenderChange = (e) => {
+        const value = e.target.value;
+
+        setGender((prev) => {
+            if (prev.includes(value)) {
+                return prev.filter((g) => g !== value); // remove
+            }
+            return [...prev, value]; // add
+        });
+    };
+
     const handleApply = () => {
         const f = {};
 
         if (category) f.category = category;
+
+        // ⭐ FIX: send "Men,Women" instead of array
+        if (gender.length > 0) f.gender = gender.join(",");
+
         if (minPrice) f.minPrice = minPrice;
         if (maxPrice) f.maxPrice = maxPrice;
 
@@ -45,8 +66,10 @@ const FilterSidebar = ({ onApply, onClear }) => {
         setOpen(false);
     };
 
+
     const handleClear = () => {
         setCategory("");
+        setGender([]);       // ⭐ CLEAR ARRAY
         setMinPrice("");
         setMaxPrice("");
         setSort("");
@@ -65,13 +88,32 @@ const FilterSidebar = ({ onApply, onClear }) => {
             </button>
 
             {/* Filter Card */}
-            <Card
-                className={`${styles.filterCard} ${!open ? styles.mobileHidden : ""}`}
-            >
-
+            <Card className={`${styles.filterCard} ${!open ? styles.mobileHidden : ""}`}>
                 <h5 className={styles.filterTitle}>Filters</h5>
 
-                {/* Category */}
+                {/* ⭐ GENDER CHECKBOX FILTER */}
+                <Form.Group className="mb-3">
+                    <Form.Label className={styles.filterLabel}>Gender</Form.Label>
+
+                    <div>
+                        <Form.Check
+                            type="checkbox"
+                            label="Men"
+                            value="Men"
+                            checked={gender.includes("Men")}
+                            onChange={handleGenderChange}
+                        />
+                        <Form.Check
+                            type="checkbox"
+                            label="Women"
+                            value="Women"
+                            checked={gender.includes("Women")}
+                            onChange={handleGenderChange}
+                        />
+                    </div>
+                </Form.Group>
+
+                {/* CATEGORY */}
                 <Form.Group className="mb-3">
                     <Form.Label className={styles.filterLabel}>Category</Form.Label>
                     <Form.Select
@@ -83,13 +125,17 @@ const FilterSidebar = ({ onApply, onClear }) => {
                         className={styles.filterSelect}
                     >
                         <option value="">All</option>
-                        <option>Wallet</option>
-                        <option>Watch</option>
-                        <option>Glass</option>
+
+                        {CATEGORY_OPTIONS.map((cat) => (
+                            <option key={cat} value={cat}>
+                                {cat}
+                            </option>
+                        ))}
                     </Form.Select>
                 </Form.Group>
 
-                {/* Price */}
+
+                {/* PRICE FILTERS */}
                 <Form.Group className="mb-3">
                     <Form.Label className={styles.filterLabel}>Min Price</Form.Label>
                     <Form.Control
@@ -110,7 +156,7 @@ const FilterSidebar = ({ onApply, onClear }) => {
                     />
                 </Form.Group>
 
-                {/* Sort */}
+                {/* SORT */}
                 <Form.Group className="mb-3">
                     <Form.Label className={styles.filterLabel}>Sort By</Form.Label>
                     <Form.Select
@@ -125,7 +171,7 @@ const FilterSidebar = ({ onApply, onClear }) => {
                     </Form.Select>
                 </Form.Group>
 
-                {/* Dynamic Attributes */}
+                {/* DYNAMIC ATTRIBUTES */}
                 {dynamicAttrs.length > 0 && (
                     <>
                         <hr />
@@ -159,7 +205,7 @@ const FilterSidebar = ({ onApply, onClear }) => {
                     </>
                 )}
 
-                {/* Buttons */}
+                {/* BUTTONS */}
                 <div className="d-flex gap-2 mt-3">
                     <Button className={`${styles.btnApply} w-50`} onClick={handleApply}>
                         Apply

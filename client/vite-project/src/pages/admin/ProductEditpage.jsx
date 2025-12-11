@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import { CATEGORY_OPTIONS } from "../../constants/categories";
 import styles from "./productEditPage.module.css";
 import api from "../../services/api/axios";
 
@@ -25,6 +25,7 @@ const ProductEditPage = () => {
         stock: "",
         category: "",
         attributes: {},
+        gender: [],          // ⭐ ADDED
         isFeatured: false,
         isNewArrival: false,
     });
@@ -39,7 +40,7 @@ const ProductEditPage = () => {
             toast.error("Failed to load product");
         }
     };
-    // UPDATE PRODUCT
+
     const updateProduct = async (id, formData) => {
         try {
             await api.put(`/products/${id}`, formData);
@@ -51,15 +52,12 @@ const ProductEditPage = () => {
             return false;
         }
     };
-    // FIXED: Wait for product to load before setting formData
+
     useEffect(() => {
-        const fetchData = async () => {
-            await loadProduct();
-        };
-        fetchData();
+        loadProduct();
     }, [id]);
 
-    // When product is fetched → fill the form
+    // When product loads → fill form
     useEffect(() => {
         if (!product) return;
 
@@ -70,6 +68,7 @@ const ProductEditPage = () => {
             stock: product.stock,
             category: product.category,
             attributes: product.attributes || {},
+            gender: product.gender || [],   // ⭐ LOAD GENDER ARRAY
             isFeatured: product.isFeatured,
             isNewArrival: product.isNewArrival,
         });
@@ -78,13 +77,28 @@ const ProductEditPage = () => {
         setLoading(false);
     }, [product]);
 
-    // Input handler
+    // Input changes
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData((prev) => ({
             ...prev,
             [name]: type === "checkbox" ? checked : value,
         }));
+    };
+
+    // ⭐ Gender checkbox toggle
+    const handleGenderChange = (value) => {
+        setFormData((prev) => {
+            let updated = [...prev.gender];
+
+            if (updated.includes(value)) {
+                updated = updated.filter((g) => g !== value);
+            } else {
+                updated.push(value);
+            }
+
+            return { ...prev, gender: updated };
+        });
     };
 
     // Attribute change
@@ -111,11 +125,9 @@ const ProductEditPage = () => {
         ]);
     };
 
-    // Remove image
     const [removedIndexes, setRemovedIndexes] = useState([]);
 
     const removeImage = (index) => {
-        // Add index to removed list (only original images)
         if (!images[index]) {
             setRemovedIndexes((prev) => [...prev, index]);
         }
@@ -124,18 +136,21 @@ const ProductEditPage = () => {
         setImages((prev) => prev.filter((_, i) => i !== index));
     };
 
-
     // Submit update
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setSubmitLoading(true); // start loading
+        setSubmitLoading(true);
 
         const fd = new FormData();
 
         Object.keys(formData).forEach((key) => {
             if (key === "attributes") {
                 fd.append("attributes", JSON.stringify(formData.attributes));
-            } else {
+            }
+            else if (key === "gender") {
+                formData.gender.forEach((g) => fd.append("gender", g));  // ⭐ SEND ARRAY
+            }
+            else {
                 fd.append(key, formData[key]);
             }
         });
@@ -145,12 +160,10 @@ const ProductEditPage = () => {
 
         const success = await updateProduct(id, fd);
 
-        setSubmitLoading(false); // stop loading
+        setSubmitLoading(false);
 
         if (success) navigate("/admin/products");
     };
-
-
 
     if (loading) return <p className="text-center mt-5">Loading...</p>;
 
@@ -163,6 +176,7 @@ const ProductEditPage = () => {
                     {/* LEFT */}
                     <Col md={6}>
                         <Card className={styles.card}>
+                            {/* NAME */}
                             <Form.Group className="mb-2">
                                 <Form.Label className={styles.label}>Name</Form.Label>
                                 <Form.Control
@@ -174,6 +188,7 @@ const ProductEditPage = () => {
                                 />
                             </Form.Group>
 
+                            {/* DESCRIPTION */}
                             <Form.Group className="mb-2">
                                 <Form.Label className={styles.label}>Description</Form.Label>
                                 <Form.Control
@@ -187,6 +202,7 @@ const ProductEditPage = () => {
                                 />
                             </Form.Group>
 
+                            {/* PRICE */}
                             <Form.Group className="mb-2">
                                 <Form.Label className={styles.label}>Price</Form.Label>
                                 <Form.Control
@@ -199,6 +215,7 @@ const ProductEditPage = () => {
                                 />
                             </Form.Group>
 
+                            {/* STOCK */}
                             <Form.Group className="mb-2">
                                 <Form.Label className={styles.label}>Stock</Form.Label>
                                 <Form.Control
@@ -211,6 +228,7 @@ const ProductEditPage = () => {
                                 />
                             </Form.Group>
 
+                            {/* CATEGORY */}
                             <Form.Group className="mb-2">
                                 <Form.Label className={styles.label}>Category</Form.Label>
                                 <Form.Select
@@ -220,12 +238,34 @@ const ProductEditPage = () => {
                                     onChange={handleInputChange}
                                     className={styles.input}
                                 >
-                                    <option value="Wallet">Wallet</option>
-                                    <option value="Watch">Watch</option>
-                                    <option value="Glass">Glass</option>
+                                    <option value="">Select</option>
+                                    {CATEGORY_OPTIONS.map((cat) => (
+                                        <option key={cat} value={cat}>{cat}</option>
+                                    ))}
                                 </Form.Select>
                             </Form.Group>
 
+
+                            {/* ⭐ GENDER */}
+                            <Form.Group className="mb-2">
+                                <Form.Label className={styles.label}>Gender</Form.Label>
+                                <div>
+                                    <Form.Check
+                                        type="checkbox"
+                                        label="Men"
+                                        checked={formData.gender.includes("Men")}
+                                        onChange={() => handleGenderChange("Men")}
+                                    />
+                                    <Form.Check
+                                        type="checkbox"
+                                        label="Women"
+                                        checked={formData.gender.includes("Women")}
+                                        onChange={() => handleGenderChange("Women")}
+                                    />
+                                </div>
+                            </Form.Group>
+
+                            {/* FEATURED */}
                             <Form.Check
                                 className={styles.check}
                                 label="Featured"
@@ -234,6 +274,7 @@ const ProductEditPage = () => {
                                 onChange={handleInputChange}
                             />
 
+                            {/* NEW ARRIVAL */}
                             <Form.Check
                                 className={styles.check}
                                 label="New Arrival"
@@ -297,9 +338,7 @@ const ProductEditPage = () => {
                             <hr />
 
                             <Form.Group>
-                                <Form.Label className={styles.label}>
-                                    Replace Images
-                                </Form.Label>
+                                <Form.Label className={styles.label}>Replace Images</Form.Label>
                                 <Form.Control
                                     type="file"
                                     accept="image/*"
@@ -313,7 +352,6 @@ const ProductEditPage = () => {
                                 {previewImages.map((src, i) => (
                                     <div className={styles.previewBox} key={i}>
                                         <img src={src} alt="" className={styles.previewImg} />
-
                                         <button
                                             type="button"
                                             onClick={() => removeImage(i)}
@@ -341,9 +379,7 @@ const ProductEditPage = () => {
                     ) : (
                         "Save Changes"
                     )}
-
                 </Button>
-
             </Form>
         </Container>
     );
