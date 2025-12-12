@@ -1,0 +1,56 @@
+.wrapper {
+    background: transparent;
+    border-radius: 0px;
+    padding: 30px;
+}
+
+.heading {
+    color: var(--c6);
+    font-weight: 700;
+}
+
+.subHeading {
+    color: var(--c6);
+    font-weight: 600;
+}
+
+.statCard,
+.revenueCard,
+.orderCard {
+    background: var(--c1) !important;
+    border: 1px solid var(--c3) !important;
+    border-radius: 0px !important;
+}
+
+.orderCard {
+    padding: 14px 18px;
+}
+
+.label {
+    color: var(--c4);
+    font-size: 14px;
+}
+
+.value {
+    color: var(--c5);
+    font-weight: 700;
+}
+
+.orderUser {
+    color: var(--c6);
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.meta {
+    color: var(--c4);
+    font-size: 14px;
+}
+
+.statusBox {
+    padding: 4px 12px;
+    border-radius: 0px;
+    font-weight: 600;
+    font-size: 14px;
+    height: fit-content;
+}

@@ -1,12 +1,9 @@
 const jwt = require("jsonwebtoken");
 
-// Access Token now includes isAdmin
 const generateAccessToken = (id, isAdmin) => {
-  return jwt.sign(
-    { id: id, isAdmin: isAdmin }, // 🔥 added isAdmin
-    process.env.JWT_SECRET,
-    { expiresIn: "15m" } // better value, 15 minutes
-  );
+  return jwt.sign({ id, isAdmin }, process.env.JWT_SECRET, {
+    expiresIn: "15m",
+  });
 };
 
 const generateRefreshToken = (id) => {

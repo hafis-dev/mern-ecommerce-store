@@ -1,7 +1,6 @@
- const User = require('../models/User')
+const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 
-// GET /api/profile/me
 exports.getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
@@ -14,11 +13,21 @@ exports.getProfile = async (req, res) => {
   }
 };
 
-
-// PUT /api/profile
 exports.updateProfile = async (req, res) => {
   try {
     const { username, email } = req.body;
+    if (!username.trim()) {
+      return res.status(400).json({ message: "Username cannot be empty" });
+    }
+
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ message: "Invalid email" });
+    }
+
+    const exists = await User.findOne({ email });
+    if (exists && exists._id.toString() !== req.user.id) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
 
     const updated = await User.findByIdAndUpdate(
       req.user.id,
@@ -33,10 +42,14 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
-// PUT /api/profile/password
 exports.changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
+    if (newPassword.length < 6) {
+      return res
+        .status(400)
+        .json({ message: "Password must be at least 6 characters" });
+    }
 
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });

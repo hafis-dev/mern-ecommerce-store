@@ -5,26 +5,22 @@ const Product = require("../models/Product");
 exports.createOrder = async (req, res) => {
   try {
     const userId = req.user._id;
-
     const { shippingAddress } = req.body;
 
     if (!shippingAddress) {
       return res.status(400).json({ message: "Shipping address required" });
     }
 
-    // Load user cart
     const cart = await Cart.findOne({ user: userId }).populate("items.product");
 
     if (!cart || cart.items.length === 0)
       return res.status(400).json({ message: "Cart is empty" });
 
-    // Calculate total price
     const totalPrice = cart.items.reduce(
       (sum, item) => sum + item.product.price * item.quantity,
       0
     );
 
-    // Create order
     const order = await Order.create({
       user: userId,
       userName: req.user.username,
@@ -37,20 +33,17 @@ exports.createOrder = async (req, res) => {
       })),
       shippingAddress,
       totalPrice,
-      isPaid: true, // treat as paid for now
+      isPaid: true,
       paidAt: Date.now(),
       status: "Processing",
     });
 
-    // After saving the order successfully
     for (let item of order.orderItems) {
-      await Product.findByIdAndUpdate(
-        item.product,
-        { $inc: { stock: -item.qty } } // Decrease stock
-      );
+      await Product.findByIdAndUpdate(item.product, {
+        $inc: { stock: -item.qty },
+      });
     }
 
-    
     return res.json({
       success: true,
       message: "Order placed successfully!",

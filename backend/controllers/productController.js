@@ -1,12 +1,8 @@
-// backend/controllers/productController.js
 const Product = require("../models/Product");
 const cloudinary = require("../config/cloudinary");
 const Cart = require("../models/Cart");
 const { uploadToCloudinary } = require("../utils/uploadImage");
 
-// =====================================================
-// CREATE PRODUCT (Admin)
-// =====================================================
 exports.createProduct = async (req, res) => {
   try {
     let {
@@ -21,7 +17,6 @@ exports.createProduct = async (req, res) => {
       gender,
     } = req.body;
 
-    // BASIC VALIDATION
     if (!name || !description || price == null || stock == null || !category) {
       return res.status(400).json({
         message:
@@ -36,9 +31,7 @@ exports.createProduct = async (req, res) => {
       return res.status(400).json({ message: "Invalid price or stock" });
     }
 
-    // ⭐ FIX 1 — ALWAYS CONVERT GENDER TO ARRAY
     if (typeof gender === "string") {
-      // Handles: "Men" or "Women" or "Men,Women"
       gender = gender.split(",");
     }
 
@@ -46,7 +39,6 @@ exports.createProduct = async (req, res) => {
       gender = [gender];
     }
 
-    // ⭐ FIX 2 — VALIDATE ARRAY CONTENT
     gender = gender.map((g) => g.trim());
 
     if (
@@ -58,7 +50,6 @@ exports.createProduct = async (req, res) => {
       });
     }
 
-    // NORMALIZE ATTRIBUTE KEYS
     let finalAttributes = {};
     if (attributes) {
       try {
@@ -75,24 +66,21 @@ exports.createProduct = async (req, res) => {
       }
     }
 
-    // IMAGES REQUIRED
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ message: "Product images are required" });
     }
 
-    // UPLOAD IMAGES TO CLOUDINARY
     const imageUrls = await Promise.all(
       req.files.map((file) => uploadToCloudinary(file.buffer))
     );
 
-    // CREATE PRODUCT
     const product = new Product({
       name: name.trim(),
       description,
       price: priceNum,
       stock: stockNum,
       category,
-      gender, // NOW ALWAYS ARRAY
+      gender,
       attributes: finalAttributes,
       images: imageUrls,
       isFeatured: isFeatured || false,
@@ -113,10 +101,6 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-
-// =====================================================
-// ADVANCED FILTERING (Public)
-// =====================================================
 exports.getProducts = async (req, res) => {
   try {
     let { category, sort, minPrice, maxPrice, search, gender, ...attrs } =
@@ -124,39 +108,30 @@ exports.getProducts = async (req, res) => {
 
     const query = {};
 
-    // CATEGORY FILTER
     if (category) query.category = category;
 
-    // ⭐ GENDER FILTER (ARRAY SAFE)
-    // ⭐ FIXED GENDER FILTER (WORKS WITH BOTH SELECTION)
     if (gender) {
       let genderArray = gender;
 
-      // Convert "Men,Women" → ["Men", "Women"]
       if (typeof genderArray === "string") {
         genderArray = genderArray.split(",");
       }
 
-      // Ensure array
       if (!Array.isArray(genderArray)) {
         genderArray = [genderArray];
       }
 
-      // ⭐ FIXED → match ALL selected genders, not ANY
       query.gender = { $all: genderArray };
 
       delete attrs.gender;
     }
 
-
-    // PRICE RANGE FILTER
     if (minPrice || maxPrice) {
       query.price = {};
       if (minPrice) query.price.$gte = Number(minPrice);
       if (maxPrice) query.price.$lte = Number(maxPrice);
     }
 
-    // SEARCH FILTER
     if (search) {
       const s = search.trim();
       query.$or = [
@@ -165,14 +140,12 @@ exports.getProducts = async (req, res) => {
       ];
     }
 
-    // DYNAMIC ATTRIBUTE FILTERING
     Object.keys(attrs).forEach((key) => {
       if (attrs[key]) {
         query[`attributes.${key}`] = attrs[key];
       }
     });
 
-    // SORTING
     let sortObj = { createdAt: -1 };
     if (sort === "price_asc") sortObj = { price: 1 };
     if (sort === "price_desc") sortObj = { price: -1 };
@@ -190,9 +163,6 @@ exports.getProducts = async (req, res) => {
   }
 };
 
-// =====================================================
-// GET PRODUCT BY ID
-// =====================================================
 exports.getProductById = async (req, res) => {
   try {
     const id = req.params.id;
@@ -211,9 +181,6 @@ exports.getProductById = async (req, res) => {
   }
 };
 
-// =====================================================
-// GET FEATURED PRODUCTS
-// =====================================================
 exports.getFeaturedProducts = async (req, res) => {
   try {
     const products = await Product.find({ isFeatured: true })
@@ -227,9 +194,6 @@ exports.getFeaturedProducts = async (req, res) => {
   }
 };
 
-// =====================================================
-// GET NEW ARRIVALS
-// =====================================================
 exports.getNewArrivalProducts = async (req, res) => {
   try {
     const products = await Product.find({ isNewArrival: true })
@@ -243,14 +207,10 @@ exports.getNewArrivalProducts = async (req, res) => {
   }
 };
 
-// ==============================
-// UPDATE PRODUCT (Admin)
-// ==============================
 exports.updateProduct = async (req, res) => {
   try {
     const id = req.params.id;
 
-    // Validate ObjectId
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       return res.status(400).json({ message: "Invalid product ID" });
     }
@@ -260,7 +220,6 @@ exports.updateProduct = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    // Allowed fields for update
     const allowedFields = [
       "name",
       "description",
@@ -275,24 +234,23 @@ exports.updateProduct = async (req, res) => {
 
     const updates = {};
 
-    // Apply basic updates
     Object.keys(req.body).forEach((key) => {
-      if (allowedFields.includes(key) && key !== "attributes" && key !== "gender") {
+      if (
+        allowedFields.includes(key) &&
+        key !== "attributes" &&
+        key !== "gender"
+      ) {
         updates[key] = req.body[key];
       }
     });
 
-    // ⭐ FIX: Parse gender correctly from FormData
     if ("gender" in req.body) {
       let g = req.body.gender;
 
-      // Case 1: Single gender → "Men"
-      // Case 2: Both genders → "Men,Women"
       if (typeof g === "string") {
-        g = g.split(","); // convert string to array
+        g = g.split(",");
       }
 
-      // Validation
       if (
         !Array.isArray(g) ||
         g.length === 0 ||
@@ -306,7 +264,6 @@ exports.updateProduct = async (req, res) => {
       updates.gender = g;
     }
 
-    // ⭐ Normalize attributes
     if ("attributes" in req.body) {
       let finalAttributes = {};
 
@@ -328,26 +285,18 @@ exports.updateProduct = async (req, res) => {
       updates.attributes = finalAttributes;
     }
 
-    // Convert numeric fields
     if (updates.price !== undefined) updates.price = Number(updates.price);
     if (updates.stock !== undefined) updates.stock = Number(updates.stock);
 
-    // ============================
-    // IMAGE HANDLING
-    // ============================
     let finalImages = existingProduct.images;
 
-    // Remove images
     if (req.body.removeImages) {
       try {
         const removeIdx = JSON.parse(req.body.removeImages);
         finalImages = finalImages.filter((_, idx) => !removeIdx.includes(idx));
-      } catch (err) {
-        console.log("Failed to parse removeImages:", err);
-      }
+      } catch (err) {}
     }
 
-    // Add new images
     if (req.files && req.files.length > 0) {
       const upload = (buffer) =>
         new Promise((resolve, reject) => {
@@ -367,9 +316,6 @@ exports.updateProduct = async (req, res) => {
 
     updates.images = finalImages;
 
-    // ============================
-    // SAVE UPDATED PRODUCT
-    // ============================
     const updatedProduct = await Product.findByIdAndUpdate(id, updates, {
       new: true,
     });
@@ -386,10 +332,6 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-
-// =====================================================
-// DELETE PRODUCT
-// =====================================================
 exports.deleteProduct = async (req, res) => {
   try {
     const id = req.params.id;
@@ -416,9 +358,6 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-// =====================================================
-// FILTER GENERATION (for frontend sidebar)
-// =====================================================
 const normalizeKey = (key) => key.trim().toLowerCase();
 
 exports.getFilters = async (req, res) => {
@@ -433,12 +372,10 @@ exports.getFilters = async (req, res) => {
         filters[category] = { gender: new Set() };
       }
 
-      // ⭐ GENDER FILTER (array-friendly)
       if (Array.isArray(p.gender)) {
         p.gender.forEach((g) => filters[category].gender.add(g));
       }
 
-      // ATTRIBUTE FILTERS
       Object.entries(p.attributes || {}).forEach(([key, value]) => {
         const cleanKey = normalizeKey(key);
 
@@ -450,7 +387,6 @@ exports.getFilters = async (req, res) => {
       });
     });
 
-    // Convert Sets → Arrays
     const finalFilters = {};
     Object.entries(filters).forEach(([cat, attrs]) => {
       finalFilters[cat] = {};

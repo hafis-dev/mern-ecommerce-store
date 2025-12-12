@@ -1,0 +1,138 @@
+
+/* Main container */
+.wrapper {
+    padding: 24px;
+    border-radius: 0px;
+    min-height: 85vh;
+    background: var(--c1);
+}
+
+.heading {
+    color: var(--c6);
+    margin-bottom: 20px;
+}
+
+.card {
+    padding: 18px !important;
+    border-radius: 0px !important;
+    border: 1px solid var(--c3) !important;
+    background: var(--c1) !important;
+}
+
+.input {
+    height: 34px;
+    padding: 6px 10px;
+    background-color: transparent !important;
+    font-size: 14px;
+    border-radius: 0px !important;
+    border: 1px solid var(--c3) !important;
+    color: var(--c6) !important;
+}
+.option{
+    background-color: var(--c1);
+}
+.textarea {
+    padding: 8px 10px;
+    font-size: 14px;
+    border-radius: 0px !important;
+    border: 1px solid var(--c3) !important;
+    background: var(--c1) !important;
+    color: var(--c6) !important;
+}
+
+.label {
+    color: var(--c5);
+    font-size: 14px;
+}
+
+.check {
+    font-size: 14px;
+    color: var(--c5);
+    
+}
+
+.attrTitle {
+    color: var(--c6);
+    margin-bottom: 8px;
+}
+
+.attrRow {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.attrKey {
+    background: var(--c2);
+    margin-right: 8px;
+    border-radius: 0px;
+}
+
+.removeBtn {
+    padding: 2px 8px !important;
+    font-size: 12px !important;
+    margin-left: 6px;
+    border:none !important;
+    background-color: var(--c5) !important;
+    border-radius: 0px !important;
+   
+}
+
+.addAttrBtn {
+    border-color: var(--c5) !important;
+    color: var(--c1) !important;
+    padding: 4px 10px !important;
+    border-radius: 0px !important;
+    margin-bottom: 10px;
+    background-color: var(--c6) !important;
+}
+
+.previewWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.previewBox {
+    width: 70px;
+    height: 70px;
+    position: relative;
+    margin-right: 8px;
+    margin-top: 8px;
+    border-radius: 0px;
+}
+
+.previewImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0px;
+    border: 1px solid var(--c3);
+}
+
+.removeImgBtn {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 18px;
+    height: 18px;
+    background: var(--c6);
+    color: var(--c1);
+    border-radius: 50%;
+    border: none;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.submitBtn {
+    background: var(--c6) !important;
+    border-color: var(--c5) !important;
+    padding: 8px 18px !important;
+    font-size: 14px !important;
+    border-radius: 0px !important;
+    margin-top: 10px;
+    color: var(--c1) !important;
+}
+
+.submitBtn:hover,.removeBtn:hover,.addAttrBtn:hover{
+    opacity: 0.9;       
+}

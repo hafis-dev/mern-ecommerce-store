@@ -18,25 +18,12 @@ const {
   adminMiddleware,
 } = require("../middleware/authMiddleware");
 
-// ==============================
-// PUBLIC ROUTES
-// ==============================
-
-// ⭐ Filters MUST COME FIRST
 router.get("/filters", getFilters);
-
 router.get("/featured", getFeaturedProducts);
 router.get("/new", getNewArrivalProducts);
-
-// ⭐ Then list products
 router.get("/", getProducts);
-
-// ⭐ Must come LAST, because it's dynamic
 router.get("/:id", getProductById);
 
-// ==============================
-// ADMIN ROUTES
-// ==============================
 router.post(
   "/create",
   authMiddleware,

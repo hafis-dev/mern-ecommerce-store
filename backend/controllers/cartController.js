@@ -1,10 +1,6 @@
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 
-// ==============================
-// ADD ITEM TO CART
-// ==============================
-
 exports.addToCart = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
@@ -14,27 +10,25 @@ exports.addToCart = async (req, res) => {
         .status(400)
         .json({ message: "productId and quantity are required" });
     }
+
     const product = await Product.findById(productId);
     if (!product) return res.status(404).json({ message: "Product not found" });
 
     let cart = await Cart.findOne({ user: req.user._id });
-    // If no cart, create new cart
+
     if (!cart) {
       cart = new Cart({
         user: req.user._id,
         items: [{ product: productId, quantity }],
       });
     } else {
-      // Check if product already exists in cart
       const itemIndex = cart.items.findIndex(
         (item) => item.product.toString() === productId
       );
 
       if (itemIndex > -1) {
-        // Update quantity
         cart.items[itemIndex].quantity += quantity;
       } else {
-        // Add new item
         cart.items.push({ product: productId, quantity });
       }
     }
@@ -47,9 +41,6 @@ exports.addToCart = async (req, res) => {
   }
 };
 
-// ==============================
-// GET USER CART
-// ==============================
 exports.getCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.user._id }).populate(
@@ -66,9 +57,6 @@ exports.getCart = async (req, res) => {
   }
 };
 
-// =============================
-// UPDATE CART ITEM
-// =============================
 exports.updateCartItem = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
@@ -84,18 +72,15 @@ exports.updateCartItem = async (req, res) => {
     if (!item)
       return res.status(404).json({ message: "Item not found in cart" });
 
-    // Load product to check stock
     const product = await Product.findById(productId);
     if (!product) return res.status(404).json({ message: "Product not found" });
 
-    // ⭐ STOCK VALIDATION
     if (quantity > product.stock) {
       return res.status(400).json({
         message: `Only ${product.stock} items available in stock`,
       });
     }
 
-    // Update quantity
     item.quantity = quantity;
     await cart.save();
 
@@ -111,10 +96,6 @@ exports.updateCartItem = async (req, res) => {
   }
 };
 
-
-// =============================
-// REMOVE ITEM
-// =============================
 exports.removeCartItem = async (req, res) => {
   try {
     const { productId } = req.params;
@@ -140,9 +121,6 @@ exports.removeCartItem = async (req, res) => {
   }
 };
 
-// =============================
-// CLEAR CART
-// =============================
 exports.clearCart = async (req, res) => {
   try {
     await Cart.findOneAndDelete({ user: req.user._id });

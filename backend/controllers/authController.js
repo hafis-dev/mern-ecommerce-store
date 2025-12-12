@@ -1,27 +1,20 @@
-// ...existing code...
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
 const Otp = require("../models/Otp");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const {
-  generateAccessToken,
-  generateRefreshToken,
-} = require("../utils/token");
+const { generateAccessToken, generateRefreshToken } = require("../utils/token");
 const generateOTP = require("../utils/otpUtil");
 const { sendSMS } = require("../utils/sendSMS");
 const { sendEmail } = require("../utils/sendEmail");
 
-// ADMIN EMAIL from .env
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
-// VALIDATION REGEX
 const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^[0-9]{10}$/;
 
-// ---------------- REGISTER ------------------
 exports.registerUser = async (req, res) => {
   const { username, email, phone, password } = req.body;
 
@@ -61,11 +54,9 @@ exports.registerUser = async (req, res) => {
       });
     }
 
-    // HASH PASSWORD
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // CHECK IF THIS USER IS ADMIN
     const isAdmin = email === ADMIN_EMAIL;
 
     const newUser = new User({
@@ -73,21 +64,20 @@ exports.registerUser = async (req, res) => {
       email,
       phone,
       password: hashedPassword,
-      isAdmin, // 🔥 automatically set true for admin email
+      isAdmin,
     });
 
     await newUser.save();
 
-    // TOKENS
     const accessToken = generateAccessToken(newUser._id, newUser.isAdmin);
     const refreshToken = generateRefreshToken(newUser._id);
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: false,
+      secure: process.env.NODE_ENV === "production",
+
       sameSite: "lax",
       path: "/",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return res.status(201).json({
@@ -105,7 +95,6 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-// ---------------- LOGIN ------------------
 exports.loginUser = async (req, res) => {
   try {
     const { emailOrPhone, password } = req.body;
@@ -137,7 +126,6 @@ exports.loginUser = async (req, res) => {
       });
     }
 
-    // PASSWORD CHECK
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({
@@ -145,14 +133,12 @@ exports.loginUser = async (req, res) => {
       });
     }
 
-    // SET ADMIN BASED ON EMAIL
     const isAdmin = user.email === ADMIN_EMAIL;
     if (user.isAdmin !== isAdmin) {
       user.isAdmin = isAdmin;
       await user.save();
     }
 
-    // TOKENS
     const accessToken = generateAccessToken(user._id, user.isAdmin);
     const refreshToken = generateRefreshToken(user._id);
 
@@ -178,7 +164,6 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-// ---------------- REFRESH TOKEN ------------------
 exports.refreshToken = async (req, res) => {
   const token = req.cookies.refreshToken;
 
@@ -202,7 +187,6 @@ exports.refreshToken = async (req, res) => {
   }
 };
 
-// ---------------- LOGOUT ------------------
 exports.logoutUser = (req, res) => {
   res.clearCookie("refreshToken", {
     httpOnly: true,
@@ -214,7 +198,6 @@ exports.logoutUser = (req, res) => {
   return res.status(200).json({ message: "Logged out successfully" });
 };
 
-// ---------------- FORGOT PASSWORD ------------------
 exports.forgotPassword = async (req, res) => {
   const { emailOrPhone } = req.body;
 
@@ -265,7 +248,6 @@ exports.forgotPassword = async (req, res) => {
   }
 };
 
-// ---------------- RESET PASSWORD ------------------
 exports.resetPassword = async (req, res) => {
   const { emailOrPhone, otp, newPassword } = req.body;
 

@@ -1,6 +1,5 @@
 const nodemailer = require("nodemailer");
 
-// Create transporter once, not inside the function
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,

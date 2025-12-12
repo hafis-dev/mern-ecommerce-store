@@ -1,0 +1,71 @@
+
+.navbar {
+    background-color: var(--c1)!important;
+    padding-top: 6px !important;
+    padding-bottom: 0px !important
+}
+.navContainer{
+        border-bottom: 1px solid var(--c2);
+        padding-bottom: 5px;
+        padding-top:5px
+
+}
+.brand {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--c6) !important;
+    text-transform: uppercase;
+    font-family: Georgia, 'Times New Roman', serif;
+    letter-spacing: 0.5px;
+}
+
+.link {
+    color: var(--c6) !important;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    transition: 0.2s ease;
+}
+
+.link:hover {
+    color: var(--c5) !important;
+}
+
+.active {
+    color: var(--c6) !important;
+    text-shadow: 0 0 2px var(--c6);
+    border-bottom: 2px solid var(--c5);
+    padding-bottom: 3px;
+}
+
+.logout {
+    color: var(--c5) !important;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.togglerIcon {
+    background-color: rgb(255, 255, 0) !important;
+}
+
+@media (max-width: 992px) {
+
+    .link,
+    .logout {
+        padding: 10px 0 !important;
+        border: none !important;
+    }
+
+    .active {
+        border: none !important;
+        color: var(--c5) !important;
+    }
+}
+
+.themeBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

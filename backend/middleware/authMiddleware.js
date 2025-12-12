@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-// Protect middleware
 const authMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -22,14 +21,12 @@ const authMiddleware = async (req, res, next) => {
       return res.status(401).json({ message: "Invalid token" });
     }
 
-    // Find user
     const user = await User.findById(decoded.id).select("-password");
-
     if (!user) {
       return res.status(401).json({ message: "User not found" });
     }
 
-    req.user = user; // includes user.isAdmin
+    req.user = user;
     next();
   } catch (error) {
     console.error("Auth Middleware Error:", error);
@@ -37,7 +34,6 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-// NEW Admin middleware (using isAdmin instead of role)
 const adminMiddleware = (req, res, next) => {
   if (req.user?.isAdmin) {
     return next();
