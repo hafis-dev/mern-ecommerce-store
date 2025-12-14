@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import { toast } from "react-toastify";
-import styles from "./ProductAddPage.module.css";
+import styles from "./productAddPage.module.css";
 import { CATEGORY_GROUPS } from "../../constants/categories";
 import Select from "react-select";
 import { createProduct } from "../../services/api/product.service";
