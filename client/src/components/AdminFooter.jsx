@@ -1,5 +1,5 @@
 import { Container } from "react-bootstrap";
-import styles from "./AdminFooter.module.css";
+import styles from "./adminFooter.module.css";
 
 const AdminFooter = () => {
     return (
