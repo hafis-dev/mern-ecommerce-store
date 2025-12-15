@@ -1,26 +1,43 @@
 require("dotenv").config();
 const express = require("express");
-const app = express();
-const port = process.env.PORT || 3000;
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+
 const connectDB = require("./config/db");
+
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
-const cookieParser = require("cookie-parser");
 
+const app = express();
+const port = process.env.PORT || 3000;
+
+// ✅ HEALTH CHECK FIRST (FAST)
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
+// ✅ CORS (frontend + uptime robot)
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
-
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (origin === process.env.CLIENT_URL) {
+        return callback(null, true);
+      }
+      callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   })
 );
 
 app.use(cookieParser());
 app.use(express.json());
+
+// ✅ Connect DB after health
 connectDB();
 
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
