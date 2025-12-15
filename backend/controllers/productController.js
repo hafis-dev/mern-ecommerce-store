@@ -360,22 +360,27 @@ exports.deleteProduct = async (req, res) => {
 
 const normalizeKey = (key) => key.trim().toLowerCase();
 
+
+
 exports.getFilters = async (req, res) => {
   try {
     const products = await Product.find();
     const filters = {};
+    const genderSet = new Set(); 
 
     products.forEach((p) => {
       const category = p.category;
 
       if (!filters[category]) {
-        filters[category] = { gender: new Set() };
+        filters[category] = {};
       }
 
+ 
       if (Array.isArray(p.gender)) {
-        p.gender.forEach((g) => filters[category].gender.add(g));
+        p.gender.forEach((g) => genderSet.add(g));
       }
 
+      
       Object.entries(p.attributes || {}).forEach(([key, value]) => {
         const cleanKey = normalizeKey(key);
 
@@ -387,6 +392,7 @@ exports.getFilters = async (req, res) => {
       });
     });
 
+    // Convert Sets → Arrays
     const finalFilters = {};
     Object.entries(filters).forEach(([cat, attrs]) => {
       finalFilters[cat] = {};
@@ -401,3 +407,4 @@ exports.getFilters = async (req, res) => {
     return res.status(500).json({ message: "Failed to load filters" });
   }
 };
+
