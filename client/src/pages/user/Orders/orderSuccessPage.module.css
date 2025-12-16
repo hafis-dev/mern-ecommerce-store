@@ -9,7 +9,6 @@
     min-height: 85vh;
     font-family: 'Poppins', sans-serif;
     background-color: var(--c1);
-    /* Bootstrap utility equivalents (mt-4 pt-5 ...) are handled in JSX or can be added here if preferred */
 }
 
 .successImage {
@@ -34,11 +33,9 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
-    /* gap-3 equivalent */
     margin-top: 10px;
 }
 
-/* Base Button Style */
 .baseBtn {
     min-width: 200px;
     padding: 10px 22px;
@@ -52,12 +49,8 @@
 .historyBtn ,.continueBtn{
     background-color: var(--c5) !important;
     border: 1px solid var(--c5) !important;
-    /* Bootstrap button adds border, mimicking that */
 }
 
-
-
-/* Exact hover effect from your <style> tag */
 .baseBtn:hover {
     opacity: 0.85 !important;
     transform: translateY(-1px);

@@ -1,5 +1,4 @@
 /* NewArrivalSection.module.css */
-/* Colors */
 
 .arrivalWrapper {
     background: transparent !important;
@@ -37,7 +36,6 @@
     overflow-x: auto;
 }
 
-/* Animations */
 @keyframes fadeInArrival {
     from {
         opacity: 0;

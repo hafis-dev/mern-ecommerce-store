@@ -3,10 +3,8 @@
     background: var(--c1) !important;
     border: 1px solid var(--c3) !important;
     border-radius: 0px !important;
-    /* Optional: smooths corners slightly */
 }
 
-/* Profile Header Section */
 .avatar {
     aspect-ratio: 1 / 1;
     width: 80px;
@@ -40,10 +38,8 @@
     font-size: 0.875em;
 }
 
-/* Navigation Tabs */
 .navLink {
     color: var(--c6) !important;
-    /* Important ensures bootstrap doesn't override */
     cursor: pointer;
     border-radius: 0px !important;
     transition: background 0.2s;
@@ -53,11 +49,9 @@
     background: var(--c2);
 }
 
-/* Forms & Typography */
 .sectionTitle {
     color: var(--c6);
     border-color: var(--c3) !important;
-    /* Bootstrap uses border-color */
     margin-bottom: 1.5rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid;
@@ -78,18 +72,15 @@
     background: transparent;
     color: var(--c6);
     border-color: var(--c5) !important;
-    /* Optional: Highlight color on focus */
     box-shadow: none;
 }
 
-/* Automatically style disabled inputs */
 .formControl:disabled {
     background: rgba(0, 0, 0, 0.05);
     color: var(--c4);
     opacity: 1;
 }
 
-/* Buttons */
 .formBtn {
     background: var(--c6) !important;
     border: none !important;

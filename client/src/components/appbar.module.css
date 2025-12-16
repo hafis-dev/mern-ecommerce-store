@@ -98,7 +98,10 @@
 }
 
 .togglerIcon {
-    background-color: rgb(255, 255, 0) !important;
+    background-color: rgb(210, 210, 210) !important;
+    padding: 0px !important;
+    border-color: var(--c7) !important;
+    border-radius: 2px !important;
 }
 
 .themeBtn {
@@ -107,3 +110,4 @@
     margin-bottom: 8px;
     margin-top: 8px;
 }
+

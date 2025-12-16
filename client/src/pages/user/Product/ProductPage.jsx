@@ -11,6 +11,10 @@ import {
     faRotateLeft,
     faLock
 } from "@fortawesome/free-solid-svg-icons";
+import { useWishlist } from "../../../context/WishListContext";
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AuthContext } from "../../../context/AuthContext";
 import { toast } from "react-toastify";
@@ -21,6 +25,11 @@ const ProductPage = () => {
     const { id } = useParams();
     const { cart, setCart } = useContext(CartContext);
     const { user } = useContext(AuthContext);
+    const { wishlistIds, toggleWishlist } = useWishlist();
+    const [pulse, setPulse] = useState(false);
+
+    const isWishlisted = wishlistIds.includes(id);
+
     const [product, setProduct] = useState(null);
     const [selectedImage, setSelectedImage] = useState("");
 
@@ -79,12 +88,42 @@ const ProductPage = () => {
                     </div>
 
                     <div className={`flex-grow-1 ms-md-3 ${styles.mainImgWrapper}`}>
+
+                        {/* ❤️ WISHLIST ICON */}
+                        <div
+                            className={`${styles.wishlistIcon} ${pulse ? styles.pulse : ""}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+
+                                if (!user) {
+                                    toast.error("Please login to use wishlist!");
+                                    return;
+                                }
+
+                                // Trigger pulse ONLY when adding
+                                if (!isWishlisted) {
+                                    setPulse(true);
+                                    setTimeout(() => setPulse(false), 400);
+                                }
+
+                                toggleWishlist(product._id);
+                            }}
+                        >
+                            <FontAwesomeIcon
+                                icon={isWishlisted ? solidHeart : regularHeart}
+                                className={isWishlisted ? styles.wishlisted : ""}
+                            />
+                        </div>
+
+
                         <img
                             src={selectedImage}
                             className={`${styles.mainImg} shadow-sm`}
                             loading="lazy"
                         />
                     </div>
+
                 </Col>
 
                 <Col md={6} className="d-flex flex-column justify-content-between">

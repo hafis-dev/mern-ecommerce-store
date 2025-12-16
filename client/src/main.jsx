@@ -13,16 +13,21 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import { CartProvider } from './context/CartContext.jsx';
 import { AdminProvider } from './context/AdminContext.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
+import { WishlistProvider } from './context/wishListContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
       <CartProvider>
+        <WishlistProvider>
+
+       
         <AdminProvider>
           <ThemeProvider>
             <App />
           </ThemeProvider>
         </AdminProvider>
+        </WishlistProvider>
       </CartProvider>
     </AuthProvider>
 

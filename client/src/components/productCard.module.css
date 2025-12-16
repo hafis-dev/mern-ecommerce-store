@@ -3,6 +3,7 @@
     border-radius: 0px !important;
     background-color: transparent !important;
     border: 1px solid var(--c4) !important;
+    position: relative;
 }
 
 .productCard:hover {
@@ -14,6 +15,32 @@
     aspect-ratio: 1 / 1;
     overflow: hidden;
     background-color: white;
+    position: relative;
+}
+
+.wishlistIcon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 5;
+    background: transparent;
+    padding: 0;
+    font-size: 20px;
+    color: #555;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.wishlistIcon:hover {
+    transform: scale(1.15);
+}
+
+.wishlisted {
+    color: #e63946;
+}
+
+.wishlistIcon {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
 .productImg {
@@ -41,4 +68,26 @@
     font-weight: 700;
     font-size: 17px !important;
     margin: 0;
+}
+
+@keyframes wishlistPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.35);
+    }
+
+    60% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulse {
+    animation: wishlistPulse 0.4s ease-out;
 }

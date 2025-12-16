@@ -1,6 +1,3 @@
-
-
-/* Page */
 .page {
     background: var(--c1);
     height: 85vh;
@@ -11,15 +8,13 @@
     padding: 20px;
 }
 
-/* Title */
 .title {
     color: var(--c6);
     font-weight: 600;
     margin-bottom: 25px;
-        font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
-/* Input */
 .input {
     width: 320px;
     padding: 15px;
@@ -35,7 +30,6 @@
     color: var(--c4);
 }
 
-/* Forgot */
 .forgot {
     width: 320px;
     text-align: right;
@@ -49,7 +43,6 @@
     font-size: 14px;
 }
 
-/* Button */
 .button {
     width: 320px;
     padding: 14px;
@@ -59,10 +52,11 @@
     font-size: 17px;
     cursor: pointer;
 }
-.button:hover{
+
+.button:hover {
     opacity: 0.8;
 }
-/* Bottom text */
+
 .bottomText {
     margin-top: 20px;
     color: var(--c4);

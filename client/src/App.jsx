@@ -29,6 +29,7 @@ import OrderListPage from './pages/admin/OrderListPage';
 import DashBoard from './pages/admin/DashBoard';
 import AdminFooter from './components/AdminFooter';
 import ProfilePage from './pages/user/Profile/ProfilePage';
+import WishlistPage from './pages/user/Wishlist/WishlistPage';
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -52,7 +53,7 @@ function App() {
             path="/cart"
             element={<ProtectRoute><CartPage /></ProtectRoute>}
           />
-
+          <Route path="/wishlist" element={<ProtectRoute><WishlistPage /></ProtectRoute>} />
           <Route path="/product/:id" element={<ProductPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/order-success" element={<OrderSuccessPage />} />

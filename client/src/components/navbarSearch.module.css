@@ -12,9 +12,7 @@
 .searchInput:focus {
     outline: none !important;
     border-color: var(--c5) !important;
-    /* Your theme color */
     box-shadow: none !important;
-    /* Remove blue glow */
     background-color: var(--c2) !important;
     color: var(--c6);
 }

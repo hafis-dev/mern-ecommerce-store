@@ -1,0 +1,61 @@
+
+.wishlistRow {
+    padding: 18px 10px;
+    border-top: 1px solid var(--c2) !important;
+    border-bottom: 1px solid var(--c2) !important;
+    font-family: "Urbanist", sans-serif;
+    transition: 0.25s ease;
+    background: var(--c1);
+    box-shadow: 0 1px 1px var(--c6);
+}
+
+.wishlistRow:hover {
+    background: var(--c2) !important;
+    border-color: var(--c3) !important;
+}
+
+.productImage {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border: 1px solid var(--c5) !important;
+}
+
+.wishlistTitle {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--c6) !important;
+    letter-spacing: 0.3px;
+}
+
+.titleClamp {
+    max-width: 150px;
+}
+
+.priceMuted {
+    color: var(--c4);
+}
+
+.lowStock {
+    font-size: 10px;
+    color: red;
+    margin-top: 2px;
+}
+
+.trashBtn {
+    border: none;
+    background: transparent !important;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.trashIcon {
+    color: var(--c4);
+    font-size: 18px;
+    transition: 0.2s ease;
+}
+
+.trashIcon:hover {
+    color: var(--c5) !important;
+}

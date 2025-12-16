@@ -45,8 +45,12 @@ const CartPage = () => {
       <h2 className={`${styles.cartTitle} mt-4`}>Your Cart ({cartCount})</h2>
 
       {cart.length === 0 && (
-        <h3 className={styles.emptyText}>No items in cart</h3>
+        <div className={styles.empty}>
+          <h3>Your cart is empty 🛒</h3>
+          <p>Add items to your cart to see them here.</p>
+        </div>
       )}
+
 
       {cart.map((item) =>
         item.product ? (

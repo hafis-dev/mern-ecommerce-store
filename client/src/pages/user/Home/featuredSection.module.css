@@ -36,7 +36,6 @@
     overflow-x: auto;
 }
 
-/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;

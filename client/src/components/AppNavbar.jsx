@@ -15,6 +15,8 @@ import {
     faCartShopping,
     faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { useWishlist } from "../context/WishListContext";
 
 import styles from "./appbar.module.css";
 import ThemeToggleButton from "./ThemeToggleButton";
@@ -23,7 +25,8 @@ const AppNavbar = () => {
     const { user, logout } = useContext(AuthContext);
     const { cartCount } = useContext(CartContext);
     const navigate = useNavigate()
-    // 🔥 Helper for active class
+    const { wishlistIds } = useWishlist();
+    const wishlistCount = wishlistIds.length;
     const setActive = ({ isActive }) =>
         isActive ? `${styles.navlink} ${styles.active}` : styles.navlink;
     function handleLogout() {
@@ -53,6 +56,7 @@ const AppNavbar = () => {
                         COLLECTION
                     </Nav.Link>
                 </Nav>
+
 
                 {/* MOBILE CART */}
                 <Nav.Link
@@ -114,7 +118,9 @@ const AppNavbar = () => {
 
                         {user ? (
                             <>
-
+                                <Nav.Link as={NavLink} to="/wishlist" className={setActive}>
+                                    MY WISHLIST({wishlistCount})
+                                </Nav.Link>
                                 <Nav.Link as={NavLink} to="/orders" className={setActive} >
                                     MY ORDERS
                                 </Nav.Link>
@@ -135,6 +141,23 @@ const AppNavbar = () => {
 
                     {/* DESKTOP RIGHT SIDE */}
                     <Nav className="d-none d-lg-flex align-items-center">
+                        {/* WISHLIST DESKTOP */}
+                        <Nav.Link
+                            as={NavLink}
+                            to="/wishlist"
+                            className={`position-relative fw-semibold me-2 ${styles.navlink}`}
+                        >
+                            <FontAwesomeIcon icon={faHeart} size="lg" />
+
+                            {wishlistCount > 0 && user && (
+                                <Badge
+                                    className={`${styles.cartBadgeDesktop} rounded-circle position-absolute d-flex align-items-center justify-content-center`}
+                                >
+                                    {wishlistCount}
+                                </Badge>
+                            )}
+                        </Nav.Link>
+
                         {/* CART DESKTOP */}
                         <Nav.Link
                             as={NavLink}

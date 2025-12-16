@@ -1,6 +1,7 @@
 const Product = require("../models/Product");
 const cloudinary = require("../config/cloudinary");
 const Cart = require("../models/Cart");
+const Wishlist = require("../models/Wishlist")
 const { uploadToCloudinary } = require("../utils/uploadImage");
 
 exports.createProduct = async (req, res) => {
@@ -341,15 +342,19 @@ exports.deleteProduct = async (req, res) => {
     }
 
     const deleted = await Product.findByIdAndDelete(id);
-    if (!deleted) return res.status(404).json({ message: "Product not found" });
+    if (!deleted) {
+      return res.status(404).json({ message: "Product not found" });
+    }
 
     await Cart.updateMany(
       { "items.product": id },
       { $pull: { items: { product: id } } }
     );
 
+    await Wishlist.updateMany({ products: id }, { $pull: { products: id } });
+
     return res.json({
-      message: "Product deleted and removed from all carts",
+      message: "Product deleted and removed from carts & wishlists",
       product: deleted,
     });
   } catch (err) {
@@ -357,6 +362,7 @@ exports.deleteProduct = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
 
 const normalizeKey = (key) => key.trim().toLowerCase();
 
@@ -392,7 +398,6 @@ exports.getFilters = async (req, res) => {
       });
     });
 
-    // Convert Sets → Arrays
     const finalFilters = {};
     Object.entries(filters).forEach(([cat, attrs]) => {
       finalFilters[cat] = {};

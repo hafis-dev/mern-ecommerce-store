@@ -6,7 +6,6 @@
     font-family: "Urbanist", sans-serif;
 }
 
-/* Section Title */
 .sectionTitle {
     font-size: 28px;
     font-weight: 700;
@@ -15,7 +14,6 @@
     margin-bottom: 20px;
 }
 
-/* Card Boxes */
 .formCard,
 .summaryCard {
     background: transparent !important;
@@ -28,7 +26,6 @@
 .input{
     border-radius: 0px !important;
 }
-/* Order Items */
 .orderItem {
     display: flex;
     gap: 15px;
@@ -43,7 +40,6 @@
     object-fit: cover;
 }
 
-/* Item Text */
 .itemName {
     margin: 0;
     color: var(--c6);
@@ -64,7 +60,6 @@
     font-size: 16px;
 }
 
-/* Total */
 .totalText {
     margin-top: 18px;
     color: var(--c6);
@@ -72,7 +67,6 @@
     font-weight: 700;
 }
 
-/* Button */
 .placeBtn {
     background: var(--c6) !important;
     border: none !important;

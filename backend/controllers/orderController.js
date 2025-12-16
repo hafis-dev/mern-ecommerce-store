@@ -1,6 +1,5 @@
 const Order = require("../models/Order");
 const Product = require("../models/Product");
-// USER: Get my orders
 exports.getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id }).sort({
@@ -14,7 +13,6 @@ exports.getMyOrders = async (req, res) => {
   }
 };
 
-// USER: Cancel full order
 exports.cancelFullOrder = async (req, res) => {
   try {
     const order = await Order.findOne({
@@ -48,8 +46,6 @@ exports.cancelFullOrder = async (req, res) => {
   }
 };
 
-
-// ADMIN: Get all orders
 exports.getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find().sort({ createdAt: -1 });
@@ -59,7 +55,6 @@ exports.getAllOrders = async (req, res) => {
   }
 };
 
-// ADMIN: Update FULL ORDER status
 exports.updateOrderStatus = async (req, res) => {
   try {
     const { orderId } = req.params;

@@ -1,4 +1,4 @@
-/* BUTTON */
+
 .filterToggle {
     display: none;
     background: var(--c6);
@@ -15,7 +15,6 @@
     opacity: 0.8;
 }
 
-/* Mobile: Show toggle button */
 @media (max-width: 768px) {
     .filterToggle {
         display: block;
@@ -26,7 +25,6 @@
     }
 }
 
-/* Desktop: Always show sidebar */
 @media (min-width: 769px) {
     .mobileHidden {
         display: block !important;
