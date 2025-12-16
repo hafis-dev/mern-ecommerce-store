@@ -13,7 +13,7 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import { CartProvider } from './context/CartContext.jsx';
 import { AdminProvider } from './context/AdminContext.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
-import { WishlistProvider } from './context/wishListContext.jsx';
+import { WishlistProvider } from './context/WishListContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
