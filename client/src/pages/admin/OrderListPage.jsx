@@ -54,7 +54,7 @@ export default function OrderListPage() {
     }
 
     return (
-        <Container className="mt-4">
+        <Container className="mt-4" style={{minHeight:"85vh"}}>
             <h3 className={styles.heading}>All Orders</h3>
 
             {orders.map((order, index) => (

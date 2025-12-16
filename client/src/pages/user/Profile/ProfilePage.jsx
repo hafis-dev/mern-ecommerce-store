@@ -67,7 +67,7 @@ const ProfilePage = () => {
     if (loading) return <p className={styles.loadingText}>Loading profile...</p>;
 
     return (
-        <Container className="py-5 mt-4">
+        <Container className="py-5 mt-4" style={{minHeight:"85vh"}}>
             <Card className={`mb-4 border-0 shadow-sm ${styles.customCard}`}>
                 <Card.Body className="p-4">
                     <div className="d-flex align-items-center">

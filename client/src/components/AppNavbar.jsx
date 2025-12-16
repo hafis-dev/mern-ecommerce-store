@@ -62,7 +62,7 @@ const AppNavbar = () => {
                 <Nav.Link
                     as={NavLink}
                     to="/cart"
-                    className={`position-relative ms-auto me-auto fw-semibold d-lg-none ${styles.mobileCart}`}
+                    className={`position-relative ms-auto  fw-semibold d-lg-none ${styles.mobileCart}`}
                 >
                     <FontAwesomeIcon icon={faCartShopping} size="lg" />
 

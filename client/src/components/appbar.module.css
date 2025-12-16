@@ -44,6 +44,7 @@
 .mobileCart {
     color: var(--c6) !important;
     font-weight: 600;
+    margin-right: clamp(10px, 2.5vw, 20px);
 }
 
 .cartBadge {

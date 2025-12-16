@@ -37,13 +37,14 @@ export default function ProductListPage() {
     };
 
     return (
-        <Container className="py-4">
+        <Container className="py-4" style={{minHeight:"85vh"}}>
             <h3
                 style={{
                     fontFamily: "Urbanist",
                     fontWeight: 700,
                     color: "var(--c6)",
                     marginBottom: "20px",
+                    
                 }}
             >
                 All Products
