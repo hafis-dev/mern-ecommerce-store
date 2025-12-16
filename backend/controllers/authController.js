@@ -71,11 +71,11 @@ exports.registerUser = async (req, res) => {
 
     const accessToken = generateAccessToken(newUser._id, newUser.isAdmin);
     const refreshToken = generateRefreshToken(newUser._id);
-
+    
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "None",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -97,7 +97,7 @@ exports.registerUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   try {
-    const { emailOrPhone, password } = req.body;
+    const { emailOrPhone, password, rememberMe } = req.body;
 
     if (!emailOrPhone || !password) {
       return res.status(400).json({ message: "All fields are required" });
@@ -140,14 +140,17 @@ exports.loginUser = async (req, res) => {
     }
 
     const accessToken = generateAccessToken(user._id, user.isAdmin);
-    const refreshToken = generateRefreshToken(user._id);
+    const refreshToken = generateRefreshToken(user._id, rememberMe);
+
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "None",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       path: "/",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: rememberMe
+        ? 7 * 24 * 60 * 60 * 1000 
+        : 24 * 60 * 60 * 1000, 
     });
 
     return res.status(201).json({
@@ -192,7 +195,7 @@ exports.logoutUser = (req, res) => {
   res.clearCookie("refreshToken", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "None",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     path: "/",
   });
 

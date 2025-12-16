@@ -6,8 +6,11 @@ const generateAccessToken = (id, isAdmin) => {
   });
 };
 
-const generateRefreshToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
+const generateRefreshToken = (id, rememberMe = true) => {
+  return jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, {
+    expiresIn: rememberMe ? "7d" : "1d",
+  });
 };
+
 
 module.exports = { generateAccessToken, generateRefreshToken };

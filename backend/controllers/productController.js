@@ -363,16 +363,12 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-
 const normalizeKey = (key) => key.trim().toLowerCase();
-
-
 
 exports.getFilters = async (req, res) => {
   try {
     const products = await Product.find();
     const filters = {};
-    const genderSet = new Set(); 
 
     products.forEach((p) => {
       const category = p.category;
@@ -381,12 +377,6 @@ exports.getFilters = async (req, res) => {
         filters[category] = {};
       }
 
- 
-      if (Array.isArray(p.gender)) {
-        p.gender.forEach((g) => genderSet.add(g));
-      }
-
-      
       Object.entries(p.attributes || {}).forEach(([key, value]) => {
         const cleanKey = normalizeKey(key);
 

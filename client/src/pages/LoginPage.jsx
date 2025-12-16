@@ -10,6 +10,7 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const { user, login } = useContext(AuthContext);
     const { loadCart } = useContext(CartContext);
+    const [rememberMe, setRememberMe] = useState(false);
 
     const [emailOrPhone, setEmailOrPhone] = useState("");
     const [password, setPassword] = useState("");
@@ -43,7 +44,9 @@ const LoginPage = () => {
             const res = await loginUser({
                 emailOrPhone: value,
                 password: passwordValue,
+                rememberMe,
             });
+
 
             login(res.data);
             loadCart();
@@ -79,9 +82,22 @@ const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
             />
 
-            <div className={styles.forgot}>
-                <Link to="/forgot-password">Forgot password?</Link>
+            <div className={styles.actionsRow}>
+                <label className={styles.rememberMe}>
+                    <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+                    <span>Remember me</span>
+                </label>
+
+                <Link to="/forgot-password" className={styles.forgot}>
+                    Forgot password?
+                </Link>
             </div>
+
+
 
             <button className={styles.button} onClick={handleLogin}>
                 Login
