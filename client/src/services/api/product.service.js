@@ -7,6 +7,6 @@ export const getNewArrivalProducts = () => api.get("/products/new");
 
 // admin
 
-export const createProduct = (productData) => api.post("/products", productData);
+export const createProduct = (productData) => api.post("/products/create", productData);
 export const updateProduct = (id, updatedData) => api.put(`/products/${id}`, updatedData);
 export const deleteProduct = (id) => api.delete(`/products/${id}`);

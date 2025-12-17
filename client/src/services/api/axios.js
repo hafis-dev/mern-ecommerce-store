@@ -2,14 +2,13 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL:`${import.meta.env.VITE_API_URL}/api`,
-  withCredentials: true, // required for httpOnly cookies
+  withCredentials: true,
 });
 let logoutHandler = null;
 
 export const setLogoutHandler = (logout) => {
   logoutHandler = logout;
 };
-// Attach access token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
   if (token) {
@@ -18,7 +17,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Auto refresh access token
 api.interceptors.response.use(
   (res) => res,
   async (error) => {

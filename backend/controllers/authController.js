@@ -57,14 +57,12 @@ exports.registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const isAdmin = email === ADMIN_EMAIL;
-
+   
     const newUser = new User({
       username,
       email,
       phone,
       password: hashedPassword,
-      isAdmin,
     });
 
     await newUser.save();
@@ -133,12 +131,6 @@ exports.loginUser = async (req, res) => {
       });
     }
 
-    const isAdmin = user.email === ADMIN_EMAIL;
-    if (user.isAdmin !== isAdmin) {
-      user.isAdmin = isAdmin;
-      await user.save();
-    }
-
     const accessToken = generateAccessToken(user._id, user.isAdmin);
     const refreshToken = generateRefreshToken(user._id, rememberMe);
 
@@ -153,7 +145,7 @@ exports.loginUser = async (req, res) => {
         : 24 * 60 * 60 * 1000, 
     });
 
-    return res.status(201).json({
+    return res.status(200).json({
       user: {
         id: user._id,
         username: user.username,
@@ -178,7 +170,13 @@ exports.refreshToken = async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
 
-    const newAccessToken = generateAccessToken(decoded.id, decoded.isAdmin);
+    const user = await User.findById(decoded.id).select("isAdmin");
+
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    const newAccessToken = generateAccessToken(user._id, user.isAdmin);
 
     return res.status(200).json({
       accessToken: newAccessToken,
@@ -190,6 +188,7 @@ exports.refreshToken = async (req, res) => {
       .json({ message: "Invalid or expired refresh token" });
   }
 };
+
 
 exports.logoutUser = (req, res) => {
   res.clearCookie("refreshToken", {

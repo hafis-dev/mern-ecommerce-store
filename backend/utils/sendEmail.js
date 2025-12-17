@@ -10,9 +10,17 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("SMTP config error:", error.message);
+  } else {
+    console.log("SMTP server is ready to send emails");
+  }
+});
+
 exports.sendEmail = async (options) => {
   const mailOptions = {
-    from: `"MERN Shop" <${process.env.SMTP_EMAIL}>`,
+    from: `"SHOPX STORE" <${process.env.SMTP_EMAIL}>`,
     to: options.email,
     subject: options.subject,
     text: options.message,
