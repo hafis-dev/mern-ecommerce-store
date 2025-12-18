@@ -121,10 +121,25 @@ exports.removeCartItem = async (req, res) => {
   }
 };
 
+
 exports.clearCart = async (req, res) => {
   try {
-    await Cart.findOneAndDelete({ user: req.user._id });
-    return res.json({ message: "Cart cleared" });
+    const cart = await Cart.findOne({ user: req.user._id });
+
+    if (!cart) {
+      return res.json({
+        message: "Cart already empty",
+        cart: { items: [] },
+      });
+    }
+
+    cart.items = [];
+    await cart.save();
+
+    return res.json({
+      message: "Cart cleared successfully",
+      cart,
+    });
   } catch (err) {
     console.error("clearCart error:", err);
     return res.status(500).json({ message: "Server error" });

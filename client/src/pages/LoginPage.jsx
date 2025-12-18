@@ -1,6 +1,5 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { CartContext } from "../context/CartContext";
 import { toast } from "react-toastify";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import styles from "./login.module.css";
@@ -9,9 +8,8 @@ import { loginUser } from "../services/api/auth.service";
 const LoginPage = () => {
     const navigate = useNavigate();
     const { user, login } = useContext(AuthContext);
-    const { loadCart } = useContext(CartContext);
-    const [rememberMe, setRememberMe] = useState(false);
 
+    const [rememberMe, setRememberMe] = useState(false);
     const [emailOrPhone, setEmailOrPhone] = useState("");
     const [password, setPassword] = useState("");
 
@@ -19,17 +17,20 @@ const LoginPage = () => {
     const phoneRegex = /^[0-9]{10}$/;
 
     if (user) {
-        if (user.isAdmin) {
-            return <Navigate to="/admin/dashboard" replace />;
-        }
-        return <Navigate to="/" replace />;
+        return (
+            <Navigate
+                to={user.isAdmin ? "/admin/dashboard" : "/"}
+                replace
+            />
+        );
     }
 
     const handleLogin = async () => {
         const value = emailOrPhone.trim();
-        const passwordValue = password;
 
-        if (!value) return toast.error("Email or phone is required");
+        if (!value) {
+            return toast.error("Email or phone is required");
+        }
 
         const isEmail = emailRegex.test(value);
         const isPhone = phoneRegex.test(value);
@@ -38,28 +39,28 @@ const LoginPage = () => {
             return toast.error("Enter a valid email or 10-digit phone number");
         }
 
-        if (!passwordValue) return toast.error("Password is required");
+        if (!password) {
+            return toast.error("Password is required");
+        }
 
         try {
             const res = await loginUser({
                 emailOrPhone: value,
-                password: passwordValue,
+                password,
                 rememberMe,
             });
 
-
             login(res.data);
-            loadCart();
             toast.success("Login successful");
 
-            if (res.data.user.isAdmin) {
-                navigate("/admin/dashboard");
-            } else {
-                navigate("/");
-            }
+            navigate(
+                res.data.user.isAdmin ? "/admin/dashboard" : "/"
+            );
 
         } catch (error) {
-            toast.error(error.response?.data?.message || "Login failed");
+            toast.error(
+                error.response?.data?.message || "Login failed"
+            );
         }
     };
 
@@ -87,24 +88,31 @@ const LoginPage = () => {
                     <input
                         type="checkbox"
                         checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)}
+                        onChange={(e) =>
+                            setRememberMe(e.target.checked)
+                        }
                     />
                     <span>Remember me</span>
                 </label>
 
-                <Link to="/forgot-password" className={styles.forgot}>
+                <Link
+                    to="/forgot-password"
+                    className={styles.forgot}
+                >
                     Forgot password?
                 </Link>
             </div>
 
-
-
-            <button className={styles.button} onClick={handleLogin}>
+            <button
+                className={styles.button}
+                onClick={handleLogin}
+            >
                 Login
             </button>
 
             <p className={styles.bottomText}>
-                Don’t have an account? <Link to="/signup">Sign up</Link>
+                Don’t have an account?{" "}
+                <Link to="/signup">Sign up</Link>
             </p>
         </div>
     );

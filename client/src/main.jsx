@@ -10,10 +10,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 
 import { AuthProvider } from './context/AuthContext.jsx';
-import { CartProvider } from './context/CartContext.jsx';
+import { CartProvider } from './context/Cart/cart.provider.jsx';
 import { AdminProvider } from './context/AdminContext.jsx';
 import { ThemeProvider } from './context/ThemeContext.jsx';
-import { WishlistProvider } from './context/WishListContext.jsx';
+import { WishlistProvider } from './context/Wishlist/wishlist.provider.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

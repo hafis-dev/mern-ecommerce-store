@@ -86,22 +86,34 @@ const FilterSidebar = ({ onApply, onClear }) => {
                     <Form.Label className={styles.filterLabel}>Gender</Form.Label>
 
                     <div>
-                        <Form.Check
-                            type="checkbox"
-                            label="Men"
-                            value="Men"
-                            checked={gender.includes("Men")}
-                            onChange={handleGenderChange}
-                        />
-                        <Form.Check
-                            type="checkbox"
-                            label="Women"
-                            value="Women"
-                            checked={gender.includes("Women")}
-                            onChange={handleGenderChange}
-                        />
+                        <Form.Check type="checkbox">
+                            <Form.Check.Input
+                                id="men"
+                                value="Men"
+                                checked={gender.includes("Men")}
+                                onChange={handleGenderChange}
+                                className={styles.checkBox}
+                            />
+                            <Form.Check.Label htmlFor="men" className={styles.genderLabel}>
+                                Men
+                            </Form.Check.Label>
+                        </Form.Check>
+
+                        <Form.Check type="checkbox">
+                            <Form.Check.Input
+                                id="women"
+                                value="Women"
+                                checked={gender.includes("Women")}
+                                onChange={handleGenderChange}
+                                className={styles.checkBox}
+                            />
+                            <Form.Check.Label htmlFor="women" className={styles.genderLabel}>
+                                Women
+                            </Form.Check.Label>
+                        </Form.Check>
                     </div>
                 </Form.Group>
+
 
                 <Form.Group className="mb-3">
                     <Form.Label className={styles.filterLabel}>Category</Form.Label>

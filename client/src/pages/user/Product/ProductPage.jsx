@@ -1,8 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import api from "../../../services/api/axios";
-import { CartContext } from "../../../context/CartContext";
 import styles from "./productPage.module.css";
 import {
     faShieldHalved,
@@ -11,19 +9,21 @@ import {
     faRotateLeft,
     faLock
 } from "@fortawesome/free-solid-svg-icons";
-import { useWishlist } from "../../../context/WishListContext";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AuthContext } from "../../../context/AuthContext";
 import { toast } from "react-toastify";
 import { getProductById } from "../../../services/api/product.service";
+import { useWishlist } from "../../../context/Wishlist/useWishlist";
+import { useCart } from "../../../context/Cart/useCart";
 
 const ProductPage = () => {
     const navigate = useNavigate();
     const { id } = useParams();
-    const { cart, setCart } = useContext(CartContext);
+
+    const { cart, addItem } = useCart();
+
     const { user } = useContext(AuthContext);
     const { wishlistIds, toggleWishlist } = useWishlist();
     const [pulse, setPulse] = useState(false);
@@ -37,14 +37,14 @@ const ProductPage = () => {
         (item) => (item.product?._id || item.product) === id
     );
 
-    const addToCart = async (productId, quantity = 1) => {
+    const handleAddToCart = async () => {
+        if (!user) {
+            toast.error("Please login to add items to cart !");
+            return;
+        }
+
         try {
-            if (!user) {
-                toast.error("Please login to add items to cart !");
-                return;
-            }
-            const res = await api.post("/cart/add", { productId, quantity });
-            setCart(res.data.cart.items || []);
+            await addItem(product._id, 1);
             toast.success("Added to cart");
         } catch (err) {
             console.log("addToCart error:", err);
@@ -88,8 +88,6 @@ const ProductPage = () => {
                     </div>
 
                     <div className={`flex-grow-1 ms-md-3 ${styles.mainImgWrapper}`}>
-
-                        {/* ❤️ WISHLIST ICON */}
                         <div
                             className={`${styles.wishlistIcon} ${pulse ? styles.pulse : ""}`}
                             onClick={(e) => {
@@ -101,7 +99,6 @@ const ProductPage = () => {
                                     return;
                                 }
 
-                                // Trigger pulse ONLY when adding
                                 if (!isWishlisted) {
                                     setPulse(true);
                                     setTimeout(() => setPulse(false), 400);
@@ -116,14 +113,12 @@ const ProductPage = () => {
                             />
                         </div>
 
-
                         <img
                             src={selectedImage}
                             className={`${styles.mainImg} shadow-sm`}
                             loading="lazy"
                         />
                     </div>
-
                 </Col>
 
                 <Col md={6} className="d-flex flex-column justify-content-between">
@@ -178,7 +173,7 @@ const ProductPage = () => {
                             type="button"
                             variant="dark"
                             className={styles.addBtn}
-                            onClick={() => addToCart(product._id, 1)}
+                            onClick={handleAddToCart}
                         >
                             Add to Cart
                         </Button>
@@ -191,28 +186,24 @@ const ProductPage = () => {
 
                 <div className={styles.highlights}>
                     <p className={styles.highlightItem}>
-                        <FontAwesomeIcon icon={faShieldHalved} /> &nbsp;
-                        <strong>100% Original Product</strong> – Quality checked and verified.
+                        <FontAwesomeIcon icon={faShieldHalved} />{" "}
+                        <strong>100% Original Product</strong>
                     </p>
-
                     <p className={styles.highlightItem}>
-                        <FontAwesomeIcon icon={faTruckFast} /> &nbsp;
-                        <strong>Fast Delivery</strong> – Usually delivered within 3–5 days.
+                        <FontAwesomeIcon icon={faTruckFast} />{" "}
+                        <strong>Fast Delivery</strong>
                     </p>
-
                     <p className={styles.highlightItem}>
-                        <FontAwesomeIcon icon={faCreditCard} /> &nbsp;
-                        <strong>Online Payment Only</strong> – Secure checkout available.
+                        <FontAwesomeIcon icon={faCreditCard} />{" "}
+                        <strong>Online Payment Only</strong>
                     </p>
-
                     <p className={styles.highlightItem}>
-                        <FontAwesomeIcon icon={faRotateLeft} /> &nbsp;
-                        <strong>Easy Return & Exchange</strong> within 7 days.
+                        <FontAwesomeIcon icon={faRotateLeft} />{" "}
+                        <strong>Easy Return & Exchange</strong>
                     </p>
-
                     <p className={styles.highlightItem}>
-                        <FontAwesomeIcon icon={faLock} /> &nbsp;
-                        <strong>Secure Payment</strong> – End-to-end encrypted checkout.
+                        <FontAwesomeIcon icon={faLock} />{" "}
+                        <strong>Secure Payment</strong>
                     </p>
                 </div>
             </Container>

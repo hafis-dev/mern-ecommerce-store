@@ -6,24 +6,24 @@ import {
     NavDropdown,
     Badge,
 } from "react-bootstrap";
-import { NavLink, useNavigate } from "react-router-dom";   // 🔥 Use NavLink
+import { NavLink, useNavigate } from "react-router-dom";   // 
 import NavbarSearch from "./NavbarSearch";
 import { AuthContext } from "../context/AuthContext";
-import { CartContext } from "../context/CartContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faCartShopping,
     faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { useWishlist } from "../context/WishListContext";
 
 import styles from "./appbar.module.css";
 import ThemeToggleButton from "./ThemeToggleButton";
+import { useWishlist } from "../context/Wishlist/useWishlist";
+import { useCart } from "../context/Cart/useCart";
 
 const AppNavbar = () => {
     const { user, logout } = useContext(AuthContext);
-    const { cartCount } = useContext(CartContext);
+    const { cartCount } = useCart();
     const navigate = useNavigate()
     const { wishlistIds } = useWishlist();
     const wishlistCount = wishlistIds.length;
@@ -76,7 +76,7 @@ const AppNavbar = () => {
                 </Nav.Link>
 
                 {/* TOGGLE */}
-                <Navbar.Toggle aria-controls="main-navbar"  className={styles.togglerIcon} />
+                <Navbar.Toggle aria-controls="main-navbar" className={styles.togglerIcon} />
 
                 {/* MOBILE SEARCH */}
                 <div className="d-lg-none w-100 mt-2">

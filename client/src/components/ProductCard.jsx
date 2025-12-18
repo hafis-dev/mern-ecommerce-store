@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
-import { useWishlist } from "../context/WishListContext";
 import { useState } from "react";
 import styles from "./productCard.module.css";
+import { useWishlist } from "../context/Wishlist/useWishlist";
 
 const ProductCard = ({ product }) => {
     const navigate = useNavigate();

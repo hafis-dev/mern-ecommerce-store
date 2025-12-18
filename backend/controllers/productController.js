@@ -1,7 +1,7 @@
 const Product = require("../models/Product");
 const cloudinary = require("../config/cloudinary");
 const Cart = require("../models/Cart");
-const Wishlist = require("../models/Wishlist")
+const Wishlist = require("../models/Wishlist");
 const { uploadToCloudinary } = require("../utils/uploadImage");
 
 exports.createProduct = async (req, res) => {
@@ -376,8 +376,8 @@ exports.getFilters = async (req, res) => {
       if (!filters[category]) {
         filters[category] = {};
       }
-
-      Object.entries(p.attributes || {}).forEach(([key, value]) => {
+      const attributeArray = Object.entries( p.attributes || {});
+      attributeArray.forEach(([key, value]) => {
         const cleanKey = normalizeKey(key);
 
         if (!filters[category][cleanKey]) {
@@ -389,7 +389,9 @@ exports.getFilters = async (req, res) => {
     });
 
     const finalFilters = {};
-    Object.entries(filters).forEach(([cat, attrs]) => {
+    const filterArray = Object.entries(filters);
+
+    filterArray.forEach(([cat, attrs]) => {
       finalFilters[cat] = {};
       Object.entries(attrs).forEach(([attr, values]) => {
         finalFilters[cat][attr] = Array.from(values);
@@ -402,4 +404,3 @@ exports.getFilters = async (req, res) => {
     return res.status(500).json({ message: "Failed to load filters" });
   }
 };
-

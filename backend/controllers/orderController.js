@@ -21,21 +21,23 @@ exports.cancelFullOrder = async (req, res) => {
     });
 
     if (!order) return res.status(404).json({ message: "Order not found" });
+    if (order.status === "Delivered") {
+      return res.status(400).json({
+        message: "Delivered orders cannot be cancelled",
+      });
+    }
 
-    // If already cancelled or delivered, prevent duplicate stock updates
     if (order.status === "Cancelled") {
       return res.status(400).json({ message: "Order already cancelled" });
     }
 
-    // Restore stock for each item
     for (let item of order.orderItems) {
       await Product.findByIdAndUpdate(
         item.product,
-        { $inc: { stock: item.qty } } // Increase stock back
+        { $inc: { stock: item.qty } } 
       );
     }
 
-    // Cancel the order
     order.status = "Cancelled";
     await order.save();
 
