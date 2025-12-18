@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import OrderCard from "./OrderCard";
 import { toast } from "react-toastify";
 import { cancelOrder, getMyOrders } from "../../../services/api/order.service";
-
+import styles from '.././Cart/cartPage.module.css'
 const OrderHistoryPage = () => {
     const [orders, setOrders] = useState([]);
 
@@ -34,22 +34,19 @@ const OrderHistoryPage = () => {
         fetchOrders()
     }, []);
 
+    if (orders.length === 0) {
+        return (
+            <div className={styles.empty}>
+                <h3>No orders yet 📦</h3>
+                <p> Orders you place will appear here.</p>
+            </div>
+
+        )
+    }
     return (
         <>
             <Container className="history-container mt-4 pt-5" style={{ minHeight: "85vh" }}>
-                <h2 className=" text-center mb-4" style={{
-                    color: "var(--c6)"
-                }}>My Orders</h2>
-
-                {orders.length === 0 && (
-
-                    <p className="text-muted text-center" style={{
-                        color: "var(--c4)",
-
-                        fontSize: "18px"
-                    }}>No orders found</p>
-                )}
-
+               
                 {orders.map((order) => (
                     <OrderCard
                         key={order._id}

@@ -10,7 +10,6 @@ const CartPage = () => {
 
   const {
     cart,
-    cartCount,
     loadCart,
     updateQty,
     removeItem,
@@ -24,20 +23,19 @@ const CartPage = () => {
     (sum, item) => sum + (item.product?.price || 0) * item.quantity,
     0
   );
-
+  if (cart.length === 0){
+    return (
+      <div className={styles.empty}>
+        <h3>Your cart is empty 🛒</h3>
+        <p>Add items to your cart to see them here.</p>
+      </div>
+    )
+  }
   return (
     <Container className={`${styles.cartContainer} pt-5 mt-lg-0 mt-md-4 mt-sm-3`}>
-      <h2 className={`${styles.cartTitle} mt-4`}>
-        Your Cart ({cartCount})
-      </h2>
+      
 
-      {cart.length === 0 && (
-        <div className={styles.empty}>
-          <h3>Your cart is empty 🛒</h3>
-          <p>Add items to your cart to see them here.</p>
-        </div>
-      )}
-
+     
       {cart.map(
         (item) =>
           item.product && (

@@ -24,7 +24,7 @@ const WishlistPage = () => {
 
     return (
         <Container className={`${styles.page} pt-5 mt-lg-0 mt-md-4 mt-sm-3`}>
-            <h2 className={`${styles.title} mt-4`}>My Wishlist</h2>
+           
 
             <div className="mb-2 d-flex justify-content-end">
                 <button
