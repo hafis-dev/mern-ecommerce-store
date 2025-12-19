@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
     Navbar,
     Nav,
@@ -29,54 +29,72 @@ const AppNavbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [expanded, setExpanded] = useState(false);
+
+    const closeNavbar = () => setExpanded(false);
     const isActive = (path) => location.pathname === path;
 
     const handleLogout = () => {
         logout();
+        closeNavbar();
         navigate("/login");
     };
 
+    const mainLinks = [
+        { to: "/", label: "HOME" },
+        { to: "/products", label: "COLLECTION" },
+        { to: "/about", label: "ABOUT" },
+    ];
+
+    const userLinks = [
+        { to: "/wishlist", label: `MY WISHLIST (${wishlistCount})` },
+        { to: "/orders", label: "MY ORDERS" },
+        { to: "/profile", label: "PROFILE" },
+    ];
+
     return (
         <Navbar
-            className={`${styles.navbar} container pb-1`}
+            expanded={expanded}
+            onToggle={setExpanded}
             expand="lg"
             fixed="top"
+            className={`${styles.navbar} container pb-1`}
         >
             <Container>
 
                 {/* LOGO */}
-                <Navbar.Brand as={NavLink} to="/" className={styles.brand}>
+                <Navbar.Brand
+                    as={NavLink}
+                    to="/"
+                    className={styles.brand}
+                    onClick={closeNavbar}
+                >
                     ShopX
                 </Navbar.Brand>
 
-                {/* MOBILE LINKS */}
+                {/* MOBILE QUICK LINKS */}
                 <Nav className="me-auto gap-2 d-flex flex-row d-lg-none">
-                    <Nav.Link
-                        as={NavLink}
-                        to="/"
-                        className={`${styles.navlink} ${isActive("/") ? styles.active : ""}`}
-                    >
-                        HOME
-                    </Nav.Link>
-
-                    <Nav.Link
-                        as={NavLink}
-                        to="/products"
-                        className={`${styles.navlink} ${isActive("/products") ? styles.active : ""}`}
-                    >
-                        COLLECTION
-                    </Nav.Link>
+                    {mainLinks.slice(0, 2).map(({ to, label }) => (
+                        <Nav.Link
+                            key={to}
+                            as={NavLink}
+                            to={to}
+                            onClick={closeNavbar}
+                            className={`${styles.navlink} ${isActive(to) ? styles.active : ""}`}
+                        >
+                            {label}
+                        </Nav.Link>
+                    ))}
                 </Nav>
 
-                {/* MOBILE CART */}
                 {/* MOBILE CART */}
                 <Nav.Link
                     as={NavLink}
                     to="/cart"
+                    onClick={closeNavbar}
                     className={`position-relative ms-auto fw-semibold d-lg-none ${styles.navlink} ${styles.mobileCart} ${isActive("/cart") ? styles.active : ""}`}
                 >
                     <FontAwesomeIcon icon={faCartShopping} size="lg" />
-
                     {cartCount > 0 && user && (
                         <Badge className={`${styles.cartBadge} rounded-circle position-absolute`}>
                             {cartCount}
@@ -84,8 +102,10 @@ const AppNavbar = () => {
                     )}
                 </Nav.Link>
 
-
-                <Navbar.Toggle className={styles.togglerIcon} />
+                <Navbar.Toggle
+                    className={styles.togglerIcon}
+                    onClick={() => setExpanded(!expanded)}
+                />
 
                 {/* MOBILE SEARCH */}
                 <div className="d-lg-none w-100 mt-2">
@@ -96,29 +116,16 @@ const AppNavbar = () => {
 
                     {/* DESKTOP LEFT */}
                     <Nav className="me-auto d-none d-lg-flex">
-                        <Nav.Link
-                            as={NavLink}
-                            to="/"
-                            className={`${styles.navlink} ${isActive("/") ? styles.active : ""}`}
-                        >
-                            HOME
-                        </Nav.Link>
-
-                        <Nav.Link
-                            as={NavLink}
-                            to="/products"
-                            className={`${styles.navlink} ${isActive("/products") ? styles.active : ""}`}
-                        >
-                            COLLECTION
-                        </Nav.Link>
-
-                        <Nav.Link
-                            as={NavLink}
-                            to="/about"
-                            className={`${styles.navlink} ${isActive("/about") ? styles.active : ""}`}
-                        >
-                            ABOUT
-                        </Nav.Link>
+                        {mainLinks.map(({ to, label }) => (
+                            <Nav.Link
+                                key={to}
+                                as={NavLink}
+                                to={to}
+                                className={`${styles.navlink} ${isActive(to) ? styles.active : ""}`}
+                            >
+                                {label}
+                            </Nav.Link>
+                        ))}
                     </Nav>
 
                     {/* DESKTOP SEARCH */}
@@ -132,39 +139,31 @@ const AppNavbar = () => {
                             <ThemeToggleButton />
                         </div>
 
-                        <Nav.Link
-                            as={NavLink}
-                            to="/about"
-                            className={`${styles.navlink} ${isActive("/about") ? styles.active : ""}`}
-                        >
-                            ABOUT
-                        </Nav.Link>
+                        {mainLinks.slice(2).map(({ to, label }) => (
+                            <Nav.Link
+                                key={to}
+                                as={NavLink}
+                                to={to}
+                                onClick={closeNavbar}
+                                className={`${styles.navlink} ${isActive(to) ? styles.active : ""}`}
+                            >
+                                {label}
+                            </Nav.Link>
+                        ))}
 
                         {user ? (
                             <>
-                                <Nav.Link
-                                    as={NavLink}
-                                    to="/wishlist"
-                                    className={`${styles.navlink} ${isActive("/wishlist") ? styles.active : ""}`}
-                                >
-                                    MY WISHLIST ({wishlistCount})
-                                </Nav.Link>
-
-                                <Nav.Link
-                                    as={NavLink}
-                                    to="/orders"
-                                    className={`${styles.navlink} ${isActive("/orders") ? styles.active : ""}`}
-                                >
-                                    MY ORDERS
-                                </Nav.Link>
-
-                                <Nav.Link
-                                    as={NavLink}
-                                    to="/profile"
-                                    className={`${styles.navlink} ${isActive("/profile") ? styles.active : ""}`}
-                                >
-                                    PROFILE
-                                </Nav.Link>
+                                {userLinks.map(({ to, label }) => (
+                                    <Nav.Link
+                                        key={to}
+                                        as={NavLink}
+                                        to={to}
+                                        onClick={closeNavbar}
+                                        className={`${styles.navlink} ${isActive(to) ? styles.active : ""}`}
+                                    >
+                                        {label}
+                                    </Nav.Link>
+                                ))}
 
                                 <Nav.Link onClick={handleLogout} className={styles.navlink}>
                                     LOGOUT
@@ -174,6 +173,7 @@ const AppNavbar = () => {
                             <Nav.Link
                                 as={NavLink}
                                 to="/login"
+                                onClick={closeNavbar}
                                 className={`${styles.navlink} ${styles.dropdownItem} ${isActive("/login") ? styles.active : ""}`}
                             >
                                 LOGIN
@@ -184,7 +184,6 @@ const AppNavbar = () => {
                     {/* DESKTOP RIGHT */}
                     <Nav className="d-none d-lg-flex align-items-center">
 
-                        {/* WISHLIST */}
                         <Nav.Link
                             as={NavLink}
                             to="/wishlist"
@@ -198,7 +197,6 @@ const AppNavbar = () => {
                             )}
                         </Nav.Link>
 
-                        {/* CART */}
                         <Nav.Link
                             as={NavLink}
                             to="/cart"
@@ -212,45 +210,33 @@ const AppNavbar = () => {
                             )}
                         </Nav.Link>
 
-                        {/* PROFILE DROPDOWN */}
                         <NavDropdown
                             align="end"
-                            title={
-                                user ? user.username : (
-                                    <FontAwesomeIcon icon={faCircleUser} size="lg" />
-                                )
-                            }
+                            title={user ? user.username : <FontAwesomeIcon icon={faCircleUser} size="lg" />}
                         >
                             <div className={styles.themeBtn}>
                                 <ThemeToggleButton />
                             </div>
 
-                            <NavDropdown.Item
-                                as={NavLink}
-                                to="/orders"
-                                className={`${styles.dropdownItem} ${isActive("/orders") ? styles.active : ""}`}
-                            >
-                                MY ORDERS
-                            </NavDropdown.Item>
-
-                            <NavDropdown.Item
-                                as={NavLink}
-                                to="/profile"
-                                className={`${styles.dropdownItem} ${isActive("/profile") ? styles.active : ""}`}
-                            >
-                                PROFILE
-                            </NavDropdown.Item>
+                            {userLinks.slice(1).map(({ to, label }) => (
+                                <NavDropdown.Item
+                                    key={to}
+                                    as={NavLink}
+                                    to={to}
+                                    className={`${styles.dropdownItem} ${isActive(to) ? styles.active : ""}`}
+                                >
+                                    {label.replace(/\s?\(.+\)/, "")}
+                                </NavDropdown.Item>
+                            ))}
 
                             <NavDropdown.Divider />
 
-                            <NavDropdown.Item
-                                onClick={handleLogout}
-                                className={styles.dropdownItem}
-                            >
+                            <NavDropdown.Item onClick={handleLogout} className={styles.dropdownItem}>
                                 LOGOUT
                             </NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
+
                 </Navbar.Collapse>
             </Container>
         </Navbar>

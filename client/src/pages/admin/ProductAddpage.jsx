@@ -221,7 +221,7 @@ const ProductAddPage = () => {
                                 }}
                             />
 
-                            <Form.Group className="mb-2">
+                            <Form.Group>
                                 <Form.Label className={styles.label}>Gender</Form.Label>
                                 <div>
                                     <Form.Check
@@ -242,7 +242,7 @@ const ProductAddPage = () => {
                                     />
                                 </div>
                             </Form.Group>
-
+                            <hr />
                             <Form.Check
                                 className={`${styles.check} mb-2`}
                                 name="isFeatured"
