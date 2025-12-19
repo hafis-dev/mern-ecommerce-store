@@ -6,15 +6,15 @@ import {
     NavDropdown,
     Badge,
 } from "react-bootstrap";
-import { NavLink, useNavigate } from "react-router-dom";   // 
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import NavbarSearch from "./NavbarSearch";
 import { AuthContext } from "../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faCartShopping,
     faCircleUser,
+    faHeart,
 } from "@fortawesome/free-solid-svg-icons";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./appbar.module.css";
 import ThemeToggleButton from "./ThemeToggleButton";
@@ -24,22 +24,25 @@ import { useCart } from "../context/Cart/useCart";
 const AppNavbar = () => {
     const { user, logout } = useContext(AuthContext);
     const { cartCount } = useCart();
-    const navigate = useNavigate()
     const { wishlistIds } = useWishlist();
     const wishlistCount = wishlistIds.length;
-    const setActive = ({ isActive }) =>
-        isActive ? `${styles.navlink} ${styles.active}` : styles.navlink;
-    function handleLogout() {
-        logout()
-        navigate('/login')
-    }
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const isActive = (path) => location.pathname === path;
+
+    const handleLogout = () => {
+        logout();
+        navigate("/login");
+    };
+
     return (
         <Navbar
-            className={`${styles.navbar} container   pb-1`}
+            className={`${styles.navbar} container pb-1`}
             expand="lg"
             fixed="top"
         >
-            <Container >
+            <Container>
 
                 {/* LOGO */}
                 <Navbar.Brand as={NavLink} to="/" className={styles.brand}>
@@ -48,56 +51,72 @@ const AppNavbar = () => {
 
                 {/* MOBILE LINKS */}
                 <Nav className="me-auto gap-2 d-flex flex-row d-lg-none">
-                    <Nav.Link as={NavLink} to="/" className={setActive}>
+                    <Nav.Link
+                        as={NavLink}
+                        to="/"
+                        className={`${styles.navlink} ${isActive("/") ? styles.active : ""}`}
+                    >
                         HOME
                     </Nav.Link>
 
-                    <Nav.Link as={NavLink} to="/products" className={setActive}>
+                    <Nav.Link
+                        as={NavLink}
+                        to="/products"
+                        className={`${styles.navlink} ${isActive("/products") ? styles.active : ""}`}
+                    >
                         COLLECTION
                     </Nav.Link>
                 </Nav>
 
-
+                {/* MOBILE CART */}
                 {/* MOBILE CART */}
                 <Nav.Link
                     as={NavLink}
                     to="/cart"
-                    className={`position-relative ms-auto  fw-semibold d-lg-none ${styles.mobileCart}`}
+                    className={`position-relative ms-auto fw-semibold d-lg-none ${styles.navlink} ${styles.mobileCart} ${isActive("/cart") ? styles.active : ""}`}
                 >
                     <FontAwesomeIcon icon={faCartShopping} size="lg" />
 
                     {cartCount > 0 && user && (
-                        <Badge
-                            className={`${styles.cartBadge} rounded-circle position-absolute d-flex align-items-center justify-content-center`}
-                        >
+                        <Badge className={`${styles.cartBadge} rounded-circle position-absolute`}>
                             {cartCount}
                         </Badge>
                     )}
                 </Nav.Link>
 
-                {/* TOGGLE */}
-                <Navbar.Toggle aria-controls="main-navbar" className={styles.togglerIcon} />
+
+                <Navbar.Toggle className={styles.togglerIcon} />
 
                 {/* MOBILE SEARCH */}
                 <div className="d-lg-none w-100 mt-2">
                     <NavbarSearch />
                 </div>
 
-                <Navbar.Collapse
-                    id="main-navbar"
-                    className="justify-content-between"
-                >
-                    {/* LEFT MENU (DESKTOP) */}
+                <Navbar.Collapse className="justify-content-between">
+
+                    {/* DESKTOP LEFT */}
                     <Nav className="me-auto d-none d-lg-flex">
-                        <Nav.Link as={NavLink} to="/" className={setActive}>
+                        <Nav.Link
+                            as={NavLink}
+                            to="/"
+                            className={`${styles.navlink} ${isActive("/") ? styles.active : ""}`}
+                        >
                             HOME
                         </Nav.Link>
 
-                        <Nav.Link as={NavLink} to="/products" className={setActive}>
+                        <Nav.Link
+                            as={NavLink}
+                            to="/products"
+                            className={`${styles.navlink} ${isActive("/products") ? styles.active : ""}`}
+                        >
                             COLLECTION
                         </Nav.Link>
 
-                        <Nav.Link as={NavLink} to="/about" className={setActive}>
+                        <Nav.Link
+                            as={NavLink}
+                            to="/about"
+                            className={`${styles.navlink} ${isActive("/about") ? styles.active : ""}`}
+                        >
                             ABOUT
                         </Nav.Link>
                     </Nav>
@@ -112,64 +131,82 @@ const AppNavbar = () => {
                         <div className={styles.themeBtn}>
                             <ThemeToggleButton />
                         </div>
-                        <Nav.Link as={NavLink} to="/about" className={setActive} >
+
+                        <Nav.Link
+                            as={NavLink}
+                            to="/about"
+                            className={`${styles.navlink} ${isActive("/about") ? styles.active : ""}`}
+                        >
                             ABOUT
                         </Nav.Link>
 
                         {user ? (
                             <>
-                                <Nav.Link as={NavLink} to="/wishlist" className={setActive}>
-                                    MY WISHLIST({wishlistCount})
+                                <Nav.Link
+                                    as={NavLink}
+                                    to="/wishlist"
+                                    className={`${styles.navlink} ${isActive("/wishlist") ? styles.active : ""}`}
+                                >
+                                    MY WISHLIST ({wishlistCount})
                                 </Nav.Link>
-                                <Nav.Link as={NavLink} to="/orders" className={setActive} >
+
+                                <Nav.Link
+                                    as={NavLink}
+                                    to="/orders"
+                                    className={`${styles.navlink} ${isActive("/orders") ? styles.active : ""}`}
+                                >
                                     MY ORDERS
                                 </Nav.Link>
-                                <Nav.Link as={NavLink} to="/profile" className={setActive}>
+
+                                <Nav.Link
+                                    as={NavLink}
+                                    to="/profile"
+                                    className={`${styles.navlink} ${isActive("/profile") ? styles.active : ""}`}
+                                >
                                     PROFILE
                                 </Nav.Link>
+
                                 <Nav.Link onClick={handleLogout} className={styles.navlink}>
                                     LOGOUT
                                 </Nav.Link>
                             </>
                         ) : (
-
-                            <Nav.Link as={NavLink} to="/login" className={`${setActive} ${styles.dropdownItem}`}>
+                            <Nav.Link
+                                as={NavLink}
+                                to="/login"
+                                className={`${styles.navlink} ${styles.dropdownItem} ${isActive("/login") ? styles.active : ""}`}
+                            >
                                 LOGIN
                             </Nav.Link>
                         )}
                     </Nav>
 
-                    {/* DESKTOP RIGHT SIDE */}
+                    {/* DESKTOP RIGHT */}
                     <Nav className="d-none d-lg-flex align-items-center">
-                        {/* WISHLIST DESKTOP */}
+
+                        {/* WISHLIST */}
                         <Nav.Link
                             as={NavLink}
                             to="/wishlist"
-                            className={`position-relative fw-semibold me-2 ${styles.navlink}`}
+                            className={`position-relative fw-semibold me-2 ${styles.navlink} ${isActive("/wishlist") ? styles.active : ""}`}
                         >
                             <FontAwesomeIcon icon={faHeart} size="lg" />
-
                             {wishlistCount > 0 && user && (
-                                <Badge
-                                    className={`${styles.cartBadgeDesktop} rounded-circle position-absolute d-flex align-items-center justify-content-center`}
-                                >
+                                <Badge className={`${styles.cartBadgeDesktop} rounded-circle position-absolute`}>
                                     {wishlistCount}
                                 </Badge>
                             )}
                         </Nav.Link>
 
-                        {/* CART DESKTOP */}
+                        {/* CART */}
                         <Nav.Link
                             as={NavLink}
                             to="/cart"
-                            className={`position-relative fw-semibold me-2 ${styles.navlink}`}
+                            className={`position-relative fw-semibold me-2 ${styles.navlink} ${isActive("/cart") ? styles.active : ""}`}
                         >
                             <FontAwesomeIcon icon={faCartShopping} size="lg" />
-
                             {cartCount > 0 && user && (
-                                <Badge
-                                    className={`${styles.cartBadgeDesktop} rounded-circle position-absolute d-flex align-items-center justify-content-center`}
-                                >
+                                <Badge className={`${styles.cartBadgeDesktop} rounded-circle position-absolute`}>
                                     {cartCount}
                                 </Badge>
                             )}
@@ -179,60 +216,39 @@ const AppNavbar = () => {
                         <NavDropdown
                             align="end"
                             title={
-                                user ? (
-                                    ` ${user.username}`
-                                ) : (
-                                    <FontAwesomeIcon
-                                        icon={faCircleUser}
-                                        size="lg"
-                                        style={{ color: "var(--c6)" }}
-                                    />
+                                user ? user.username : (
+                                    <FontAwesomeIcon icon={faCircleUser} size="lg" />
                                 )
                             }
                         >
-                            {user ? (
-                                <>
-                                    <div className={styles.themeBtn}>
-                                        <ThemeToggleButton />
+                            <div className={styles.themeBtn}>
+                                <ThemeToggleButton />
+                            </div>
 
-                                    </div>
-                                    <NavDropdown.Item
+                            <NavDropdown.Item
+                                as={NavLink}
+                                to="/orders"
+                                className={`${styles.dropdownItem} ${isActive("/orders") ? styles.active : ""}`}
+                            >
+                                MY ORDERS
+                            </NavDropdown.Item>
 
-                                        as={NavLink}
-                                        to="/orders"
-                                        className={`${setActive}  ${styles.dropdownItem}`}
-                                    >
-                                        MY ORDERS
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Item
-                                        as={NavLink}
-                                        to="/profile"
-                                        className={`${setActive}  ${styles.dropdownItem}`}
-                                    >
-                                        PROFILE
-                                    </NavDropdown.Item >
-                                    <NavDropdown.Divider className={styles.dropdownDivider} />
+                            <NavDropdown.Item
+                                as={NavLink}
+                                to="/profile"
+                                className={`${styles.dropdownItem} ${isActive("/profile") ? styles.active : ""}`}
+                            >
+                                PROFILE
+                            </NavDropdown.Item>
 
-                                    <NavDropdown.Item onClick={handleLogout} className={styles.dropdownItem}>
-                                        LOGOUT
-                                    </NavDropdown.Item>
-                                </>
-                            ) : (
-                                <>
-                                    <div className={styles.themeBtn}>
-                                        <ThemeToggleButton />
+                            <NavDropdown.Divider />
 
-                                    </div>
-                                    <NavDropdown.Item
-                                        as={NavLink}
-                                        to="/login"
-                                        className={styles.dropdownItem}
-                                    >
-                                        LOGIN
-                                    </NavDropdown.Item>
-                                </>
-
-                            )}
+                            <NavDropdown.Item
+                                onClick={handleLogout}
+                                className={styles.dropdownItem}
+                            >
+                                LOGOUT
+                            </NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
