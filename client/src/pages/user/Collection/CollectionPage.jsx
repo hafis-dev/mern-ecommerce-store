@@ -1,4 +1,4 @@
-import { Row, Col, Container, Spinner } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FilterSidebar from "./FilterSidebar";
@@ -29,6 +29,7 @@ const CollectionPage = () => {
         loadProducts();
     }, [location.search]);
 
+
     const loadWithFilters = (filters = {}) => {
         const params = new URLSearchParams(location.search);
 
@@ -49,19 +50,6 @@ const CollectionPage = () => {
         navigate(`/products?${params.toString()}`);
     };
 
-    /* 🔹 FULL PAGE CENTER LOADER */
-    if (loading) {
-        return (
-            <div
-                className="d-flex align-items-center justify-content-center"
-                style={{ minHeight: "85vh" }}
-            >
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </div>
-        );
-    }
 
     return (
         <Container fluid className="py-5 mt-4">
@@ -74,27 +62,33 @@ const CollectionPage = () => {
                 </Col>
 
                 <Col xs={12} md={9}>
-                    <Row className="g-3">
-                        {products.length === 0 && (
-                            <p className="text-center w-100">
-                                No products found
-                            </p>
-                        )}
+                    {loading ? (
+                        <div
+                            className="d-flex align-items-center justify-content-center"
+                            style={{ minHeight: "60vh" }}
+                        >
+                            <div className="spinner-border" role="status" />
+                        </div>
+                    ) : (
+                        <Row className="g-3">
+                            {products.length === 0 && <p>No products found</p>}
 
-                        {products.map((p) => (
-                            <Col
-                                key={p._id}
-                                xs={6}
-                                sm={6}
-                                md={4}
-                                lg={3}
-                                xl={3}
-                            >
-                                <ProductCard product={p} />
-                            </Col>
-                        ))}
-                    </Row>
+                            {products.map((p) => (
+                                <Col
+                                    key={p._id}
+                                    xs={6}
+                                    sm={6}
+                                    md={4}
+                                    lg={3}
+                                    xl={3}
+                                >
+                                    <ProductCard product={p} />
+                                </Col>
+                            ))}
+                        </Row>
+                    )}
                 </Col>
+
             </Row>
         </Container>
     );
