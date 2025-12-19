@@ -11,8 +11,16 @@ const DashBoard = () => {
     }, []);
 
     if (!orders || !Array.isArray(orders)) {
-        return <p className="text-center mt-4">Loading dashboard...</p>;
+        return (
+            <div
+                className="d-flex align-items-center justify-content-center"
+                style={{ minHeight: "85vh" }}
+            >
+                <div className="spinner-border" role="status" />
+            </div>
+        );
     }
+
 
     const totalOrders = orders.length;
     const deliveredOrders = orders.filter((o) => o.status === "Delivered").length;

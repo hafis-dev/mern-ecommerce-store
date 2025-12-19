@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CartCard from "./CartCard";
 import { Card, Button, Container } from "react-bootstrap";
@@ -7,6 +7,7 @@ import { useCart } from "../../../context/Cart/useCart";
 
 const CartPage = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const {
     cart,
@@ -16,13 +17,31 @@ const CartPage = () => {
   } = useCart();
 
   useEffect(() => {
-    loadCart();
+    const fetchCart = async () => {
+      setLoading(true);
+      await loadCart();
+      setLoading(false);
+    };
+
+    fetchCart();
   }, []);
+
 
   const totalAmount = cart.reduce(
     (sum, item) => sum + (item.product?.price || 0) * item.quantity,
     0
   );
+  if (loading) {
+    return (
+      <div
+        className="d-flex align-items-center justify-content-center"
+        style={{ minHeight: "85vh" }}
+      >
+        <div className="spinner-border" role="status" />
+      </div>
+    );
+  }
+
   if (cart.length === 0){
     return (
       <div className={styles.empty}>

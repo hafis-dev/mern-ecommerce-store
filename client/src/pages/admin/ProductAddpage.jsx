@@ -225,6 +225,7 @@ const ProductAddPage = () => {
                                 <Form.Label className={styles.label}>Gender</Form.Label>
                                 <div>
                                     <Form.Check
+                                        className={styles.check}
                                         type="checkbox"
                                         label="Men"
                                         value="Men"
@@ -232,6 +233,7 @@ const ProductAddPage = () => {
                                         onChange={handleGenderChange}
                                     />
                                     <Form.Check
+                                        className={styles.check}
                                         type="checkbox"
                                         label="Women"
                                         value="Women"
@@ -242,14 +244,15 @@ const ProductAddPage = () => {
                             </Form.Group>
 
                             <Form.Check
+                                className={`${styles.check} mb-2`}
                                 name="isFeatured"
                                 checked={formData.isFeatured}
                                 onChange={handleInputChange}
                                 label="Featured Product"
-                                className="mb-2"
                             />
 
                             <Form.Check
+                                className={styles.check}
                                 name="isNewArrival"
                                 checked={formData.isNewArrival}
                                 onChange={handleInputChange}

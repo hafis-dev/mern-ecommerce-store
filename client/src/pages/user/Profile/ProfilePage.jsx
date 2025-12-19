@@ -64,7 +64,17 @@ const ProfilePage = () => {
         }
     };
 
-    if (loading) return <p className={styles.loadingText}>Loading profile...</p>;
+    if (loading) {
+        return (
+            <div
+                className="d-flex align-items-center justify-content-center"
+                style={{ minHeight: "85vh" }}
+            >
+                <div className="spinner-border" role="status" />
+            </div>
+        );
+    }
+
 
     return (
         <Container className="py-5 mt-4" style={{minHeight:"85vh"}}>

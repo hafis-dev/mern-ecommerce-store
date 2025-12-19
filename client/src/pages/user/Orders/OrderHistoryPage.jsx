@@ -6,15 +6,20 @@ import { cancelOrder, getMyOrders } from "../../../services/api/order.service";
 import styles from '.././Cart/cartPage.module.css'
 const OrderHistoryPage = () => {
     const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const loadOrders = async () => {
         try {
-            const res = await getMyOrders()
+            setLoading(true);
+            const res = await getMyOrders();
             setOrders(res.data);
         } catch (err) {
             console.log("Order history error:", err);
+        } finally {
+            setLoading(false);
         }
     };
+
 
     const handleCancel = async (orderId) => {
         try {
@@ -33,6 +38,16 @@ const OrderHistoryPage = () => {
         }
         fetchOrders()
     }, []);
+    if (loading) {
+        return (
+            <div
+                className="d-flex align-items-center justify-content-center"
+                style={{ minHeight: "85vh" }}
+            >
+                <div className="spinner-border" role="status" />
+            </div>
+        );
+    }
 
     if (orders.length === 0) {
         return (
@@ -46,7 +61,7 @@ const OrderHistoryPage = () => {
     return (
         <>
             <Container className="history-container mt-4 pt-5" style={{ minHeight: "85vh" }}>
-               
+
                 {orders.map((order) => (
                     <OrderCard
                         key={order._id}

@@ -1,4 +1,4 @@
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, Spinner } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FilterSidebar from "./FilterSidebar";
@@ -7,6 +7,7 @@ import { getProducts } from "../../../services/api/product.service";
 
 const CollectionPage = () => {
     const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -14,10 +15,14 @@ const CollectionPage = () => {
     useEffect(() => {
         const loadProducts = async () => {
             try {
+                setLoading(true);
                 const res = await getProducts(location.search);
                 setProducts(res.data.products || []);
             } catch (err) {
                 console.error(err);
+                setProducts([]);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -44,6 +49,19 @@ const CollectionPage = () => {
         navigate(`/products?${params.toString()}`);
     };
 
+    /* 🔹 FULL PAGE CENTER LOADER */
+    if (loading) {
+        return (
+            <div
+                className="d-flex align-items-center justify-content-center"
+                style={{ minHeight: "85vh" }}
+            >
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+            </div>
+        );
+    }
 
     return (
         <Container fluid className="py-5 mt-4">
@@ -57,7 +75,11 @@ const CollectionPage = () => {
 
                 <Col xs={12} md={9}>
                     <Row className="g-3">
-                        {products.length === 0 && <p>No products found</p>}
+                        {products.length === 0 && (
+                            <p className="text-center w-100">
+                                No products found
+                            </p>
+                        )}
 
                         {products.map((p) => (
                             <Col

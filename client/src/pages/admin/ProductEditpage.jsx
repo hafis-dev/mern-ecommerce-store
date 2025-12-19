@@ -156,7 +156,17 @@ const ProductEditPage = () => {
         if (success) navigate("/admin/products");
     };
 
-    if (loading) return <p className="text-center mt-5">Loading...</p>;
+    if (loading) {
+        return (
+            <div
+                className="d-flex align-items-center justify-content-center"
+                style={{ minHeight: "85vh" }}
+            >
+                <div className="spinner-border" role="status" />
+            </div>
+        );
+    }
+
 
     return (
         <Container className={styles.wrapper}>
@@ -269,12 +279,14 @@ const ProductEditPage = () => {
                                 <Form.Label className={styles.label}>Gender</Form.Label>
                                 <div>
                                     <Form.Check
+                                        className={styles.check}
                                         type="checkbox"
                                         label="Men"
                                         checked={formData.gender.includes("Men")}
                                         onChange={() => handleGenderChange("Men")}
                                     />
                                     <Form.Check
+                                        className={styles.check}
                                         type="checkbox"
                                         label="Women"
                                         checked={formData.gender.includes("Women")}

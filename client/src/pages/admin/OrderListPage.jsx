@@ -47,14 +47,29 @@ export default function OrderListPage() {
 
     if (loading) {
         return (
-            <div className="text-center mt-5">
+            <div
+                className="d-flex align-items-center justify-content-center"
+                style={{ minHeight: "85vh" }}
+            >
                 <Spinner animation="border" variant="dark" />
             </div>
         );
     }
 
+    if (!loading && (!orders || orders.length === 0)) {
+        return (
+            <div
+                className={styles.empty}
+                style={{ minHeight: "85vh" }}
+            >
+                <h3>No orders found 📦</h3>
+                <p >Orders will appear here once users place them.</p>
+            </div>
+        );
+    }
+
     return (
-        <Container className="mt-4" style={{minHeight:"85vh"}}>
+        <Container className="mt-4" style={{ minHeight: "85vh" }}>
             <h3 className={styles.heading}>All Orders</h3>
 
             {orders.map((order, index) => (
@@ -101,7 +116,7 @@ export default function OrderListPage() {
                                     <Dropdown.Item className={styles.dropdownItem} onClick={() => handleOrderStatus(order._id, "Delivered")}>
                                         Delivered
                                     </Dropdown.Item>
-                                    <Dropdown.Item className={`${styles.dropdownItem} text-danger`}  
+                                    <Dropdown.Item className={`${styles.dropdownItem} text-danger`}
                                         onClick={() => handleOrderStatus(order._id, "Cancelled")}
                                     >
                                         Cancelled

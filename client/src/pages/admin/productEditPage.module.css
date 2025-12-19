@@ -45,7 +45,10 @@
     font-size: 14px;
     color: var(--c5) !important;
 }
-
+.genderLabel {
+    color: var(--c7) !important;
+    cursor: pointer;
+}
 .attrTitle {
     color: var(--c6);
     margin-bottom: 8px;

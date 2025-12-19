@@ -1,6 +1,5 @@
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { WishlistContext } from "../../../context/Wishlist/wishlist.context";
 import WishlistCard from "./WishListCard";
 import styles from "./wishlistPage.module.css";
 import { useWishlist } from "../../../context/Wishlist/useWishlist";
@@ -10,7 +9,7 @@ const WishlistPage = () => {
     const { wishlist, loading, toggleWishlist, clearWishlist } = useWishlist();
 
     if (loading) {
-        return <div className={styles.center}>Loading wishlist...</div>;
+        return <div className={styles.center}><div className="spinner-border" role="status" /></div>;
     }
 
     if (wishlist.length === 0) {

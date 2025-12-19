@@ -8,16 +8,21 @@ import { deleteProduct, getProducts } from "../../services/api/product.service";
 export default function ProductListPage() {
     const [products, setProducts] = useState([]);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     const loadProducts = async () => {
         try {
+            setLoading(true);
             const res = await getProducts();
             setProducts(res.data.products);
         } catch (err) {
             console.log(err);
             toast.error("Failed to load products");
+        } finally {
+            setLoading(false);
         }
     };
+
 
     useEffect(() => {
         loadProducts();
@@ -35,16 +40,26 @@ export default function ProductListPage() {
             toast.error("Failed to delete");
         }
     };
+    if (loading) {
+        return (
+            <div
+                className="d-flex align-items-center justify-content-center"
+                style={{ minHeight: "85vh" }}
+            >
+                <div className="spinner-border" role="status" />
+            </div>
+        );
+    }
 
     return (
-        <Container className="py-4" style={{minHeight:"85vh"}}>
+        <Container className="py-4" style={{ minHeight: "85vh" }}>
             <h3
                 style={{
                     fontFamily: "Urbanist",
                     fontWeight: 700,
                     color: "var(--c6)",
                     marginBottom: "20px",
-                    
+
                 }}
             >
                 All Products
