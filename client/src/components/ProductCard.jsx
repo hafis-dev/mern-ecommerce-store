@@ -14,7 +14,6 @@ const ProductCard = ({ product }) => {
     const [animate, setAnimate] = useState(false);
     const [localWishlisted, setLocalWishlisted] = useState(false);
 
-    // Sync local state with global wishlist (source of truth)
     useEffect(() => {
         setLocalWishlisted(wishlistIds.includes(product._id));
     }, [wishlistIds, product._id]);
@@ -28,10 +27,8 @@ const ProductCard = ({ product }) => {
             setTimeout(() => setAnimate(false), 400);
         }
 
-        // Optimistic UI update (instant color change)
         setLocalWishlisted((prev) => !prev);
 
-        // Backend + context update
         toggleWishlist(product._id);
     };
 
@@ -42,7 +39,6 @@ const ProductCard = ({ product }) => {
         >
             <div className={styles.imageWrapper}>
 
-                {/* Wishlist Icon */}
                 <div
                     className={`${styles.wishlistIcon} ${animate ? styles.pulse : ""}`}
                     onClick={handleWishlist}
@@ -53,7 +49,6 @@ const ProductCard = ({ product }) => {
                     />
                 </div>
 
-                {/* Product Image */}
                 <Card.Img
                     src={product.images?.[0] || "/placeholder.jpg"}
                     className={styles.productImg}

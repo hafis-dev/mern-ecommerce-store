@@ -23,15 +23,18 @@ const ProductPage = () => {
     const { id } = useParams();
 
     const { cart, addItem } = useCart();
-
     const { user } = useContext(AuthContext);
     const { wishlistIds, toggleWishlist } = useWishlist();
-    const [pulse, setPulse] = useState(false);
-
-    const isWishlisted = wishlistIds.includes(id);
 
     const [product, setProduct] = useState(null);
     const [selectedImage, setSelectedImage] = useState("");
+    const [pulse, setPulse] = useState(false);
+
+    const [localWishlisted, setLocalWishlisted] = useState(false);
+
+    useEffect(() => {
+        setLocalWishlisted(wishlistIds.includes(id));
+    }, [wishlistIds, id]);
 
     const isInCart = cart.some(
         (item) => (item.product?._id || item.product) === id
@@ -50,6 +53,25 @@ const ProductPage = () => {
             console.log("addToCart error:", err);
             toast.error("Something went wrong!");
         }
+    };
+
+    const handleWishlist = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (!user) {
+            toast.error("Please login to use wishlist!");
+            return;
+        }
+
+        if (!localWishlisted) {
+            setPulse(true);
+            setTimeout(() => setPulse(false), 400);
+        }
+
+        setLocalWishlisted((prev) => !prev);
+
+        toggleWishlist(product._id);
     };
 
     useEffect(() => {
@@ -90,26 +112,11 @@ const ProductPage = () => {
                     <div className={`flex-grow-1 ms-md-3 ${styles.mainImgWrapper}`}>
                         <div
                             className={`${styles.wishlistIcon} ${pulse ? styles.pulse : ""}`}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-
-                                if (!user) {
-                                    toast.error("Please login to use wishlist!");
-                                    return;
-                                }
-
-                                if (!isWishlisted) {
-                                    setPulse(true);
-                                    setTimeout(() => setPulse(false), 400);
-                                }
-
-                                toggleWishlist(product._id);
-                            }}
+                            onClick={handleWishlist}
                         >
                             <FontAwesomeIcon
-                                icon={isWishlisted ? solidHeart : regularHeart}
-                                className={isWishlisted ? styles.wishlisted : ""}
+                                icon={localWishlisted ? solidHeart : regularHeart}
+                                className={localWishlisted ? styles.wishlisted : ""}
                             />
                         </div>
 
@@ -150,18 +157,11 @@ const ProductPage = () => {
                     </div>
 
                     {product.stock <= 0 ? (
-                        <Button
-                            type="button"
-                            variant="secondary"
-                            className={styles.addBtn}
-                            disabled
-                            style={{ opacity: 0.7, cursor: "not-allowed" }}
-                        >
+                        <Button variant="secondary" disabled className={styles.addBtn}>
                             Out of Stock
                         </Button>
                     ) : isInCart ? (
                         <Button
-                            type="button"
                             variant="outline-dark"
                             className={styles.cartBtn}
                             onClick={() => navigate("/cart")}
@@ -170,7 +170,6 @@ const ProductPage = () => {
                         </Button>
                     ) : (
                         <Button
-                            type="button"
                             variant="dark"
                             className={styles.addBtn}
                             onClick={handleAddToCart}
@@ -185,26 +184,11 @@ const ProductPage = () => {
                 <h4 className={styles.highlightHeading}>Product Highlights</h4>
 
                 <div className={styles.highlights}>
-                    <p className={styles.highlightItem}>
-                        <FontAwesomeIcon icon={faShieldHalved} />{" "}
-                        <strong>100% Original Product</strong>
-                    </p>
-                    <p className={styles.highlightItem}>
-                        <FontAwesomeIcon icon={faTruckFast} />{" "}
-                        <strong>Fast Delivery</strong>
-                    </p>
-                    <p className={styles.highlightItem}>
-                        <FontAwesomeIcon icon={faCreditCard} />{" "}
-                        <strong>Online Payment Only</strong>
-                    </p>
-                    <p className={styles.highlightItem}>
-                        <FontAwesomeIcon icon={faRotateLeft} />{" "}
-                        <strong>Easy Return & Exchange</strong>
-                    </p>
-                    <p className={styles.highlightItem}>
-                        <FontAwesomeIcon icon={faLock} />{" "}
-                        <strong>Secure Payment</strong>
-                    </p>
+                    <p className={styles.highlightItem}><FontAwesomeIcon icon={faShieldHalved} /> 100% Original Product</p>
+                    <p className={styles.highlightItem}><FontAwesomeIcon icon={faTruckFast} /> Fast Delivery</p>
+                    <p className={styles.highlightItem}><FontAwesomeIcon icon={faCreditCard} /> Online Payment Only</p>
+                    <p className={styles.highlightItem}><FontAwesomeIcon icon={faRotateLeft} /> Easy Return & Exchange</p>
+                    <p className={styles.highlightItem}><FontAwesomeIcon icon={faLock} /> Secure Payment</p>
                 </div>
             </Container>
         </Container>
