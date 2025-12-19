@@ -32,7 +32,7 @@ const CartPage = () => {
     )
   }
   return (
-    <Container className={`${styles.cartContainer} pt-5 mt-lg-0 mt-md-4 mt-sm-3`}>
+    <Container className={`${styles.cartContainer}  mt-lg-0 mt-md-4 mt-sm-3`}>
       
 
      

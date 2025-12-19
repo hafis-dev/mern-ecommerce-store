@@ -2,6 +2,7 @@
 
 .cartContainer {
     padding: 20px;
+    padding-top: 72px !important;
     min-height: 85vh;
     font-family: "Urbanist", sans-serif;
 }
