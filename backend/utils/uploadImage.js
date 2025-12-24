@@ -6,9 +6,7 @@ exports.uploadToCloudinary = (buffer) => {
       {
         folder: "ecommerce_products",
         resource_type: "image",
-
         transformation: [{ width: 500, height: 500, crop: "limit" }],
-
         quality: "auto",
         fetch_format: "auto",
       },

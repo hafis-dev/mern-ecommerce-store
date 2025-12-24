@@ -5,9 +5,9 @@ const {
   getWishlist,
   toggleWishlist,
   clearWishlist,
-} = require("../controllers/wishListController");
+} = require("../controllers/wishlist.controller");
 
-const { authMiddleware } = require("../middleware/authMiddleware");
+const { authMiddleware } = require("../middleware/auth.middleware");
 
 router.get("/", authMiddleware, getWishlist);
 router.post("/toggle", authMiddleware, toggleWishlist);

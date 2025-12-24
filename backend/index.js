@@ -5,10 +5,10 @@ const cookieParser = require("cookie-parser");
 
 const connectDB = require("./config/db");
 
-const authRoutes = require("./routes/authRoutes");
-const productRoutes = require("./routes/productRoutes");
-const cartRoutes = require("./routes/cartRoutes");
-const wishlistRoutes = require("./routes/wishListRoutes");
+const authRoutes = require("./routes/auth.route");
+const productRoutes = require("./routes/product.route");
+const cartRoutes = require("./routes/cart.route");
+const wishlistRoutes = require("./routes/wishlist.route");
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -37,9 +37,9 @@ connectDB();
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);
-app.use("/api/checkout", require("./routes/checkoutRoutes"));
-app.use("/api/orders", require("./routes/orderRoutes"));
-app.use("/api/profile", require("./routes/profileRoutes"));
+app.use("/api/checkout", require("./routes/checkout.route"));
+app.use("/api/orders", require("./routes/order.route"));
+app.use("/api/profile", require("./routes/profile.route"));
 app.use("/api/wishlist", wishlistRoutes);
 
 app.get("/", (req, res) => {

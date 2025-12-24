@@ -1,6 +1,5 @@
-const Wishlist = require("../models/Wishlist");
-const Product = require("../models/Product");
-
+const Wishlist = require("../models/wishlist.model");
+const Product = require("../models/product.model");
 
 exports.getWishlist = async (req, res) => {
   try {
@@ -25,7 +24,6 @@ exports.getWishlist = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch wishlist" });
   }
 };
-
 
 exports.toggleWishlist = async (req, res) => {
   try {
@@ -75,7 +73,6 @@ exports.toggleWishlist = async (req, res) => {
     res.status(500).json({ message: "Wishlist update failed" });
   }
 };
-
 
 exports.clearWishlist = async (req, res) => {
   try {

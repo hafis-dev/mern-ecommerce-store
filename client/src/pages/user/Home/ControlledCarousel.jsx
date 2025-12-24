@@ -69,9 +69,7 @@ function ControlledCarousel() {
         <Carousel.Item>
           <img
             className="d-block w-100"
-              src="banner3.jpg
-
-"
+              src="banner3.jpg"
             alt="Third slide"
             style={{ maxHeight: "550px", objectFit: "cover" }}
           />

@@ -11,12 +11,12 @@ const {
   getFeaturedProducts,
   getNewArrivalProducts,
   getFilters,
-} = require("../controllers/productController");
+} = require("../controllers/product.controller");
 
 const {
   authMiddleware,
   adminMiddleware,
-} = require("../middleware/authMiddleware");
+} = require("../middleware/auth.middleware");
 
 router.get("/filters", getFilters);
 router.get("/featured", getFeaturedProducts);

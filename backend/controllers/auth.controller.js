@@ -1,15 +1,13 @@
-const User = require("../models/User");
+const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
-const Otp = require("../models/Otp");
+const Otp = require("../models/otp.model");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { generateAccessToken, generateRefreshToken } = require("../utils/token");
 const generateOTP = require("../utils/otpUtil");
 const { sendSMS } = require("../utils/sendSMS");
 const { sendEmail } = require("../utils/sendEmail");
-
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
 const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -57,7 +55,6 @@ exports.registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-   
     const newUser = new User({
       username,
       email,
@@ -69,7 +66,7 @@ exports.registerUser = async (req, res) => {
 
     const accessToken = generateAccessToken(newUser._id, newUser.isAdmin);
     const refreshToken = generateRefreshToken(newUser._id);
-    
+
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -134,15 +131,12 @@ exports.loginUser = async (req, res) => {
     const accessToken = generateAccessToken(user._id, user.isAdmin);
     const refreshToken = generateRefreshToken(user._id, rememberMe);
 
-
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       path: "/",
-      maxAge: rememberMe
-        ? 7 * 24 * 60 * 60 * 1000 
-        : 24 * 60 * 60 * 1000, 
+      maxAge: rememberMe ? 7 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000,
     });
 
     return res.status(200).json({
@@ -188,7 +182,6 @@ exports.refreshToken = async (req, res) => {
       .json({ message: "Invalid or expired refresh token" });
   }
 };
-
 
 exports.logoutUser = (req, res) => {
   res.clearCookie("refreshToken", {

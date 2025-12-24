@@ -14,10 +14,8 @@ const AboutPage = () => {
                 </p>
                 <div className={styles.aboutLine}></div>
             </Container>
-
-            {/* MISSION SECTION */}
             <Container className={styles.aboutSection}>
-                <Row className="gy-4"> {/* Added gy-4 for vertical gap on mobile */}
+                <Row className="gy-4"> 
                     <Col md={6}>
                         <h2 className={styles.sectionTitle}>Our Mission</h2>
                         <p className={styles.sectionText}>

@@ -1,5 +1,5 @@
-const Order = require("../models/Order");
-const Product = require("../models/Product");
+const Order = require("../models/order.model");
+const Product = require("../models/product.model");
 exports.getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id }).sort({
@@ -32,10 +32,9 @@ exports.cancelFullOrder = async (req, res) => {
     }
 
     for (let item of order.orderItems) {
-      await Product.findByIdAndUpdate(
-        item.product,
-        { $inc: { stock: item.qty } } 
-      );
+      await Product.findByIdAndUpdate(item.product, {
+        $inc: { stock: item.qty },
+      });
     }
 
     order.status = "Cancelled";

@@ -1,7 +1,7 @@
-const Product = require("../models/Product");
+const Product = require("../models/product.model");
 const cloudinary = require("../config/cloudinary");
-const Cart = require("../models/Cart");
-const Wishlist = require("../models/Wishlist");
+const Cart = require("../models/cart.model");
+const Wishlist = require("../models/wishlist.model");
 const { uploadToCloudinary } = require("../utils/uploadImage");
 
 exports.createProduct = async (req, res) => {
@@ -376,7 +376,7 @@ exports.getFilters = async (req, res) => {
       if (!filters[category]) {
         filters[category] = {};
       }
-      const attributeArray = Object.entries( p.attributes || {});
+      const attributeArray = Object.entries(p.attributes || {});
       attributeArray.forEach(([key, value]) => {
         const cleanKey = normalizeKey(key);
 

@@ -21,7 +21,7 @@
 
 .link {
     color: var(--c6) !important;
-    font-weight: 700;
+    font-weight: bold !important;
     font-size: 15px;
     letter-spacing: 0.4px;
     text-transform: uppercase;
@@ -29,7 +29,7 @@
 }
 
 .link:hover {
-    color: var(--c5) !important;
+    text-shadow: 0 0 2px var(--c6);
 }
 
 .active {
@@ -37,6 +37,7 @@
     text-shadow: 0 0 2px var(--c6);
     border-bottom: 2px solid var(--c5);
     padding-bottom: 3px;
+    font-weight: bold !important;
 }
 
 .logout {

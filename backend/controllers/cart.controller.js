@@ -1,5 +1,5 @@
-const Cart = require("../models/Cart");
-const Product = require("../models/Product");
+const Cart = require("../models/cart.model");
+const Product = require("../models/product.model");
 
 exports.addToCart = async (req, res) => {
   try {
@@ -120,7 +120,6 @@ exports.removeCartItem = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
-
 
 exports.clearCart = async (req, res) => {
   try {

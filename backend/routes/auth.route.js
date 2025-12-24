@@ -5,9 +5,9 @@ const {
   registerUser,
   loginUser,
   resetPassword,
-} = require("../controllers/authController");
+} = require("../controllers/auth.controller");
 
-const { authMiddleware } = require("../middleware/authMiddleware");
+const { authMiddleware } = require("../middleware/auth.middleware");
 
 const router = require("express").Router();
 
