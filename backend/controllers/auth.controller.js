@@ -1,19 +1,23 @@
-const User = require("../models/user.model");
-const bcrypt = require("bcryptjs");
-const validator = require("validator");
-const Otp = require("../models/otp.model");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const { generateAccessToken, generateRefreshToken } = require("../utils/token");
-const generateOTP = require("../utils/otpUtil");
-const { sendSMS } = require("../utils/sendSMS");
-const { sendEmail } = require("../utils/sendEmail");
+import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
+import validator from "validator";
+import Otp from "../models/otp.model.js";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+import { generateAccessToken, generateRefreshToken } from "../utils/token.js";
+import generateOTP from "../utils/otpUtil.js";
+import { sendSMS } from "../utils/sendSMS.js";
+import { sendEmail } from "../utils/sendEmail.js";
+
+dotenv.config();
 
 const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^[0-9]{10}$/;
 
-exports.registerUser = async (req, res) => {
+/* ================= REGISTER ================= */
+export const registerUser = async (req, res) => {
   const { username, email, phone, password } = req.body;
 
   if (!username || !email || !password) {
@@ -30,9 +34,7 @@ exports.registerUser = async (req, res) => {
   }
 
   if (!emailRegex.test(email)) {
-    return res.status(400).json({
-      message: "Invalid email format",
-    });
+    return res.status(400).json({ message: "Invalid email format" });
   }
 
   if (phone && !phoneRegex.test(phone)) {
@@ -52,17 +54,14 @@ exports.registerUser = async (req, res) => {
       });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({
+    const newUser = await User.create({
       username,
       email,
       phone,
       password: hashedPassword,
     });
-
-    await newUser.save();
 
     const accessToken = generateAccessToken(newUser._id, newUser.isAdmin);
     const refreshToken = generateRefreshToken(newUser._id);
@@ -90,7 +89,8 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-exports.loginUser = async (req, res) => {
+/* ================= LOGIN ================= */
+export const loginUser = async (req, res) => {
   try {
     const { emailOrPhone, password, rememberMe } = req.body;
 
@@ -99,7 +99,7 @@ exports.loginUser = async (req, res) => {
     }
 
     const value = emailOrPhone.trim();
-    let identifier = null;
+    let identifier;
 
     if (emailRegex.test(value)) {
       identifier = value.toLowerCase();
@@ -115,14 +115,7 @@ exports.loginUser = async (req, res) => {
       $or: [{ email: identifier }, { phone: identifier }],
     });
 
-    if (!user) {
-      return res.status(401).json({
-        message: "Invalid email/phone or password",
-      });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({
         message: "Invalid email/phone or password",
       });
@@ -146,15 +139,16 @@ exports.loginUser = async (req, res) => {
         isAdmin: user.isAdmin,
       },
       accessToken,
-      message: "User Login successfully",
+      message: "User login successful",
     });
   } catch (error) {
-    console.error("Login error:", error?.message || error);
+    console.error("Login error:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
 
-exports.refreshToken = async (req, res) => {
+/* ================= REFRESH TOKEN ================= */
+export const refreshToken = async (req, res) => {
   const token = req.cookies.refreshToken;
 
   if (!token) {
@@ -176,14 +170,15 @@ exports.refreshToken = async (req, res) => {
       accessToken: newAccessToken,
       message: "Access token refreshed successfully",
     });
-  } catch (error) {
+  } catch {
     return res
       .status(403)
       .json({ message: "Invalid or expired refresh token" });
   }
 };
 
-exports.logoutUser = (req, res) => {
+/* ================= LOGOUT ================= */
+export const logoutUser = (req, res) => {
   res.clearCookie("refreshToken", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -194,7 +189,8 @@ exports.logoutUser = (req, res) => {
   return res.status(200).json({ message: "Logged out successfully" });
 };
 
-exports.forgotPassword = async (req, res) => {
+/* ================= FORGOT PASSWORD ================= */
+export const forgotPassword = async (req, res) => {
   const { emailOrPhone } = req.body;
 
   try {
@@ -206,7 +202,9 @@ exports.forgotPassword = async (req, res) => {
       !validator.isEmail(emailOrPhone) &&
       !validator.isMobilePhone(emailOrPhone, "en-IN")
     ) {
-      return res.status(400).json({ message: "Invalid email or phone format" });
+      return res.status(400).json({
+        message: "Invalid email or phone format",
+      });
     }
 
     const user = await User.findOne({
@@ -221,11 +219,7 @@ exports.forgotPassword = async (req, res) => {
     const hashedOTP = await bcrypt.hash(otp, 10);
 
     await Otp.deleteMany({ emailOrPhone });
-
-    await Otp.create({
-      emailOrPhone,
-      otp: hashedOTP,
-    });
+    await Otp.create({ emailOrPhone, otp: hashedOTP });
 
     if (validator.isEmail(emailOrPhone)) {
       await sendEmail({
@@ -244,7 +238,8 @@ exports.forgotPassword = async (req, res) => {
   }
 };
 
-exports.resetPassword = async (req, res) => {
+/* ================= RESET PASSWORD ================= */
+export const resetPassword = async (req, res) => {
   const { emailOrPhone, otp, newPassword } = req.body;
 
   try {
@@ -253,38 +248,33 @@ exports.resetPassword = async (req, res) => {
     }
 
     if (newPassword.length < 6) {
-      return res
-        .status(400)
-        .json({ message: "Password must be at least 6 characters" });
+      return res.status(400).json({
+        message: "Password must be at least 6 characters",
+      });
     }
 
     const otpRecord = await Otp.findOne({ emailOrPhone });
 
-    if (!otpRecord) {
-      return res.status(400).json({ message: "Invalid OTP or expired" });
-    }
-
-    const isMatch = await bcrypt.compare(otp, otpRecord.otp);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid OTP or expired" });
+    if (!otpRecord || !(await bcrypt.compare(otp, otpRecord.otp))) {
+      return res.status(400).json({
+        message: "Invalid OTP or expired",
+      });
     }
 
     const user = await User.findOne({
       $or: [{ email: emailOrPhone }, { phone: emailOrPhone }],
     });
 
-    if (!user) {
-      await Otp.deleteOne({ emailOrPhone });
-      return res.status(200).json({ message: "Password reset successful" });
+    if (user) {
+      user.password = await bcrypt.hash(newPassword, 10);
+      await user.save();
     }
-
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
-    await user.save();
 
     await Otp.deleteOne({ emailOrPhone });
 
-    return res.status(200).json({ message: "Password reset successful" });
+    return res.status(200).json({
+      message: "Password reset successful",
+    });
   } catch (error) {
     console.error("resetPassword error:", error);
     return res.status(500).json({ message: "Something went wrong" });

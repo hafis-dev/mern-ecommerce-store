@@ -1,7 +1,10 @@
-const router = require("express").Router();
-const { authMiddleware } = require("../middleware/auth.middleware");
-const { createOrder } = require("../controllers/checkout.controller");
+import express from "express";
+
+import { authMiddleware } from "../middleware/auth.middleware.js";
+import { createOrder } from "../controllers/checkout.controller.js";
+
+const router = express.Router();
 
 router.post("/place", authMiddleware, createOrder);
 
-module.exports = router;
+export default router;

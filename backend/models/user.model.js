@@ -1,9 +1,12 @@
-// ...existing code...
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    username: { type: String, required: true, trim: true },
+    username: {
+      type: String,
+      required: true,
+      trim: true,
+    },
 
     email: {
       type: String,
@@ -25,9 +28,11 @@ const userSchema = new mongoose.Schema(
       match: [/^\+?\d{7,15}$/, "Please provide a valid phone number"],
     },
 
-    password: { type: String, required: true },
+    password: {
+      type: String,
+      required: true,
+    },
 
-    // 🔥 NEW — replaces role system
     isAdmin: {
       type: Boolean,
       default: false,
@@ -37,5 +42,5 @@ const userSchema = new mongoose.Schema(
 );
 
 const User = mongoose.model("User", userSchema);
-module.exports = User;
-// ...existing code...
+
+export default User;

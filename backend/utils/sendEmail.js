@@ -1,4 +1,4 @@
-const nodemailer = require("nodemailer");
+import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-transporter.verify((error, success) => {
+transporter.verify((error) => {
   if (error) {
     console.error("SMTP config error:", error.message);
   } else {
@@ -18,7 +18,7 @@ transporter.verify((error, success) => {
   }
 });
 
-exports.sendEmail = async (options) => {
+export const sendEmail = async (options) => {
   const mailOptions = {
     from: `"SHOPX STORE" <${process.env.SMTP_EMAIL}>`,
     to: options.email,

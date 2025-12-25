@@ -1,7 +1,8 @@
-const twilio = require("twilio");
+
+import twilio from 'twilio'
 const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 
-exports.sendSMS = async (phone, message) => {
+export const sendSMS = async (phone, message) => {
   try {
     await client.messages.create({
       body: message,

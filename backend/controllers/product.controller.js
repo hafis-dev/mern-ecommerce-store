@@ -1,10 +1,10 @@
-const Product = require("../models/product.model");
-const cloudinary = require("../config/cloudinary");
-const Cart = require("../models/cart.model");
-const Wishlist = require("../models/wishlist.model");
-const { uploadToCloudinary } = require("../utils/uploadImage");
+import Product from "../models/product.model.js";
+import cloudinary from "../config/cloudinary.js";
+import Cart from "../models/cart.model.js";
+import Wishlist from "../models/wishlist.model.js";
+import { uploadToCloudinary } from "../utils/uploadImage.js";
 
-exports.createProduct = async (req, res) => {
+export const createProduct = async (req, res) => {
   try {
     let {
       name,
@@ -102,7 +102,7 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-exports.getProducts = async (req, res) => {
+export const getProducts = async (req, res) => {
   try {
     let { category, sort, minPrice, maxPrice, search, gender, ...attrs } =
       req.query;
@@ -164,7 +164,7 @@ exports.getProducts = async (req, res) => {
   }
 };
 
-exports.getProductById = async (req, res) => {
+export const getProductById = async (req, res) => {
   try {
     const id = req.params.id;
 
@@ -182,7 +182,7 @@ exports.getProductById = async (req, res) => {
   }
 };
 
-exports.getFeaturedProducts = async (req, res) => {
+export const getFeaturedProducts = async (req, res) => {
   try {
     const products = await Product.find({ isFeatured: true })
       .sort({ createdAt: -1 })
@@ -195,7 +195,7 @@ exports.getFeaturedProducts = async (req, res) => {
   }
 };
 
-exports.getNewArrivalProducts = async (req, res) => {
+export const getNewArrivalProducts = async (req, res) => {
   try {
     const products = await Product.find({ isNewArrival: true })
       .sort({ createdAt: -1 })
@@ -208,7 +208,7 @@ exports.getNewArrivalProducts = async (req, res) => {
   }
 };
 
-exports.updateProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
   try {
     const id = req.params.id;
 
@@ -333,7 +333,7 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-exports.deleteProduct = async (req, res) => {
+export const deleteProduct = async (req, res) => {
   try {
     const id = req.params.id;
 
@@ -365,7 +365,7 @@ exports.deleteProduct = async (req, res) => {
 
 const normalizeKey = (key) => key.trim().toLowerCase();
 
-exports.getFilters = async (req, res) => {
+export const getFilters = async (req, res) => {
   try {
     const products = await Product.find();
     const filters = {};

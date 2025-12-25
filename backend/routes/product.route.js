@@ -1,8 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const upload = require("../middleware/multer");
+import express from "express";
+import upload from "../middleware/multer.js";
 
-const {
+import {
   createProduct,
   getProducts,
   getProductById,
@@ -11,12 +10,14 @@ const {
   getFeaturedProducts,
   getNewArrivalProducts,
   getFilters,
-} = require("../controllers/product.controller");
+} from "../controllers/product.controller.js";
 
-const {
+import {
   authMiddleware,
   adminMiddleware,
-} = require("../middleware/auth.middleware");
+} from "../middleware/auth.middleware.js";
+
+const router = express.Router();
 
 router.get("/filters", getFilters);
 router.get("/featured", getFeaturedProducts);
@@ -42,4 +43,4 @@ router.put(
 
 router.delete("/:id", authMiddleware, adminMiddleware, deleteProduct);
 
-module.exports = router;
+export default router;

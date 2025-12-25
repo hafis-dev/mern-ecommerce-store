@@ -1,15 +1,18 @@
-const router = require("express").Router();
-const {
+import express from "express";
+
+import {
   authMiddleware,
   adminMiddleware,
-} = require("../middleware/auth.middleware");
+} from "../middleware/auth.middleware.js";
 
-const {
+import {
   getMyOrders,
   cancelFullOrder,
   updateOrderStatus,
   getAllOrders,
-} = require("../controllers/order.controller");
+} from "../controllers/order.controller.js";
+
+const router = express.Router();
 
 router.get("/my-orders", authMiddleware, getMyOrders);
 router.put("/cancel/:orderId", authMiddleware, cancelFullOrder);
@@ -22,4 +25,4 @@ router.put(
   updateOrderStatus
 );
 
-module.exports = router;
+export default router;

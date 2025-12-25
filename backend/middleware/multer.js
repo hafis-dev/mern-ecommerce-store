@@ -1,5 +1,5 @@
-const multer = require("multer");
-const path = require("path");
+import multer from "multer";
+import path from "path";
 
 const storage = multer.memoryStorage();
 
@@ -11,8 +11,8 @@ const fileFilter = (req, file, cb) => {
   if (ext && mime) {
     cb(null, true);
   } else {
-    cb("Only image files are allowed!", false);
+    cb(new Error("Only image files are allowed!"), false);
   }
 };
 
-module.exports = multer({ storage, fileFilter });
+export default multer({ storage, fileFilter });

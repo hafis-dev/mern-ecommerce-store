@@ -1,18 +1,18 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
-    // User who placed the order
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
 
-    // Snapshot of user name
-    userName: { type: String, required: true },
+    userName: {
+      type: String,
+      required: true,
+    },
 
-    // Items purchased
     orderItems: [
       {
         product: {
@@ -24,14 +24,9 @@ const orderSchema = new mongoose.Schema(
         qty: Number,
         price: Number,
         image: String,
-
-       
-
-       
       },
     ],
 
-    // Shipping snapshot
     shippingAddress: {
       phone: { type: String, required: true },
       street: { type: String, required: true },
@@ -41,20 +36,27 @@ const orderSchema = new mongoose.Schema(
       country: { type: String, default: "India" },
     },
 
-    // Payment details
     paymentResult: {
-      paymentId: { type: String }, // Razorpay/Stripe payment Id
-      orderId: { type: String }, // Razorpay/Stripe order Id
-      status: { type: String }, // “success”
-      email_address: { type: String },
+      paymentId: String,
+      orderId: String,
+      status: String,
+      email_address: String,
     },
 
-    // Total order price
-    totalPrice: { type: Number, required: true },
+    totalPrice: {
+      type: Number,
+      required: true,
+    },
 
-    // Payment status
-    isPaid: { type: Boolean, default: true },
-    paidAt: { type: Date, default: Date.now },
+    isPaid: {
+      type: Boolean,
+      default: true,
+    },
+
+    paidAt: {
+      type: Date,
+      default: Date.now,
+    },
 
     status: {
       type: String,
@@ -65,4 +67,6 @@ const orderSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Order", orderSchema);
+const Order = mongoose.model("Order", orderSchema);
+
+export default Order;

@@ -1,7 +1,8 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/user.model");
+import jwt from "jsonwebtoken";
+import User from "../models/user.model.js";
 
-const authMiddleware = async (req, res, next) => {
+/* ================= AUTH MIDDLEWARE ================= */
+export const authMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -27,18 +28,17 @@ const authMiddleware = async (req, res, next) => {
     }
 
     req.user = user;
-    next();
+    return next();
   } catch (error) {
     console.error("Auth Middleware Error:", error);
     return res.status(500).json({ message: "Server error in auth middleware" });
   }
 };
 
-const adminMiddleware = (req, res, next) => {
+/* ================= ADMIN MIDDLEWARE ================= */
+export const adminMiddleware = (req, res, next) => {
   if (req.user?.isAdmin) {
     return next();
   }
   return res.status(403).json({ message: "Not authorized as admin" });
 };
-
-module.exports = { authMiddleware, adminMiddleware };

@@ -1,8 +1,8 @@
-const Cart = require("../models/cart.model");
-const Order = require("../models/order.model");
-const Product = require("../models/product.model");
+import Cart from "../models/cart.model.js";
+import Order from "../models/order.model.js";
+import Product from "../models/product.model.js";
 
-exports.createOrder = async (req, res) => {
+export const createOrder = async (req, res) => {
   try {
     const userId = req.user._id;
     const { shippingAddress } = req.body;
@@ -13,8 +13,9 @@ exports.createOrder = async (req, res) => {
 
     const cart = await Cart.findOne({ user: userId }).populate("items.product");
 
-    if (!cart || cart.items.length === 0)
+    if (!cart || cart.items.length === 0) {
       return res.status(400).json({ message: "Cart is empty" });
+    }
 
     const totalPrice = cart.items.reduce(
       (sum, item) => sum + item.product.price * item.quantity,
@@ -38,7 +39,7 @@ exports.createOrder = async (req, res) => {
       status: "Processing",
     });
 
-    for (let item of order.orderItems) {
+    for (const item of order.orderItems) {
       await Product.findByIdAndUpdate(item.product, {
         $inc: { stock: -item.qty },
       });
@@ -51,6 +52,6 @@ exports.createOrder = async (req, res) => {
     });
   } catch (error) {
     console.error("createOrder error:", error);
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
 };

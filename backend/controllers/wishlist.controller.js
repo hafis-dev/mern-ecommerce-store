@@ -1,7 +1,8 @@
-const Wishlist = require("../models/wishlist.model");
-const Product = require("../models/product.model");
+import Wishlist from "../models/wishlist.model.js";
+import Product from "../models/product.model.js";
 
-exports.getWishlist = async (req, res) => {
+/* ================= GET WISHLIST ================= */
+export const getWishlist = async (req, res) => {
   try {
     const wishlist = await Wishlist.findOne({ user: req.user.id }).populate(
       "products"
@@ -21,11 +22,12 @@ exports.getWishlist = async (req, res) => {
     return res.status(200).json({ products: validProducts });
   } catch (error) {
     console.error("getWishlist error:", error);
-    res.status(500).json({ message: "Failed to fetch wishlist" });
+    return res.status(500).json({ message: "Failed to fetch wishlist" });
   }
 };
 
-exports.toggleWishlist = async (req, res) => {
+/* ================= TOGGLE WISHLIST ================= */
+export const toggleWishlist = async (req, res) => {
   try {
     const { productId } = req.body;
 
@@ -48,7 +50,9 @@ exports.toggleWishlist = async (req, res) => {
       });
     }
 
-    const isExists = wishlist.products.includes(productId);
+    const isExists = wishlist.products.some(
+      (id) => id.toString() === productId
+    );
 
     if (isExists) {
       wishlist.products = wishlist.products.filter(
@@ -65,21 +69,26 @@ exports.toggleWishlist = async (req, res) => {
     wishlist.products.push(productId);
     await wishlist.save();
 
-    res.status(200).json({
+    return res.status(200).json({
       message: "Added to wishlist",
       wishlist,
     });
   } catch (error) {
-    res.status(500).json({ message: "Wishlist update failed" });
+    console.error("toggleWishlist error:", error);
+    return res.status(500).json({ message: "Wishlist update failed" });
   }
 };
 
-exports.clearWishlist = async (req, res) => {
+/* ================= CLEAR WISHLIST ================= */
+export const clearWishlist = async (req, res) => {
   try {
     await Wishlist.findOneAndUpdate({ user: req.user.id }, { products: [] });
 
-    res.status(200).json({ message: "Wishlist cleared" });
+    return res.status(200).json({
+      message: "Wishlist cleared",
+    });
   } catch (error) {
-    res.status(500).json({ message: "Failed to clear wishlist" });
+    console.error("clearWishlist error:", error);
+    return res.status(500).json({ message: "Failed to clear wishlist" });
   }
 };
