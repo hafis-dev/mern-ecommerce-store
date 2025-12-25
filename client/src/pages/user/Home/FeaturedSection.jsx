@@ -24,15 +24,17 @@ const FeaturedSection = () => {
         loadFeatured();
     }, []);
 
-
     return (
         <div className={styles.featuredWrapper}>
             <Container>
                 <h2 className={styles.featuredTitle}>Featured Products</h2>
-                <p className={styles.featuredSubtext}>Our top picks curated just for you</p>
+                <p className={styles.featuredSubtext}>
+                    Our top picks curated just for you
+                </p>
                 <div className={styles.featuredLine}></div>
 
                 <Row className={`g-4 ${styles.productContainer}`}>
+                    {/* Loading */}
                     {loading && (
                         <div
                             className="d-flex justify-content-center align-items-center w-100"
@@ -42,14 +44,22 @@ const FeaturedSection = () => {
                         </div>
                     )}
 
+                    {/* Empty state */}
+                    {!loading && featured.length === 0 && (
+                        <div className={styles.emptyState}>
+                            No featured products available right now.
+                        </div>
+                    )}
+
+                    {/* Products */}
                     {!loading &&
+                        featured.length > 0 &&
                         featured.map((item) => (
                             <Col key={item._id} xs={6} sm={6} md={4} lg={3}>
                                 <ProductCard product={item} />
                             </Col>
                         ))}
                 </Row>
-
             </Container>
         </div>
     );

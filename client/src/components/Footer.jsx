@@ -10,6 +10,8 @@ import {
     faQuestionCircle,
     faShieldHalved
 } from "@fortawesome/free-solid-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+
 import { Link } from "react-router-dom";
 
 import styles from "./footer.module.css";
@@ -89,7 +91,7 @@ const Footer = () => {
                         </p>
 
                         <p className={`mb-1 ${styles.contactText}`}>
-                            <FontAwesomeIcon icon={faPhone} /> &nbsp; +91 98765 43210
+                            <FontAwesomeIcon icon={faPhone} /> &nbsp; +91 97782 06112
                         </p>
 
                         <p className={`mb-1 ${styles.contactText}`}>
@@ -109,9 +111,21 @@ const Footer = () => {
                     <Col className="text-center">
                         <small className={styles.bottomLine}>
                             © {new Date().getFullYear()} ShopX — All Rights Reserved
+                            <span className="ms-2">
+                                |
+                                <a
+                                    href="https://github.com/hafis-dev/mern-ecommerce-store"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={styles.linkItem}
+                                >
+                                    <FontAwesomeIcon icon={faGithub} className={`${styles.githubIcon} ms-2`} />
+                                </a>
+                            </span>
                         </small>
                     </Col>
                 </Row>
+
 
             </Container>
         </footer>

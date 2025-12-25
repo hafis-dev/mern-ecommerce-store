@@ -71,7 +71,14 @@ const CollectionPage = () => {
                         </div>
                     ) : (
                         <Row className="g-3">
-                            {products.length === 0 && <p>No products found</p>}
+                            {products.length === 0 &&
+                                <div style={{
+                                    minHeight: "75vh",
+                                    color: "var(--c5)"
+                                }} className="d-flex justify-content-center pt-5">
+                                    <p>No products found</p>
+                                </div>
+                            }
 
                             {products.map((p) => (
                                 <Col

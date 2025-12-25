@@ -24,15 +24,17 @@ const NewArrivalSection = () => {
         loadNewArrival();
     }, []);
 
-
     return (
         <div className={styles.arrivalWrapper}>
             <Container>
                 <h2 className={styles.arrivalTitle}>New Arrivals</h2>
-                <p className={styles.arrivalSubtext}>Fresh picks just added to our store</p>
+                <p className={styles.arrivalSubtext}>
+                    Fresh picks just added to our store
+                </p>
                 <div className={styles.arrivalLine}></div>
 
                 <Row className={`g-4 ${styles.arrivalRow}`}>
+                    {/* Loading */}
                     {loading && (
                         <div
                             className="d-flex justify-content-center align-items-center w-100"
@@ -42,14 +44,22 @@ const NewArrivalSection = () => {
                         </div>
                     )}
 
+                    {/* Empty state */}
+                    {!loading && newArrival.length === 0 && (
+                        <div className={styles.emptyState}>
+                            No new arrivals available right now.
+                        </div>
+                    )}
+
+                    {/* Products */}
                     {!loading &&
+                        newArrival.length > 0 &&
                         newArrival.map((item) => (
                             <Col key={item._id} xs={6} sm={6} md={4} lg={3}>
                                 <ProductCard product={item} />
                             </Col>
                         ))}
                 </Row>
-
             </Container>
         </div>
     );
