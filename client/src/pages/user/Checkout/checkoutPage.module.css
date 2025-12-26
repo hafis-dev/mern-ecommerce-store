@@ -14,17 +14,22 @@
     margin-bottom: 20px;
 }
 
-.formCard,
-.summaryCard {
-    background: transparent !important;
-    color: var(--c6) !important;
-    border-radius: 0px !important;
+.formCard:global(.card),
+.summaryCard:global(.card) {
+    background: transparent ;
+    color: var(--c6) ;
+    border-radius: 0px ;
     padding: 22px;
-    border: 1px solid var(--c3) !important;
+    border: 1px solid var(--c3) ;
     box-shadow: 0 1px 1px var(--c6);
 }
-.input{
-    border-radius: 0px !important;
+.input:global(.form-control) {
+    border-radius: 0;
+    
+}
+.input:global(.form-control):focus {
+    box-shadow: none;
+    border-color: var(--c6);
 }
 .orderItem {
     display: flex;
@@ -68,18 +73,18 @@
 }
 
 .placeBtn {
-    background: var(--c6) !important;
-    border: none !important;
+    background: var(--c6) ;
+    border: none ;
     padding: 14px;
     width: 100%;
     font-size: 17px;
     font-weight: 600;
-    color: var(--c1) !important;
-    border-radius: 0px !important;
+    color: var(--c1) ;
+    border-radius: 0px ;
     margin-top: 20px;
     transition: 0.25s ease;
 }
 
 .placeBtn:hover {
-    background: var(--c4) !important;
+    background: var(--c4) ;
 }

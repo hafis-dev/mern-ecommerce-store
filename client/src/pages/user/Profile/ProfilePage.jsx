@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Card, Form, Button, Row, Col, Nav, Tab } from "react-bootstrap";
+import { Container, Card, Form,  Row, Col, Nav, Tab } from "react-bootstrap";
 import { toast } from "react-toastify";
 import styles from "./profilePage.module.css";
 import { getProfile, updatePassword, updateProfile } from "../../../services/api/profile.service";
@@ -165,9 +165,9 @@ const ProfilePage = () => {
                                             </Row>
 
                                             <div className="d-flex justify-content-end mt-3">
-                                                <Button type="submit" className={styles.formBtn}>
+                                                <button type="submit" className={styles.formBtn}>
                                                     Save Changes
-                                                </Button>
+                                                </button>
                                             </div>
                                         </Form>
                                     </Card.Body>
@@ -210,9 +210,9 @@ const ProfilePage = () => {
                                             </Form.Group>
 
                                             <div className="d-flex justify-content-end mt-3">
-                                                <Button type="submit" className={styles.pwdBtn}>
+                                                <button type="submit" className={styles.pwdBtn}>
                                                     Update Password
-                                                </Button>
+                                                </button>
                                             </div>
                                         </Form>
                                     </Card.Body>

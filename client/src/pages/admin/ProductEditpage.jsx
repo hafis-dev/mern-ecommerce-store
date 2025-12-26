@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
+import { Form,  Container, Row, Col, Card } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Select from "react-select";
@@ -331,7 +331,8 @@ const ProductEditPage = () => {
                                         className={styles.input}
                                     />
 
-                                    <Button
+                                    <button
+                                    type="button"
                                         size="sm"
                                         className={styles.removeBtn}
                                         onClick={() => {
@@ -344,11 +345,11 @@ const ProductEditPage = () => {
                                         }}
                                     >
                                         X
-                                    </Button>
+                                    </button>
                                 </div>
                             ))}
 
-                            <Button
+                            <button
                                 size="sm"
                                 variant="outline-dark"
                                 className={styles.addAttrBtn}
@@ -358,7 +359,7 @@ const ProductEditPage = () => {
                                 }}
                             >
                                 + Add Attribute
-                            </Button>
+                            </button>
 
                             <hr />
 
@@ -391,7 +392,7 @@ const ProductEditPage = () => {
                     </Col>
                 </Row>
 
-                <Button type="submit" className={styles.submitBtn} disabled={submitLoading}>
+                <button type="submit" className={styles.submitBtn} disabled={submitLoading}>
                     {submitLoading ? (
                         <>
                             <span className="spinner-border spinner-border-sm me-2"></span>
@@ -400,7 +401,7 @@ const ProductEditPage = () => {
                     ) : (
                         "Save Changes"
                     )}
-                </Button>
+                </button>
             </Form>
         </Container>
     );

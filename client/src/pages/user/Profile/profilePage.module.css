@@ -1,26 +1,24 @@
 /* Card Containers */
-.customCard {
-    background: var(--c1) !important;
-    border: 1px solid var(--c3) !important;
-    border-radius: 0px !important;
+.customCard:global(.card) {
+    background: var(--c1) ;
+    border: 1px solid var(--c3);
+    border-radius: 0px;
 }
 
 .avatar {
     aspect-ratio: 1 / 1;
     width: 80px;
     min-width: 50px;
-    background: var(--c6) !important;
+    background: var(--c6) ;
     color: var(--c1);
     font-size: 2rem;
     font-weight: bold;
 }
 
-/* Use :global(.active) to target the un-hashed 'active' class 
-   added dynamically by Bootstrap 
-*/
-.navLink:global(.active) {
-    background-color: var(--c6) !important;
-    color: var(--c1) !important;
+:global(.nav-pills) .navLink:global(.nav-link.active) {
+    background-color: var(--c6);
+    color: var(--c1);
+    border-radius: 0;
 }
 
 .username {
@@ -38,14 +36,14 @@
     font-size: 0.875em;
 }
 
-.navLink {
-    color: var(--c6) !important;
+:global(.nav-pills) .navLink:global(.nav-link) {
+    color: var(--c6)  ;
     cursor: pointer;
-    border-radius: 0px !important;
+    border-radius: 0px ;
     transition: background 0.2s;
 }
 
-.navLink:hover {
+.navLink:global(.nav-link):hover {
     background: var(--c2);
 }
 
@@ -61,17 +59,17 @@
     color: var(--c5);
 }
 
-.formControl {
-    background: transparent !important;
-    color: var(--c6) !important;
-    border: 1px solid var(--c3) !important;
-    border-radius: 0px !important;
+.formControl:global(.form-control) {
+    background: transparent ;
+    color: var(--c6) ;
+    border: 1px solid var(--c3) ;
+    border-radius: 0px ;
 }
 
-.formControl:focus {
+.formControl:global(.form-control):focus {
     background: transparent;
     color: var(--c6);
-    border-color: var(--c5) !important;
+    border-color: var(--c5) ;
     box-shadow: none;
 }
 
@@ -82,19 +80,19 @@
 }
 
 .formBtn {
-    background: var(--c6) !important;
-    border: none !important;
-    border-radius: 0px !important;
+    background: var(--c6) ;
+    border: none ;
+    border-radius: 0px ;
     padding: 10px 25px;
-    color: var(--c1) !important;
+    color: var(--c1) ;
 }
 
 .pwdBtn {
-    background: var(--c6) !important;
-    border: none !important;
-    border-radius: 0px !important;
+    background: var(--c6) ;
+    border: none ;
+    border-radius: 0px ;
     padding: 10px 25px;
-    color: var(--c1) !important;
+    color: var(--c1) ;
 }
 
 .formBtn:hover,

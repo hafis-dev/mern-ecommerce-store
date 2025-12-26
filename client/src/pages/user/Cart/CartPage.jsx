@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CartCard from "./CartCard";
-import { Card, Button, Container } from "react-bootstrap";
+import { Card, Container } from "react-bootstrap";
 import styles from "./cartPage.module.css";
 import { useCart } from "../../../context/Cart/useCart";
 
@@ -84,12 +84,12 @@ const CartPage = () => {
             Total Amount: ₹{totalAmount.toLocaleString()}
           </h3>
 
-          <Button
+          <button
             className={styles.checkoutBtn}
             onClick={() => navigate("/checkout")}
           >
             Proceed to Checkout
-          </Button>
+          </button>
         </Card>
       )}
     </Container>

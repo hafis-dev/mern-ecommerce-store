@@ -1,15 +1,15 @@
-
 .navbar {
-    background-color: var(--c1)!important;
+    background-color: var(--c1);
     padding-top: 6px !important;
     padding-bottom: 0px !important
 }
-.navContainer{
-        border-bottom: 1px solid var(--c2);
-        padding-bottom: 5px;
-        padding-top:5px
 
+.navContainer {
+    border-bottom: 1px solid var(--c2);
+    padding-bottom: 5px;
+    padding-top: 5px
 }
+
 .brand {
     font-size: 26px;
     font-weight: 800;
@@ -19,9 +19,9 @@
     letter-spacing: 0.5px;
 }
 
-.link {
-    color: var(--c6) !important;
-    font-weight: bold !important;
+.link:global(.nav-link) {
+    color: var(--c6);
+    font-weight: bold;
     font-size: 15px;
     letter-spacing: 0.4px;
     text-transform: uppercase;
@@ -29,29 +29,33 @@
 }
 
 .link:hover {
-    text-shadow: 0 0 2px var(--c6);
+    color: var(--c5) !important;
 }
 
 .active {
-    color: var(--c6) !important;
-    text-shadow: 0 0 2px var(--c6);
-    border-bottom: 2px solid var(--c5);
+    color: var(--c5) !important;
     padding-bottom: 3px;
-    font-weight: bold !important;
+    text-shadow: 0px 1px 1px var(--c5);
+    font-weight: bolder !important;
 }
 
-.logout {
-    color: var(--c5) !important;
-    font-weight: 800;
+.logout:global(.nav-link) {
+    color: var(--c6);
+    font-weight: bold;
+        font-size: 15px;
     text-transform: uppercase;
     cursor: pointer;
 }
 
-.togglerIcon {
-    background-color: rgb(210, 210, 210) !important;
-    padding: 0px !important;
-    border-color: var(--c7) !important;
-    border-radius: 2px !important;
+.logout:hover {
+    color: var(--c5) !important;
+}
+
+.togglerIcon:global(.navbar-toggler) {
+    background-color: rgb(210, 210, 210);
+    padding: 0px;
+    border-color: var(--c7);
+    border-radius: 0px;
 }
 
 @media (max-width: 992px) {
@@ -60,11 +64,6 @@
     .logout {
         padding: 10px 0 !important;
         border: none !important;
-    }
-
-    .active {
-        border: none !important;
-        color: var(--c5) !important;
     }
 }
 

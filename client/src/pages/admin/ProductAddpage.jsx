@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
+import { Form, Container, Row, Col, Card } from "react-bootstrap";
 import { toast } from "react-toastify";
 import styles from "./productAddPage.module.css";
 import { CATEGORY_GROUPS } from "../../constants/categories";
@@ -281,7 +281,7 @@ const ProductAddPage = () => {
                                         className={styles.input}
                                     />
 
-                                    <Button
+                                    <button
                                         size="sm"
                                         className={styles.removeBtn}
                                         onClick={() => {
@@ -294,11 +294,11 @@ const ProductAddPage = () => {
                                         }}
                                     >
                                         X
-                                    </Button>
+                                    </button>
                                 </div>
                             ))}
 
-                            <Button
+                            <button
                                 size="sm"
                                 variant="outline-dark"
                                 className={styles.addAttrBtn}
@@ -308,7 +308,7 @@ const ProductAddPage = () => {
                                 }}
                             >
                                 + Add Attribute
-                            </Button>
+                            </button>
 
                             <hr />
 
@@ -342,7 +342,7 @@ const ProductAddPage = () => {
                     </Col>
                 </Row>
 
-                <Button type="submit" className={styles.submitBtn} disabled={loading}>
+                <button type="submit" className={styles.submitBtn} disabled={loading}>
                     {loading ? (
                         <>
                             <span className="spinner-border spinner-border-sm me-2"></span>
@@ -351,7 +351,7 @@ const ProductAddPage = () => {
                     ) : (
                         "Create Product"
                     )}
-                </Button>
+                </button>
             </Form>
         </Container>
     );

@@ -1,9 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap');
 
 .cartRow {
     padding: 18px 10px;
-    border-top: 1px solid var(--c2) !important;
-    border-bottom: 1px solid var(--c2) !important;
+    border-top: 1px solid var(--c2);
+    border-bottom: 1px solid var(--c2);
     cursor: pointer;
     font-family: "Urbanist", sans-serif;
     transition: 0.25s ease;
@@ -12,8 +11,8 @@
 }
 
 .cartRow:hover {
-    background: var(--c2) !important;
-    border-color: var(--c3) !important;
+    background: var(--c2);
+    border-color: var(--c3);
 }
 
 /* Product image */
@@ -21,7 +20,7 @@
     width: 75px;
     height: 75px;
     object-fit: cover;
-    border: 1px solid var(--c5) !important;
+    border: 1px solid var(--c5);
 }
 
 /* Title */
@@ -29,7 +28,7 @@
     font-size: 16px;
     font-weight: 700;
     margin: 0;
-    color: var(--c6) !important;
+    color: var(--c6);
     letter-spacing: 0.3px;
 }
 
@@ -51,7 +50,7 @@
 
 /* Quantity box */
 .qtyBox {
-    border: 1px solid var(--c3) !important;
+    border: 1px solid var(--c3);
     padding: 6px 14px;
     border-radius: 0px !important;
     display: flex;
@@ -66,7 +65,7 @@
 /* Quantity buttons */
 .qtyBtn {
     border: none;
-    background: transparent !important;
+    background: transparent;
     font-size: 20px;
     font-weight: 600;
     color: var(--c6);
@@ -75,7 +74,7 @@
 }
 
 .qtyBtn:disabled {
-    opacity: 0.3;
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
@@ -86,16 +85,11 @@
     margin-top: 2px;
 }
 
-/* Disabled state for + button */
-.qtyDisabled {
-    cursor: not-allowed !important;
-    opacity: 0.5 !important;
-}
 
 /* Trash button */
 .trashBtn {
     border: none;
-    background: transparent !important;
+    background: transparent;
     cursor: pointer;
     transition: 0.2s ease;
 }
@@ -108,5 +102,5 @@
 }
 
 .trashIcon:hover {
-    color: var(--c5) !important;
+    color: var(--c5);
 }

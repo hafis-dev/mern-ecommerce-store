@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Card, Button, Image, Collapse } from "react-bootstrap";
+import { Card,Image, Collapse } from "react-bootstrap";
 import styles from "./orderCard.module.css";
 
 const OrderCard = ({ order, onCancelOrder }) => {
@@ -15,10 +15,10 @@ const OrderCard = ({ order, onCancelOrder }) => {
     return (
         <Card className={`${styles.orderCard} mb-3`}>
             <div
-                className="d-flex justify-content-between align-items-center p-3"
+                className={`d-flex justify-content-between align-items-center p-3 ${styles.cardHeader}`}
                 onClick={() => setOpen(!open)}
-                style={{ cursor: "pointer" }}
             >
+
                 <div>
                     <div className={styles.orderHeader}>Order ID: {order._id}</div>
 
@@ -57,7 +57,7 @@ const OrderCard = ({ order, onCancelOrder }) => {
 
                     <div className="d-flex justify-content-end mt-3">
                         {order.status === "Processing" && (
-                            <Button
+                            <button
                                 className={styles.btnCancel}
                                 onClick={(e) => {
                                     e.stopPropagation();
@@ -65,7 +65,7 @@ const OrderCard = ({ order, onCancelOrder }) => {
                                 }}
                             >
                                 Cancel Order
-                            </Button>
+                            </button>
                         )}
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../../../services/api/axios";
 import { useNavigate } from "react-router-dom";
-import { Row, Col, Card, Form, Button, Image } from "react-bootstrap";
+import { Row, Col, Card, Form, Image } from "react-bootstrap";
 import styles from "./checkoutPage.module.css";
 import { toast } from "react-toastify";
 import { useCart } from "../../../context/Cart/useCart";
@@ -179,9 +179,9 @@ const CheckoutPage = () => {
                             Total: ₹ {totalAmount}
                         </h4>
 
-                        <Button className={styles.placeBtn} onClick={placeOrder}>
+                        <button className={styles.placeBtn} onClick={placeOrder}>
                             Place Order
-                        </Button>
+                        </button>
                     </Card>
                 </Col>
             </Row>

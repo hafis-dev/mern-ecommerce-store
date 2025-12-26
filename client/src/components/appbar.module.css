@@ -5,7 +5,7 @@
 }
 
 .navbar {
-    background-color: var(--c1) !important;
+    background-color: var(--c1) ;
     border-bottom: 1px solid var(--c2) !important;
     padding-top: 4px;
     padding-bottom: 6px;
@@ -19,20 +19,17 @@
 
 .navlink.active {
     color: var(--c5) !important;
-    text-shadow: 0 0 1px var(--c6);
+    text-shadow: 0 -1px 1px var(--c5);
 }
 
-.brand {
-    font-size: 28px !important;
-    font-weight: 800 !important;
-    color: var(--c6) !important;
+.brand:global(.navbar-brand) {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--c6);
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
 .navlink {
-    color: var(--c6) !important;
-    font-weight: 600;
-    font-size: 15px;
     transition: 0.2s ease;
 }
 
@@ -47,26 +44,26 @@
     margin-right: clamp(20px, 2.5vw, 30px);
 }
 
-.cartBadge {
+.cartBadge:global(.badge.bg-primary) {
     width: 18px;
     height: 18px;
     font-size: 12px;
     top: 11px;
     right: -9px;
-    background: var(--c5) !important;
-    color: var(--c1) !important;
+    background: green !important;
+    color: var(--c1);
     font-family: "Urbanist", sans-serif;
     font-weight: 700;
 }
 
-.cartBadgeDesktop {
+.cartBadgeDesktop:global(.badge) {
     width: 18px;
     height: 18px;
     font-size: 12px;
     top: 20px;
     right: 0;
-    background: var(--c5) !important;
-    color: var(--c1) !important;
+    background: green !important;
+    color: var(--c1);
     font-weight: 700;
 }
 
@@ -75,7 +72,7 @@
     border: 1px solid var(--c2) !important;
 }
 
-.dropdownItem {
+.dropdownItem:global(.dropdown-item) {
     color: var(--c6) !important;
     background-color: var(--c1) !important;
     font-weight: 600 !important;
@@ -88,10 +85,10 @@
     color: var(--c5) !important;
 }
 
-:global(.dropdown-item.active),
-:global(.dropdown-item:active) {
-    background-color: var(--c6) !important;
-    color: var(--c1) !important;
+.dropdownItem:global(.dropdown-item.active),
+.dropdownItem:global(.dropdown-item:active) {
+    color: var(--c5) !important;
+    text-shadow: 0 0 1px var(--c6);
 }
 
 .dropdownDivider:hover {

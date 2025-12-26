@@ -167,7 +167,7 @@ const ProductPage = () => {
                     </div>
 
                     {product.stock <= 0 ? (
-                        <Button
+                        <button
                             type="button"
                             variant="secondary"
                             className={styles.addBtn}
@@ -175,25 +175,25 @@ const ProductPage = () => {
                             style={{ opacity: 0.7, cursor: "not-allowed" }}
                         >
                             Out of Stock
-                        </Button>
+                        </button>
                     ) : isInCart ? (
-                        <Button
+                        <button
                             type="button"
                             variant="outline-dark"
                             className={styles.cartBtn}
                             onClick={() => navigate("/cart")}
                         >
                             Go to Cart
-                        </Button>
+                        </button>
                     ) : (
-                        <Button
+                        <button
                             type="button"
                             variant="dark"
                             className={styles.addBtn}
                             onClick={handleAddToCart}
                         >
                             Add to Cart
-                        </Button>
+                        </button>
                     )}
                 </Col>
             </Row>

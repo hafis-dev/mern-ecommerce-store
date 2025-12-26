@@ -1,5 +1,4 @@
 /* OrderSuccessPage.module.css */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 .successWrapper {
     display: flex;
@@ -39,19 +38,19 @@
 .baseBtn {
     min-width: 200px;
     padding: 10px 22px;
-    border-radius: 0px !important;
+    border-radius: 0px ;
     font-weight: 600;
-    color: var(--c1) !important;
+    color: var(--c1) ;
     border: none;
     transition: 0.2s ease;
 }
 
 .historyBtn ,.continueBtn{
-    background-color: var(--c5) !important;
-    border: 1px solid var(--c5) !important;
+    background-color: var(--c5) ;
+    border: 1px solid var(--c5) ;
 }
 
 .baseBtn:hover {
-    opacity: 0.85 !important;
+    opacity: 0.85 ;
     transform: translateY(-1px);
 }

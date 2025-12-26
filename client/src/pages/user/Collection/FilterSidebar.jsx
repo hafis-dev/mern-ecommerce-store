@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Card, Form, Button } from "react-bootstrap";
+import { Card, Form, } from "react-bootstrap";
 import api from "../../../services/api/axios";
 import styles from "./filterSidebar.module.css";
 import Select from "react-select";
@@ -246,12 +246,12 @@ const FilterSidebar = ({ onApply, onClear }) => {
                 )}
 
                 <div className="d-flex gap-2 mt-3">
-                    <Button className={`${styles.btnApply} w-50`} onClick={handleApply}>
+                    <button className={`${styles.btnApply} w-50`} onClick={handleApply}>
                         Apply
-                    </Button>
-                    <Button className={`${styles.btnClear} w-50`} onClick={handleClear}>
+                    </button>
+                    <button className={`${styles.btnClear} w-50`} onClick={handleClear}>
                         Clear
-                    </Button>
+                    </button>
                 </div>
             </Card>
         </>

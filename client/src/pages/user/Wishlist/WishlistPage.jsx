@@ -23,10 +23,11 @@ const WishlistPage = () => {
 
     return (
         <Container className={`${styles.page} pt-5 mt-lg-0 mt-md-4 mt-sm-3`}>
-           
+
 
             <div className="mb-2 d-flex justify-content-end">
                 <button
+                    type="button"
                     className={styles.clearBtn}
                     onClick={clearWishlist}
                 >

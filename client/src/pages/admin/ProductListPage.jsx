@@ -82,12 +82,13 @@ export default function ProductListPage() {
                         </div>
 
                         <div className="d-flex flex-column gap-2">
-                            <Button
+                            <button
+                            type="button"
                                 className={styles.btnEdit}
                                 onClick={() => navigate(`/admin/products/edit/${p._id}`)}
                             >
                                 Edit
-                            </Button>
+                            </button>
 
                             <Button
                                 variant="danger"

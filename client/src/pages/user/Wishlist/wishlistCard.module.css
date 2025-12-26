@@ -1,8 +1,8 @@
 
 .wishlistRow {
     padding: 18px 10px;
-    border-top: 1px solid var(--c2) !important;
-    border-bottom: 1px solid var(--c2) !important;
+    border-top: 1px solid var(--c2) ;
+    border-bottom: 1px solid var(--c2);
     font-family: "Urbanist", sans-serif;
     transition: 0.25s ease;
     background: var(--c1);
@@ -10,22 +10,21 @@
 }
 
 .wishlistRow:hover {
-    background: var(--c2) !important;
-    border-color: var(--c3) !important;
+    background: var(--c2) ;
 }
 
 .productImage {
     width: 75px;
     height: 75px;
     object-fit: cover;
-    border: 1px solid var(--c5) !important;
+    border: 1px solid var(--c5) ;
 }
 
 .wishlistTitle {
     font-size: 16px;
     font-weight: 700;
     margin: 0;
-    color: var(--c6) !important;
+    color: var(--c6) ;
     letter-spacing: 0.3px;
 }
 
@@ -45,7 +44,7 @@
 
 .trashBtn {
     border: none;
-    background: transparent !important;
+    background: transparent;
     cursor: pointer;
     transition: 0.2s ease;
 }
@@ -57,5 +56,5 @@
 }
 
 .trashIcon:hover {
-    color: var(--c5) !important;
+    color: var(--c5) ;
 }

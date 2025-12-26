@@ -1,13 +1,13 @@
-.productCard {
+.productCard:global(.card) {
     cursor: pointer;
-    border-radius: 0px !important;
-    background-color: transparent !important;
-    border: 1px solid var(--c4) !important;
+    border-radius: 0px ;
+    background-color: transparent ;
+    border: 1px solid var(--c4) ;
     position: relative;
 }
 
 .productCard:hover {
-    box-shadow: 0 0 1px var(--c5) !important;
+    box-shadow: 0 0 1px var(--c5) ;
 }
 
 .imageWrapper {
@@ -50,12 +50,12 @@
     border-radius: 0px !important;
 }
 
-.productTitle {
+.productTitle:global(.card-title) {
     font-family: "Urbanist", sans-serif;
     font-weight: 600;
-    font-size: 16px !important;
-    color: var(--c6) !important;
-    margin-bottom: 0 !important;
+    font-size: 16px;
+    color: var(--c6);
+    margin-bottom: 0;
     letter-spacing: 0.2px;
     white-space: nowrap;
     overflow: hidden;
@@ -66,7 +66,7 @@
     font-family: "Urbanist", sans-serif;
     color: var(--c5);
     font-weight: 700;
-    font-size: 17px !important;
+    font-size: 17px ;
     margin: 0;
 }
 

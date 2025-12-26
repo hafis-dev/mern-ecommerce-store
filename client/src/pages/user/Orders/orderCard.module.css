@@ -1,17 +1,19 @@
 
-.orderCard {
-    background: var(--c1) !important;
-    border: 1px solid var(--c2) !important;
-    border-radius: 0px !important;
+.orderCard:global(.card) {
+    background: var(--c1) ;
+    border: 1px solid var(--c2);
+    border-radius: 0px;
     font-family: "Urbanist", sans-serif;
     transition: 0.2s ease;
     padding-bottom: 10px;
 }
 
 .orderCard:hover {
-    border-color: var(--c5) !important;
+    border-color: var(--c5) ;
 }
-
+.cardHeader {
+    cursor: pointer;
+}
 .orderHeader {
     font-size: 17px;
     font-weight: 700;
@@ -43,7 +45,7 @@
     width: 65px;
     height: 65px;
     object-fit: cover;
-    border-radius: 0px !important;
+    border-radius: 0px ;
 }
 
 /* NAME + QTY */
@@ -68,7 +70,7 @@
         margin-top: 0px;
 }
 .itemQty{
-    color: var(--c5) !important;
+    color: var(--c5);
 }
 /* STATUS */
 .itemStatus {
@@ -79,12 +81,12 @@
 /* CANCEL BUTTON */
 .btnCancel {
     flex: 0 0 auto;
-    background: var(--c6) !important;
-    border: none !important;
-    color: var(--c1) !important;
-    font-weight: 600 !important;
-    padding: 8px 16px !important;
-    border-radius: 0px !important;
+    background: var(--c6);
+    border: none ;
+    color: var(--c1) ;
+    font-weight: 600 ;
+    padding: 8px 16px ;
+    border-radius: 0px ;
     transition: 0.2s ease;
 }
 

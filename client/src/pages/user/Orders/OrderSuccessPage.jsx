@@ -1,4 +1,4 @@
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styles from "./orderSuccessPage.module.css";
 
@@ -27,19 +27,21 @@ const OrderSuccessPage = () => {
                     </p>
 
                     <div className={styles.btnGroup}>
-                        <Button
+                        <button
+                        type="button"
                             className={`${styles.baseBtn} ${styles.historyBtn}`}
                             onClick={() => navigate("/orders")}
                         >
                             View Order History
-                        </Button>
+                        </button>
 
-                        <Button
+                        <button
+                        type="button"
                             className={`${styles.baseBtn} ${styles.continueBtn}`}
                             onClick={() => navigate("/")}
                         >
                             Continue Shopping
-                        </Button>
+                        </button>
                     </div>
                 </Col>
             </Row>
