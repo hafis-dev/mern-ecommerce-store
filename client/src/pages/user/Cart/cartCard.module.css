@@ -3,7 +3,6 @@
     padding: 18px 10px;
     border-top: 1px solid var(--c2);
     border-bottom: 1px solid var(--c2);
-    cursor: pointer;
     font-family: "Urbanist", sans-serif;
     transition: 0.25s ease;
     background: var(--c1);
@@ -15,7 +14,6 @@
     border-color: var(--c3);
 }
 
-/* Product image */
 .productImage {
     width: 75px;
     height: 75px;
@@ -23,7 +21,6 @@
     border: 1px solid var(--c5);
 }
 
-/* Title */
 .cartTitle {
     font-size: 16px;
     font-weight: 700;
@@ -36,55 +33,70 @@
     max-width: 150px;
 }
 
-/* Muted price */
 .priceMuted {
     color: var(--c4) ;
 }
 
-/* Low stock text */
 .lowStock {
     font-size: 10px;
     color: red;
     margin-top: 2px;
 }
 
-/* Quantity box */
-.qtyBox {
+/* Quantity wrapper */
+.qtyWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+}
+
+/* Minus & Plus circular buttons */
+.circleBtn {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
     border: 1px solid var(--c3);
-    padding: 6px 14px;
-    border-radius: 0px !important;
+    background: var(--c1);
+    color: var(--c6);
+    font-size: 16px;
+    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    color: var(--c6);
-    background: var(--c1);
+    cursor: pointer;
     transition: 0.2s ease;
 }
 
-/* Quantity buttons */
-.qtyBtn {
-    border: none;
-    background: transparent;
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--c6);
-    cursor: pointer;
-    padding: 0;
-}
 
-.qtyBtn:disabled {
-    opacity: 0.5;
+.circleBtn:disabled {
+    opacity: 0.4;
     cursor: not-allowed;
 }
-
-/* Max stock label */
-.maxStockLabel {
-    font-size: 9px;
-    color: red;
-    margin-top: 2px;
+/* Click (press) effect */
+.circleBtn:active:not(:disabled) {
+    background: var(--c3);
+    border-color: var(--c5);
+}
+/* Quantity number box */
+.qtyValue {
+    min-width: 34px;
+    height: 26px;
+    border: 1px solid var(--c3);
+    border-radius: 4px;
+    background: var(--c1);
+    color: var(--c6);
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* Optional disabled look when max stock */
+.disabledBtn {
+    opacity: 0.4;
+}
 
 /* Trash button */
 .trashBtn {

@@ -14,7 +14,6 @@ const CartCard = ({ item, onIncrease, onDecrease, onRemove, onClick }) => {
             <Row
                 className={`${styles.cartRow} align-items-center g-0  p-2 `}
                 onClick={onClick}
-                style={{ cursor: "pointer" }}
             >
                 {/* IMAGE + DETAILS */}
                 <Col xs={7} className="d-flex align-items-center gap-3">
@@ -45,33 +44,31 @@ const CartCard = ({ item, onIncrease, onDecrease, onRemove, onClick }) => {
                 {/* QUANTITY */}
                 <Col
                     xs={3}
-                    className="d-flex flex-column align-items-center justify-content-center"
+                    className="d-flex align-items-center justify-content-center"
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <div className={styles.qtyBox}>
+                    <div className={styles.qtyWrapper}>
                         <button
-                            className={styles.qtyBtn}
+                            className={styles.circleBtn}
                             disabled={item.quantity <= 1}
                             onClick={onDecrease}
                         >
-                            -
+                            −
                         </button>
 
-                        <span className="mx-2 fw-bold">{item.quantity}</span>
+                        <span className={styles.qtyValue}>{item.quantity}</span>
 
                         <button
-                            className={`${styles.qtyBtn} ${isMaxStock ? styles.qtyDisabled : ""}`}
+                            className={`${styles.circleBtn} ${isMaxStock ? styles.disabledBtn : ""
+                                }`}
                             disabled={isMaxStock}
                             onClick={onIncrease}
                         >
                             +
                         </button>
                     </div>
-
-                    {isMaxStock && (
-                        <span className={styles.maxStockLabel}>Max</span>
-                    )}
                 </Col>
+
 
                 {/* REMOVE */}
                 <Col xs={2} className="d-flex justify-content-end pe-2">

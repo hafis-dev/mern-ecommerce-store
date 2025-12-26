@@ -5,52 +5,50 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    min-height: 85vh;
+    min-height: clamp(70vh, 85vh, 100vh);
     font-family: 'Poppins', sans-serif;
     background-color: var(--c1);
+    padding: clamp(16px, 4vw, 32px);
 }
 
 .successImage {
-    width: 140px;
-    margin-bottom: 25px;
+    width: clamp(90px, 18vw, 140px);
+    margin-bottom: clamp(16px, 4vw, 25px);
 }
 
 .successTitle {
     font-weight: 700;
-    font-size: 2rem;
+    font-size: clamp(1.4rem, 4vw, 2rem);
     color: var(--c4);
+    margin-bottom: clamp(8px, 2vw, 12px);
 }
 
 .successText {
     color: var(--c4);
     opacity: 0.7;
-    font-size: 1rem;
-    margin-bottom: 40px;
-}
-
-.btnGroup {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 10px;
+    font-size: clamp(0.9rem, 3vw, 1rem);
+    margin-bottom: clamp(24px, 6vw, 40px);
 }
 
 .baseBtn {
-    min-width: 200px;
-    padding: 10px 22px;
-    border-radius: 0px ;
+    min-width: 145px;
+    padding: 0.375rem 0.75rem;
+    /* Bootstrap default */
+    font-size: clamp(.7em, 2.5vw, 1em);
+    border-radius: 0px;
     font-weight: 600;
-    color: var(--c1) ;
+    color: var(--c1);
     border: none;
     transition: 0.2s ease;
 }
 
-.historyBtn ,.continueBtn{
-    background-color: var(--c5) ;
-    border: 1px solid var(--c5) ;
+.historyBtn,
+.continueBtn {
+    background-color: var(--c5);
+    border: 1px solid var(--c5);
 }
 
 .baseBtn:hover {
-    opacity: 0.85 ;
+    opacity: 0.85;
     transform: translateY(-1px);
 }
