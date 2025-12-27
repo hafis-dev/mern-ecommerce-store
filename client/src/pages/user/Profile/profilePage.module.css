@@ -1,4 +1,4 @@
-/* Card Containers */
+
 .customCard:global(.card) {
     background: var(--c1) ;
     border: 1px solid var(--c3);

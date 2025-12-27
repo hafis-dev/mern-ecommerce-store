@@ -34,7 +34,7 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // Prevent infinite loop
+    
     if (original.url.includes("/auth/refresh-token")) {
       return Promise.reject(error);
     }

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 
-/* ================= AUTH MIDDLEWARE ================= */
+
 export const authMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -35,7 +35,7 @@ export const authMiddleware = async (req, res, next) => {
   }
 };
 
-/* ================= ADMIN MIDDLEWARE ================= */
+
 export const adminMiddleware = (req, res, next) => {
   if (req.user?.isAdmin) {
     return next();

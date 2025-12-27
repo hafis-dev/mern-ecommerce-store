@@ -9,7 +9,7 @@ import { useCart } from "../../../context/Cart/useCart";
 const CheckoutPage = () => {
     const navigate = useNavigate();
 
-    // ✅ use clearCart action instead of setCart
+    
     const { cart, clearCart } = useCart();
 
     const [shippingAddress, setShippingAddress] = useState({
@@ -55,7 +55,7 @@ const CheckoutPage = () => {
             await api.post("/checkout/place", { shippingAddress });
 
             toast.success("Order placed successfully!");
-            await clearCart(); // ✅ centralized cart clear
+            await clearCart(); 
             navigate("/order-success");
 
         } catch (err) {
@@ -67,7 +67,7 @@ const CheckoutPage = () => {
     return (
         <div className={`${styles.checkoutContainer} mt-4 pt-5 mt-lg-0 mt-md-4 mt-sm-3`}>
             <Row>
-                {/* LEFT FORM */}
+                
                 <Col md={7} className="mb-4">
                     <h3 className={styles.sectionTitle}>Shipping Address</h3>
 
@@ -154,7 +154,7 @@ const CheckoutPage = () => {
                     </Card>
                 </Col>
 
-                {/* RIGHT SUMMARY */}
+                
                 <Col md={5}>
                     <h3 className={styles.sectionTitle}>Order Summary</h3>
 

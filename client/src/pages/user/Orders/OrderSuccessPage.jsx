@@ -30,7 +30,7 @@ const OrderSuccessPage = () => {
                         and is being processed.
                     </p>
 
-                    {/* Button Group */}
+                    
                     <Row className="justify-content-center g-3 w-100">
                         <Col xs={12} sm={"auto"}>
                             <button

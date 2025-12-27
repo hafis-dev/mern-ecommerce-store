@@ -30,9 +30,9 @@
     color: var(--c4);
 }
 
-/* ===================== */
-/* REMEMBER + FORGOT ROW */
-/* ===================== */
+
+
+
 .actionsRow {
     width: 320px;
     display: flex;
@@ -42,7 +42,7 @@
     margin-bottom: 22px;
 }
 
-/* Remember me */
+
 .rememberMe {
     display: flex;
     align-items: center;
@@ -61,7 +61,7 @@
     accent-color: var(--c5);
 }
 
-/* Forgot password */
+
 .forgot {
     font-size: 14px;
     color: var(--c4);
@@ -73,9 +73,9 @@
     text-decoration: underline;
 }
 
-/* ===================== */
-/* BUTTON */
-/* ===================== */
+
+
+
 .button {
     width: 320px;
     padding: 0.375rem 0.75rem;
@@ -90,9 +90,9 @@
     opacity: 0.8;
 }
 
-/* ===================== */
-/* FOOTER TEXT */
-/* ===================== */
+
+
+
 .bottomText {
     margin-top: 20px;
     color: var(--c4);

@@ -1,7 +1,7 @@
 import Wishlist from "../models/wishlist.model.js";
 import Product from "../models/product.model.js";
 
-/* ================= GET WISHLIST ================= */
+
 export const getWishlist = async (req, res) => {
   try {
     const wishlist = await Wishlist.findOne({ user: req.user.id }).populate(
@@ -26,7 +26,7 @@ export const getWishlist = async (req, res) => {
   }
 };
 
-/* ================= TOGGLE WISHLIST ================= */
+
 export const toggleWishlist = async (req, res) => {
   try {
     const { productId } = req.body;
@@ -79,7 +79,7 @@ export const toggleWishlist = async (req, res) => {
   }
 };
 
-/* ================= CLEAR WISHLIST ================= */
+
 export const clearWishlist = async (req, res) => {
   try {
     await Wishlist.findOneAndUpdate({ user: req.user.id }, { products: [] });

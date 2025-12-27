@@ -148,15 +148,15 @@ const FilterSidebar = ({ onApply, onClear }) => {
                         menuPlacement="auto"
                         className="reactSelect"
                         styles={{
-                            
-                            control: (base,state) => ({
+
+                            control: (base, state) => ({
                                 ...base,
                                 borderColor: state.isFocused ? "var(--c4)" : "var(--c3)",
                                 backgroundColor: "var(--c1)",
                                 borderRadius: 0,
                                 minHeight: 36,
                                 color: "var(--c6)",
-                                boxShadow: "none",     
+                                boxShadow: "none",
                                 "&:hover": {
                                     borderColor: "var(--c4)",
                                 },

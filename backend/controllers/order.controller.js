@@ -1,7 +1,7 @@
 import Order from "../models/order.model.js";
 import Product from "../models/product.model.js";
 
-/* ================= GET MY ORDERS ================= */
+
 export const getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id }).sort({
@@ -15,7 +15,7 @@ export const getMyOrders = async (req, res) => {
   }
 };
 
-/* ================= CANCEL FULL ORDER ================= */
+
 export const cancelFullOrder = async (req, res) => {
   try {
     const order = await Order.findOne({
@@ -58,7 +58,7 @@ export const cancelFullOrder = async (req, res) => {
   }
 };
 
-/* ================= GET ALL ORDERS (ADMIN) ================= */
+
 export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find().sort({
@@ -71,7 +71,7 @@ export const getAllOrders = async (req, res) => {
   }
 };
 
-/* ================= UPDATE ORDER STATUS (ADMIN) ================= */
+
 export const updateOrderStatus = async (req, res) => {
   try {
     const { orderId } = req.params;

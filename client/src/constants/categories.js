@@ -1,4 +1,4 @@
-// GROUPED + ICON CATEGORIES
+
 
 export const CATEGORY_GROUPS = [
   {
@@ -72,7 +72,7 @@ export const CATEGORY_GROUPS = [
   },
 ];
 
-// FLAT LIST FOR FILTERS OR SIMPLE SELECTS
+
 export const CATEGORY_OPTIONS = CATEGORY_GROUPS.flatMap((group) =>
   group.items.map((item) => item.name)
 );

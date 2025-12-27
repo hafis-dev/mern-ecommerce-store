@@ -51,7 +51,7 @@ function SignupPage() {
 
             login(res.data);
             toast.success("Account created successfully!");
-            navigate("/"); // ✔ react-router navigation
+            navigate("/"); 
 
         } catch (error) {
             toast.error(error.response?.data?.message || "Signup failed");

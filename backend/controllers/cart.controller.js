@@ -1,7 +1,7 @@
 import Cart from "../models/cart.model.js";
 import Product from "../models/product.model.js";
 
-/* ================= ADD TO CART ================= */
+
 export const addToCart = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
@@ -44,7 +44,7 @@ export const addToCart = async (req, res) => {
   }
 };
 
-/* ================= GET CART ================= */
+
 export const getCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.user._id }).populate(
@@ -61,7 +61,7 @@ export const getCart = async (req, res) => {
   }
 };
 
-/* ================= UPDATE CART ITEM ================= */
+
 export const updateCartItem = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
@@ -113,7 +113,7 @@ export const updateCartItem = async (req, res) => {
   }
 };
 
-/* ================= REMOVE CART ITEM ================= */
+
 export const removeCartItem = async (req, res) => {
   try {
     const { productId } = req.params;
@@ -143,7 +143,7 @@ export const removeCartItem = async (req, res) => {
   }
 };
 
-/* ================= CLEAR CART ================= */
+
 export const clearCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.user._id });

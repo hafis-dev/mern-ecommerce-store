@@ -16,7 +16,7 @@ const CartCard = ({ item, onIncrease, onDecrease, onRemove, onClick,isUpdating }
                 className={`${styles.cartRow} align-items-center g-0  p-2 `}
                 onClick={onClick}
             >
-                {/* IMAGE + DETAILS */}
+                
                 <Col xs={7} className="d-flex align-items-center gap-3">
                     <Image
                         src={imgSrc}
@@ -43,7 +43,7 @@ const CartCard = ({ item, onIncrease, onDecrease, onRemove, onClick,isUpdating }
                     </div>
                 </Col>
 
-                {/* QUANTITY */}
+                
                 <Col
                     xs={3}
                     className="d-flex align-items-center justify-content-center"
@@ -73,7 +73,7 @@ const CartCard = ({ item, onIncrease, onDecrease, onRemove, onClick,isUpdating }
                 </Col>
 
 
-                {/* REMOVE */}
+                
                 <Col xs={2} className="d-flex justify-content-end pe-2">
                     <button
                         className={styles.trashBtn}

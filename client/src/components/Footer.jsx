@@ -23,7 +23,7 @@ const Footer = () => {
 
                 <Row className="mb-4">
 
-                    {/* BRAND */}
+                    
                     <Col md={4} className="mb-3">
                         <h5 className={`text-uppercase fw-bold ${styles.brandTitle}`}>
                             ShopX
@@ -33,7 +33,7 @@ const Footer = () => {
                         </p>
                     </Col>
 
-                    {/* LINKS */}
+                    
                     <Col md={2} className="mb-3">
                         <h6 className={`fw-bold ${styles.sectionTitle}`}>Links</h6>
                         <ul className="list-unstyled">
@@ -60,7 +60,7 @@ const Footer = () => {
                         </ul>
                     </Col>
 
-                    {/* SUPPORT */}
+                    
                     <Col md={3} className="mb-3">
                         <h6 className={`fw-bold ${styles.sectionTitle}`}>Support</h6>
                         <ul className="list-unstyled">
@@ -82,7 +82,7 @@ const Footer = () => {
                         </ul>
                     </Col>
 
-                    {/* CONTACT */}
+                    
                     <Col md={3} className="mb-3">
                         <h6 className={`fw-bold ${styles.sectionTitle}`}>Contact</h6>
 
@@ -106,7 +106,7 @@ const Footer = () => {
 
                 </Row>
 
-                {/* BOTTOM LINE */}
+                
                 <Row>
                     <Col className="text-center">
                         <small className={styles.bottomLine}>

@@ -25,7 +25,7 @@
     color: var(--c4);
 }
 
-/* ONE clean itemRow definition */
+
 .itemRow {
     display: flex;
     align-items: center;
@@ -40,7 +40,7 @@
     border-bottom: none;
 }
 
-/* IMAGE */
+
 .itemImg {
     width: 65px;
     height: 65px;
@@ -48,7 +48,7 @@
     border-radius: 0px ;
 }
 
-/* NAME + QTY */
+
 .itemInfo {
     
     flex: 2;
@@ -61,7 +61,7 @@
     margin-bottom: 0px;
 }
 
-/* PRICE */
+
 .itemPrice {
     font-weight: bold;
     font-size: 15px;
@@ -72,13 +72,13 @@
 .itemQty{
     color: var(--c5);
 }
-/* STATUS */
+
 .itemStatus {
     flex: 0 0 110px;
     text-align: center;
 }
 
-/* CANCEL BUTTON */
+
 .btnCancel {
     flex: 0 0 auto;
     background: var(--c6);
@@ -94,7 +94,7 @@
     opacity: 0.8;
 }
 
-/* STATUS BADGES */
+
 .statusBadge {
     padding: 4px 10px;
     border-radius: 0px;

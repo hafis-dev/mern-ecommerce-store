@@ -5,7 +5,7 @@ const AboutPage = () => {
     return (
         <div className={styles.aboutWrapper}>
 
-            {/* HERO SECTION */}
+            
             <Container className={styles.aboutHero}>
                 <h1 className={styles.aboutTitle}>About ShopX</h1>
                 <p className={styles.aboutSubtext}>
@@ -36,7 +36,7 @@ const AboutPage = () => {
                 </Row>
             </Container>
 
-            {/* HIGHLIGHTS SECTION */}
+            
             <Container className={styles.aboutSection}>
                 <Row className="g-4">
                     <Col md={4}>

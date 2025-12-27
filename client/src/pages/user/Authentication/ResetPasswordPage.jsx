@@ -12,7 +12,7 @@ const ResetPasswordPage = () => {
     const [otp, setOtp] = useState("");
     const [newPassword, setNewPassword] = useState("");
 
-    // REGEX
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9]{10}$/;
     const otpRegex = /^[0-9]{6}$/;
@@ -34,7 +34,7 @@ const ResetPasswordPage = () => {
         const otpValue = otp.trim();
         const passwordValue = newPassword.trim();
 
-        // VALIDATE email/phone
+        
         const isEmail = emailRegex.test(value);
         const isPhone = phoneRegex.test(value);
 
@@ -42,12 +42,12 @@ const ResetPasswordPage = () => {
             return toast.error("Enter a valid email or 10-digit phone number");
         }
 
-        // VALIDATE OTP
+        
         if (!otpValue || !otpRegex.test(otpValue)) {
             return toast.error("OTP must be a 6-digit number");
         }
 
-        // VALIDATE PASSWORD
+        
         if (!passwordValue || passwordValue.length < 6) {
             return toast.error("Password must be at least 6 characters");
         }

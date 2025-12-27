@@ -16,7 +16,7 @@ const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^[0-9]{10}$/;
 
-/* ================= REGISTER ================= */
+
 export const registerUser = async (req, res) => {
   const { username, email, phone, password } = req.body;
 
@@ -89,7 +89,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-/* ================= LOGIN ================= */
+
 export const loginUser = async (req, res) => {
   try {
     const { emailOrPhone, password, rememberMe } = req.body;
@@ -147,7 +147,7 @@ export const loginUser = async (req, res) => {
   }
 };
 
-/* ================= REFRESH TOKEN ================= */
+
 export const refreshToken = async (req, res) => {
   const token = req.cookies.refreshToken;
 
@@ -177,7 +177,7 @@ export const refreshToken = async (req, res) => {
   }
 };
 
-/* ================= LOGOUT ================= */
+
 export const logoutUser = (req, res) => {
   res.clearCookie("refreshToken", {
     httpOnly: true,
@@ -189,7 +189,7 @@ export const logoutUser = (req, res) => {
   return res.status(200).json({ message: "Logged out successfully" });
 };
 
-/* ================= FORGOT PASSWORD ================= */
+
 export const forgotPassword = async (req, res) => {
   const { emailOrPhone } = req.body;
 
@@ -238,7 +238,7 @@ export const forgotPassword = async (req, res) => {
   }
 };
 
-/* ================= RESET PASSWORD ================= */
+
 export const resetPassword = async (req, res) => {
   const { emailOrPhone, otp, newPassword } = req.body;
 

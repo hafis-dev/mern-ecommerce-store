@@ -16,7 +16,7 @@ useEffect(()=>{
     0
   );
 
-  // 1. Show global loading state first
+  
   if (loading) {
     return (
       <div className="d-flex align-items-center justify-content-center" style={{ minHeight: "80vh" }}>
@@ -25,7 +25,7 @@ useEffect(()=>{
     );
   }
 
-  // 2. Once loading is false, check if cart is empty
+  
   if (cart.length === 0) {
     return (
       <div className={styles.empty}>
@@ -35,7 +35,7 @@ useEffect(()=>{
     );
   }
 
-  // 3. Render the cart
+  
   return (
     <Container className={`${styles.cartContainer} mt-lg-0 mt-md-4 mt-sm-3`}>
       {cart.map((item) => (

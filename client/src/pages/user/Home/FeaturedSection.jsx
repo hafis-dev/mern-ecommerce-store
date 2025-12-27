@@ -34,7 +34,7 @@ const FeaturedSection = () => {
                 <div className={styles.featuredLine}></div>
 
                 <Row className={`g-4 ${styles.productContainer}`}>
-                    {/* Loading */}
+                    
                     {loading && (
                         <div
                             className="d-flex justify-content-center align-items-center w-100"
@@ -44,14 +44,14 @@ const FeaturedSection = () => {
                         </div>
                     )}
 
-                    {/* Empty state */}
+                    
                     {!loading && featured.length === 0 && (
                         <div className={styles.emptyState}>
                             No featured products available right now.
                         </div>
                     )}
 
-                    {/* Products */}
+                    
                     {!loading &&
                         featured.length > 0 &&
                         featured.map((item) => (

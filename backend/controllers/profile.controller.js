@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 
-/* ================= GET PROFILE ================= */
+
 export const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
@@ -17,7 +17,7 @@ export const getProfile = async (req, res) => {
   }
 };
 
-/* ================= UPDATE PROFILE ================= */
+
 export const updateProfile = async (req, res) => {
   try {
     const { username, email } = req.body;
@@ -56,7 +56,7 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-/* ================= CHANGE PASSWORD ================= */
+
 export const changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;

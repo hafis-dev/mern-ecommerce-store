@@ -9,7 +9,7 @@ const WishlistPage = () => {
     const navigate = useNavigate();
     const { wishlist,loadWishlist, loading, toggleWishlist, clearWishlist } = useWishlist();
     useEffect(() => {
-        loadWishlist(); // ✅ force full data fetch
+        loadWishlist(); 
     }, []);
     if (loading) {
         return <div className={styles.center}><div className="spinner-border" role="status" /></div>;

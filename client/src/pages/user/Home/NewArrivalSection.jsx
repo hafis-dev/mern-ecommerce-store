@@ -34,7 +34,7 @@ const NewArrivalSection = () => {
                 <div className={styles.arrivalLine}></div>
 
                 <Row className={`g-4 ${styles.arrivalRow}`}>
-                    {/* Loading */}
+                    
                     {loading && (
                         <div
                             className="d-flex justify-content-center align-items-center w-100"
@@ -44,14 +44,14 @@ const NewArrivalSection = () => {
                         </div>
                     )}
 
-                    {/* Empty state */}
+                    
                     {!loading && newArrival.length === 0 && (
                         <div className={styles.emptyState}>
                             No new arrivals available right now.
                         </div>
                     )}
 
-                    {/* Products */}
+                    
                     {!loading &&
                         newArrival.length > 0 &&
                         newArrival.map((item) => (
