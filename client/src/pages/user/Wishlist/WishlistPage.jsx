@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import WishlistCard from "./WishListCard";
 import styles from "./wishlistPage.module.css";
 import { useWishlist } from "../../../context/Wishlist/useWishlist";
+import { useEffect } from "react";
 
 const WishlistPage = () => {
     const navigate = useNavigate();
-    const { wishlist, loading, toggleWishlist, clearWishlist } = useWishlist();
-
+    const { wishlist,loadWishlist, loading, toggleWishlist, clearWishlist } = useWishlist();
+    useEffect(() => {
+        loadWishlist(); // ✅ force full data fetch
+    }, []);
     if (loading) {
         return <div className={styles.center}><div className="spinner-border" role="status" /></div>;
     }

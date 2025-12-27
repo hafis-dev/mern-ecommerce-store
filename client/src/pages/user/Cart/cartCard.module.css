@@ -9,16 +9,13 @@
     box-shadow: 0 1px 1px var(--c6);
 }
 
-.cartRow:hover {
-    background: var(--c2);
-    border-color: var(--c3);
-}
 
 .productImage {
     width: 75px;
     height: 75px;
     object-fit: cover;
     border: 1px solid var(--c5);
+    cursor: pointer;
 }
 
 .cartTitle {
@@ -27,10 +24,11 @@
     margin: 0;
     color: var(--c6);
     letter-spacing: 0.3px;
+    
 }
 
 .titleClamp {
-    max-width: 150px;
+    max-width: clamp(100px, 25vw, 300px);
 }
 
 .priceMuted {
@@ -43,15 +41,13 @@
     margin-top: 2px;
 }
 
-/* Quantity wrapper */
 .qtyWrapper {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: transparent;
+    background: var(--c1);
 }
 
-/* Minus & Plus circular buttons */
 .circleBtn {
     width: 26px;
     height: 26px;
@@ -73,17 +69,14 @@
     opacity: 0.4;
     cursor: not-allowed;
 }
-/* Click (press) effect */
 .circleBtn:active:not(:disabled) {
     background: var(--c3);
     border-color: var(--c5);
 }
-/* Quantity number box */
 .qtyValue {
     min-width: 34px;
     height: 26px;
-    border: 1px solid var(--c3);
-    border-radius: 4px;
+    border-radius: 0px;
     background: var(--c1);
     color: var(--c6);
     font-size: 14px;
@@ -93,12 +86,10 @@
     justify-content: center;
 }
 
-/* Optional disabled look when max stock */
 .disabledBtn {
     opacity: 0.4;
 }
 
-/* Trash button */
 .trashBtn {
     border: none;
     background: transparent;
@@ -106,7 +97,6 @@
     transition: 0.2s ease;
 }
 
-/* Trash icon */
 .trashIcon {
     color: var(--c4);
     font-size: 18px;

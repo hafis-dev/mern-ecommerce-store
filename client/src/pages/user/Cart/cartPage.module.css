@@ -54,6 +54,6 @@
 }
 
 .checkoutBtn:hover {
-    background: var(--c4);
+   opacity: 0.8;
 }
 

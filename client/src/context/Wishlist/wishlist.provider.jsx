@@ -37,20 +37,24 @@ export const WishlistProvider = ({ children }) => {
 
         const exists = wishlist.some(p => p._id === productId);
 
-        if (exists) {
-            setWishlist(prev => prev.filter(p => p._id !== productId));
-        }
+        setWishlist(prev =>
+            exists
+                ? prev.filter(p => p._id !== productId)
+                : [...prev, { _id: productId }]
+        );
 
         try {
             await addOrRemoveItem({ productId });
-            loadWishlist(false);
         } catch {
             toast.error("Wishlist update failed");
-            loadWishlist(false);
+
+            setWishlist(prev =>
+                exists
+                    ? [...prev, { _id: productId }]
+                    : prev.filter(p => p._id !== productId)
+            );
         }
     };
-
-
 
     const clearWishlist = async () => {
         if (!user) return;
@@ -71,6 +75,7 @@ export const WishlistProvider = ({ children }) => {
                 loading,
                 toggleWishlist,
                 clearWishlist,
+                loadWishlist
             }}
         >
             {children}

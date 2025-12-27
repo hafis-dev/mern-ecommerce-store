@@ -29,7 +29,7 @@
 }
 
 .titleClamp {
-    max-width: 150px;
+    max-width:clamp(150px, 20vw, 250px);
 }
 
 .priceMuted {

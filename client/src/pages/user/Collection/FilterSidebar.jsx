@@ -76,7 +76,7 @@ const FilterSidebar = ({ onApply, onClear }) => {
                 className={styles.filterToggle}
                 onClick={() => setOpen(!open)}
             >
-                {open ? "Close Filters" : "Open Filters"}
+                Filter
             </button>
 
             <Card className={`${styles.filterCard} ${!open ? styles.mobileHidden : ""}`}>
@@ -148,13 +148,18 @@ const FilterSidebar = ({ onApply, onClear }) => {
                         menuPlacement="auto"
                         className="reactSelect"
                         styles={{
-                            control: (base) => ({
+                            
+                            control: (base,state) => ({
                                 ...base,
+                                borderColor: state.isFocused ? "var(--c4)" : "var(--c3)",
                                 backgroundColor: "var(--c1)",
-                                borderColor: "var(--c3)",
                                 borderRadius: 0,
                                 minHeight: 36,
                                 color: "var(--c6)",
+                                boxShadow: "none",     
+                                "&:hover": {
+                                    borderColor: "var(--c4)",
+                                },
                             }),
                             menu: (base) => ({
                                 ...base,

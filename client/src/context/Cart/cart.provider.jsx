@@ -22,14 +22,13 @@ export const CartProvider = ({ children }) => {
 
     const [cart, setCart] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [updatingId, setUpdatingId] = useState(null);
 
-    /* ---------------- CART COUNT ---------------- */
     const cartCount = useMemo(
         () => cart.reduce((sum, item) => sum + item.quantity, 0),
         [cart]
     );
 
-    /* ---------------- LOAD CART ---------------- */
     const loadCart = useCallback(async () => {
         if (!user) {
             setCart([]);
@@ -48,15 +47,28 @@ export const CartProvider = ({ children }) => {
         }
     }, [user]);
 
-    /* ---------------- ADD ITEM ---------------- */
     const addItem = useCallback(async (productId, quantity = 1) => {
-        const res = await addToCart(productId, quantity);
-        setCart(res.data.cart.items || []);
-    }, []);
+        setCart(prev => [
+            ...prev,
+            {
+                product: { _id: productId },
+                quantity
+            }
+        ]);
 
-    /* ---------------- UPDATE QTY (OPTIMISTIC) ---------------- */
+        try {
+            const res = await addToCart(productId, quantity);
+            setCart(res.data.cart.items || []);
+        } catch (err) {
+            console.error("addToCart error:", err);
+            loadCart();
+        }
+    }, [loadCart]);
+
     const updateQty = useCallback(async (productId, quantity) => {
         if (quantity < 1) return;
+
+        setUpdatingId(productId);
 
         let previousCart;
 
@@ -76,16 +88,16 @@ export const CartProvider = ({ children }) => {
             console.error("Failed to update quantity:", err);
             setCart(previousCart);
             alert("Could not update quantity. Please try again.");
+        } finally {
+            setUpdatingId(null);
         }
     }, []);
 
-    /* ---------------- REMOVE ITEM ---------------- */
     const removeItem = useCallback(async (productId) => {
         const res = await removeFromCart(productId);
         setCart(res.data.cart.items || []);
     }, []);
 
-    /* ---------------- CLEAR CART ---------------- */
     const clearCart = useCallback(async () => {
         try {
             await clearFullCart("/cart/clear");
@@ -95,17 +107,16 @@ export const CartProvider = ({ children }) => {
         }
     }, []);
 
-    /* ---------------- LOAD ON AUTH CHANGE ---------------- */
     useEffect(() => {
         loadCart();
     }, [loadCart]);
 
-    /* ---------------- CONTEXT VALUE ---------------- */
     const value = useMemo(
         () => ({
             cart,
             cartCount,
             loading,
+            updatingId,
             loadCart,
             addItem,
             updateQty,
@@ -116,6 +127,7 @@ export const CartProvider = ({ children }) => {
             cart,
             cartCount,
             loading,
+            updatingId,
             loadCart,
             addItem,
             updateQty,

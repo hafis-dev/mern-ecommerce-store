@@ -3,11 +3,14 @@ import CartCard from "./CartCard";
 import { Card, Container, Spinner } from "react-bootstrap";
 import styles from "./cartPage.module.css";
 import { useCart } from "../../../context/Cart/useCart";
+import { useEffect } from "react";
 
 const CartPage = () => {
   const navigate = useNavigate();
-  const { cart, updateQty, removeItem, loading } = useCart();
-
+  const { cart, updateQty,loadCart, removeItem, loading,updatingId } = useCart();
+useEffect(()=>{
+  loadCart()
+},[])
   const totalAmount = cart.reduce(
     (sum, item) => sum + (item.product?.price || 0) * item.quantity,
     0
@@ -40,7 +43,8 @@ const CartPage = () => {
           <CartCard
             key={item.product._id}
             item={item}
-            onClick={() => navigate(`/product/${item.product._id}`)}
+            isUpdating={updatingId === item.product._id}
+            
             onIncrease={(e) => { e.stopPropagation(); updateQty(item.product._id, item.quantity + 1); }}
             onDecrease={(e) => { e.stopPropagation(); updateQty(item.product._id, item.quantity - 1); }}
             onRemove={(e) => { e.stopPropagation(); removeItem(item.product._id); }}

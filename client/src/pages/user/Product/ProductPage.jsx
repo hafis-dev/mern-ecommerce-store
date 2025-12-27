@@ -22,6 +22,7 @@ const ProductPage = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const [loading, setLoading] = useState(true);
+    const [adding, setAdding] = useState(false);
 
     const { cart, addItem } = useCart();
 
@@ -45,13 +46,16 @@ const ProductPage = () => {
         }
 
         try {
+            setAdding(true);
             await addItem(product._id, 1);
             toast.success("Added to cart");
-        } catch (err) {
-            console.log("addToCart error:", err);
+        } catch {
             toast.error("Something went wrong!");
+        } finally {
+            setAdding(false);
         }
     };
+
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -187,13 +191,13 @@ const ProductPage = () => {
                         </button>
                     ) : (
                         <button
-                            type="button"
-                            variant="dark"
                             className={styles.addBtn}
                             onClick={handleAddToCart}
+                            disabled={adding}
                         >
-                            Add to Cart
+                            {adding ? "Adding..." : "Add to Cart"}
                         </button>
+
                     )}
                 </Col>
             </Row>
