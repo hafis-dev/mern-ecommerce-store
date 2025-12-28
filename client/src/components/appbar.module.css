@@ -90,7 +90,9 @@
     color: var(--c5) !important;
     text-shadow: 0 0 1px var(--c6);
 }
-
+:global(.navbar-toggler):focus {
+    box-shadow: none !important;
+}
 .dropdownDivider:hover {
     background-color: transparent !important;
 }

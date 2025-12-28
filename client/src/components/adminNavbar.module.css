@@ -55,7 +55,7 @@
     background-color: rgb(210, 210, 210);
     padding: 0px;
     border-color: var(--c7);
-    border-radius: 0px;
+    border-radius: 2px;
 }
 
 @media (max-width: 992px) {

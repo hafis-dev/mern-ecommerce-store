@@ -1,5 +1,4 @@
 import Product from "../models/product.model.js";
-import cloudinary from "../config/cloudinary.js";
 import Cart from "../models/cart.model.js";
 import Wishlist from "../models/wishlist.model.js";
 import { uploadToCloudinary } from "../utils/uploadImage.js";
@@ -299,20 +298,12 @@ export const updateProduct = async (req, res) => {
     }
 
     if (req.files && req.files.length > 0) {
-      const upload = (buffer) =>
-        new Promise((resolve, reject) => {
-          const stream = cloudinary.uploader.upload_stream(
-            { folder: "ecommerce_products" },
-            (err, result) => (err ? reject(err) : resolve(result.secure_url))
-          );
-          stream.end(buffer);
-        });
+     const uploaded = await Promise.all(
+       req.files.map((file) => uploadToCloudinary(file.buffer))
+     );
 
-      const uploaded = await Promise.all(
-        req.files.map((file) => upload(file.buffer))
-      );
+     finalImages = [...finalImages, ...uploaded];
 
-      finalImages = [...finalImages, ...uploaded];
     }
 
     updates.images = finalImages;

@@ -1,5 +1,3 @@
-
-
 .checkoutContainer {
     padding: 40px 20px;
     min-height: 90vh;
@@ -16,21 +14,24 @@
 
 .formCard:global(.card),
 .summaryCard:global(.card) {
-    background: transparent ;
-    color: var(--c6) ;
-    border-radius: 0px ;
+    background: transparent;
+    color: var(--c6);
+    border-radius: 0px;
     padding: 22px;
-    border: 1px solid var(--c3) ;
+    border: 1px solid var(--c3);
     box-shadow: 0 1px 1px var(--c6);
 }
+
 .input:global(.form-control) {
     border-radius: 0;
-    
+
 }
+
 .input:global(.form-control):focus {
     box-shadow: none;
     border-color: var(--c6);
 }
+
 .orderItem {
     display: flex;
     gap: 15px;
@@ -72,19 +73,33 @@
     font-weight: 700;
 }
 
+.paymentMethodForm :global(.form-check-input){
+    background-color: transparent;
+    border-color: var(--c6);
+}
+
+.paymentMethodForm :global(.form-check-input):checked {
+    background-color: green;
+    border-color: green;
+}
+
+.paymentMethodForm :global(.form-check-input):focus {
+    box-shadow: none;
+}
+
 .placeBtn {
-    background: var(--c6) ;
-    border: none ;
+    background: var(--c6);
+    border: none;
     padding: 14px;
     width: 100%;
     font-size: 17px;
     font-weight: 600;
-    color: var(--c1) ;
-    border-radius: 0px ;
+    color: var(--c1);
+    border-radius: 0px;
     margin-top: 20px;
     transition: 0.25s ease;
 }
 
 .placeBtn:hover {
-    background: var(--c4) ;
+    background: var(--c4);
 }

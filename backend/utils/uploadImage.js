@@ -6,8 +6,8 @@ export const uploadToCloudinary = (buffer) => {
       {
         folder: "ecommerce_products",
         resource_type: "image",
-        transformation: [{ width: 500, height: 500, crop: "limit" }],
-        quality: "auto",
+        transformation: [{ width: 500, height: 500, crop: "fill",gravity:"auto" }],
+        quality: 85,
         fetch_format: "auto",
       },
       (error, result) => {

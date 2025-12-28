@@ -22,6 +22,7 @@ client/*.local
 # Vite internal caches
 client/.vite/deps/
 client/.vite/cache/
+scripts/
 
 # =========================
 # Root Environment Files

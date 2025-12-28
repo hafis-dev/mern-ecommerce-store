@@ -34,9 +34,11 @@ export const createOrder = async (req, res) => {
       })),
       shippingAddress,
       totalPrice,
-      isPaid: true,
-      paidAt: Date.now(),
+      isPaid: false,
       status: "Processing",
+      paymentResult: {
+        status: "COD",
+      },
     });
 
     for (const item of order.orderItems) {

@@ -1,12 +1,11 @@
 import dotenv from "dotenv";
 dotenv.config();
-
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
 import connectDB from "./config/db.js";
-
+import paymentRoutes from "./routes/payment.route.js";
+import { stripeWebhook } from "./controllers/stripeWebhook.controller.js";
 import authRoutes from "./routes/auth.route.js";
 import productRoutes from "./routes/product.route.js";
 import cartRoutes from "./routes/cart.route.js";
@@ -38,12 +37,18 @@ app.use(
 );
 
 app.use(cookieParser());
+app.post(
+  "/api/webhook/stripe",
+  express.raw({ type: "application/json" }),
+  stripeWebhook
+);
+
 app.use(express.json());
 
 
 connectDB();
 
-
+app.use("/api/payment",paymentRoutes)
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/cart", cartRoutes);

@@ -6,7 +6,7 @@ import {
     NavDropdown,
     Badge,
 } from "react-bootstrap";
-import { NavLink, useNavigate, useLocation } from "react-router-dom"; 
+import { NavLink, useLocation } from "react-router-dom";
 import NavbarSearch from "./NavbarSearch";
 import { AuthContext } from "../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,22 +20,25 @@ import styles from "./appbar.module.css";
 import ThemeToggleButton from "./ThemeToggleButton";
 import { useWishlist } from "../context/Wishlist/useWishlist";
 import { useCart } from "../context/Cart/useCart";
+import { useState } from "react";
 
 const AppNavbar = () => {
     const { user, logout } = useContext(AuthContext);
     const { cartCount } = useCart();
-    const navigate = useNavigate();
-    const location = useLocation(); 
+    const location = useLocation();
     const { wishlistIds } = useWishlist();
     const wishlistCount = wishlistIds.length;
+    const [expanded, setExpanded] = useState(false);
 
-    
+    const closeNavbar = () => setExpanded(false);
+
+
     const setActive = (path) =>
         location.pathname === path ? `${styles.navlink} ${styles.active}` : styles.navlink;
 
     function handleLogout() {
         logout();
-        navigate('/login');
+        closeNavbar()
     }
 
     return (
@@ -43,31 +46,33 @@ const AppNavbar = () => {
             className={`${styles.navbar} container pb-1`}
             expand="lg"
             fixed="top"
+            expanded={expanded}
+            onToggle={setExpanded}
         >
             <Container >
 
-                
+
                 <Navbar.Brand as={NavLink} to="/" className={styles.brand}>
                     ShopX
                 </Navbar.Brand>
 
-                
+
                 <Nav className="me-auto gap-2 d-flex flex-row d-lg-none">
-                    <Nav.Link as={NavLink} to="/" className={setActive("/")}>
+                    <Nav.Link as={NavLink} onClick={closeNavbar} to="/" className={setActive("/")}>
                         HOME
                     </Nav.Link>
 
-                    <Nav.Link as={NavLink} to="/products" className={setActive("/products")}>
+                    <Nav.Link as={NavLink} onClick={closeNavbar} to="/products" className={setActive("/products")}>
                         COLLECTION
                     </Nav.Link>
                 </Nav>
 
 
-                
+
                 <Nav.Link
                     as={NavLink}
                     to="/cart"
-                    className={`position-relative ms-auto fw-semibold d-lg-none ${styles.mobileCart}`}
+                    className={`position-relative ms-auto fw-semibold d-lg-none ${styles.mobileCart}  ${setActive("/cart")}`}
                 >
                     <FontAwesomeIcon icon={faCartShopping} size="lg" />
 
@@ -80,10 +85,10 @@ const AppNavbar = () => {
                     )}
                 </Nav.Link>
 
-                
+
                 <Navbar.Toggle aria-controls="main-navbar" className={styles.togglerIcon} />
 
-                
+
                 <div className="d-lg-none w-100 mt-2">
                     <NavbarSearch />
                 </div>
@@ -92,7 +97,7 @@ const AppNavbar = () => {
                     id="main-navbar"
                     className="justify-content-between"
                 >
-                    
+
                     <Nav className="me-auto d-none d-lg-flex">
                         <Nav.Link as={NavLink} to="/" className={setActive("/")}>
                             HOME
@@ -107,29 +112,29 @@ const AppNavbar = () => {
                         </Nav.Link>
                     </Nav>
 
-                    
+
                     <div className="d-none d-lg-block mx-3">
                         <NavbarSearch />
                     </div>
 
-                    
+
                     <Nav className="d-lg-none">
                         <div className={styles.themeBtn}>
                             <ThemeToggleButton />
                         </div>
-                        <Nav.Link as={NavLink} to="/about" className={setActive("/about")} >
+                        <Nav.Link as={NavLink} to="/about" onClick={closeNavbar} className={setActive("/about")} >
                             ABOUT
                         </Nav.Link>
 
                         {user ? (
                             <>
-                                <Nav.Link as={NavLink} to="/wishlist" className={setActive("/wishlist")}>
+                                <Nav.Link as={NavLink} to="/wishlist" onClick={closeNavbar} className={setActive("/wishlist")}>
                                     MY WISHLIST({wishlistCount})
                                 </Nav.Link>
-                                <Nav.Link as={NavLink} to="/orders" className={setActive("/orders")} >
+                                <Nav.Link as={NavLink} to="/orders" onClick={closeNavbar} className={setActive("/orders")} >
                                     MY ORDERS
                                 </Nav.Link>
-                                <Nav.Link as={NavLink} to="/profile" className={setActive("/profile")}>
+                                <Nav.Link as={NavLink} to="/profile" onClick={closeNavbar} className={setActive("/profile")}>
                                     PROFILE
                                 </Nav.Link>
                                 <Nav.Link onClick={handleLogout} className={styles.navlink}>
@@ -138,15 +143,15 @@ const AppNavbar = () => {
                             </>
                         ) : (
 
-                            <Nav.Link as={NavLink} to="/login" className={`${setActive("/login")} ${styles.dropdownItem}`}>
+                            <Nav.Link as={NavLink} to="/login" onClick={closeNavbar} className={`${setActive("/login")} ${styles.dropdownItem}`}>
                                 LOGIN
                             </Nav.Link>
                         )}
                     </Nav>
 
-                    
+
                     <Nav className="d-none d-lg-flex align-items-center">
-                        
+
                         <Nav.Link
                             as={NavLink}
                             to="/wishlist"
@@ -163,7 +168,7 @@ const AppNavbar = () => {
                             )}
                         </Nav.Link>
 
-                        
+
                         <Nav.Link
                             as={NavLink}
                             to="/cart"
@@ -180,7 +185,7 @@ const AppNavbar = () => {
                             )}
                         </Nav.Link>
 
-                        
+
                         <NavDropdown
                             align="end"
                             title={

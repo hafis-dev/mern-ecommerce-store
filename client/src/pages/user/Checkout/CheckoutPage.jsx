@@ -9,7 +9,8 @@ import { useCart } from "../../../context/Cart/useCart";
 const CheckoutPage = () => {
     const navigate = useNavigate();
 
-    
+    const [paymentMethod, setPaymentMethod] = useState("COD");
+
     const { cart, clearCart } = useCart();
 
     const [shippingAddress, setShippingAddress] = useState({
@@ -52,17 +53,32 @@ const CheckoutPage = () => {
                 return;
             }
 
-            await api.post("/checkout/place", { shippingAddress });
+            
+            if (paymentMethod === "COD") {
+                await api.post("/checkout/place", { shippingAddress });
 
-            toast.success("Order placed successfully!");
-            await clearCart(); 
-            navigate("/order-success");
+                toast.success("Order placed successfully (COD)");
+                await clearCart();
+                navigate("/order-success");
+                return;
+            }
+
+            
+            if (paymentMethod === "STRIPE") {
+                const res = await api.post("/payment/stripe-session", {
+                    shippingAddress,
+                });
+
+                window.location.href = res.data.url;
+            }
 
         } catch (err) {
-            console.log(err);
-            toast.error("Something went wrong! Try again.");
+            console.error(err);
+            toast.error("Something went wrong!");
         }
     };
+
+
 
     return (
         <div className={`${styles.checkoutContainer} mt-4 pt-5 mt-lg-0 mt-md-4 mt-sm-3`}>
@@ -178,6 +194,26 @@ const CheckoutPage = () => {
                         <h4 className={styles.totalText}>
                             Total: ₹ {totalAmount}
                         </h4>
+                        <h5 className="mt-3">Payment Method</h5>
+
+                        <Form className={styles.paymentMethodForm}>
+                            <Form.Check
+                                type="radio"
+                                label="Cash on Delivery"
+                                name="paymentMethod"
+                                checked={paymentMethod === "COD"}
+                                onChange={() => setPaymentMethod("COD")}
+                            />
+
+                            <Form.Check
+                                type="radio"
+                                label="Online Payment (Stripe)"
+                                name="paymentMethod"
+                                checked={paymentMethod === "STRIPE"}
+                                onChange={() => setPaymentMethod("STRIPE")}
+                            />
+                        </Form>
+
 
                         <button className={styles.placeBtn} onClick={placeOrder}>
                             Place Order

@@ -31,6 +31,14 @@ createRoot(document.getElementById('root')).render(
       </CartProvider>
     </AuthProvider>
 
-    <ToastContainer position="top-right" autoClose={3000} />
+    <ToastContainer
+      position="bottom-center"
+      autoClose={1800}
+      limit={1}
+      closeOnClick
+      pauseOnHover={false}
+      draggable
+      className="mobile-toast-container"
+    />
   </StrictMode>
 );

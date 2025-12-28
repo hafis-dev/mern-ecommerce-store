@@ -32,6 +32,15 @@ export default function OrderListPage() {
             default: return "secondary";
         }
     };
+    const paymentMethod = (order) => {
+        if (order.paymentResult?.status === "COD") return "Cash on Delivery";
+        return "Online Payment";
+    };
+
+    const paymentBadge = (order) => {
+        if (order.isPaid) return { text: "Paid", color: "success" };
+        return { text: "Unpaid", color: "warning" };
+    };
 
     const handleOrderStatus = async (orderId, newStatus) => {
         try {
@@ -87,10 +96,16 @@ export default function OrderListPage() {
                             <div className={styles.meta}>User: {order.userName}</div>
                             <div className={styles.meta}>Items: {order.orderItems.length}</div>
                             <div className={styles.meta}>Total: ₹{order.totalPrice}</div>
+                            <div className={`${styles.meta} mb-2`}>
+                                <b>Payment Status:</b>{" "}
+                                <Badge bg={badgeColor(order.status)} >
+                                    {order.status}
+                                </Badge>
+                            </div>
 
-                            <Badge bg={badgeColor(order.status)} className={`mt-2 ${styles.statusBar}`}>
-                                {order.status}
-                            </Badge>
+
+
+
 
                             <div className={`${styles.meta} mt-2`}>
                                 Placed: {new Date(order.createdAt).toLocaleDateString()}
@@ -128,6 +143,17 @@ export default function OrderListPage() {
 
                     {order.open && (
                         <>
+                            <div className={styles.meta}>
+                                <b>Payment Method:</b> {paymentMethod(order)}
+                            </div>
+
+                            <div className={`${styles.meta} mb-2`}>
+                                <b>Payment Status:</b>{" "}
+                                <Badge bg={paymentBadge(order).color}>
+                                    {paymentBadge(order).text}
+                                </Badge>
+                            </div>
+
                             <div className={styles.addressBox}>
                                 <b>Address</b><br />
                                 {order.shippingAddress.street}<br />

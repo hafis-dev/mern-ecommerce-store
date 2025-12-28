@@ -90,16 +90,16 @@ const ProductPage = () => {
     }
 
     return (
-        <Container className={`py-5 ${styles.page} mt-3 mt-lg-0 mt-md-4 mt-sm-3`}>
+        <Container className={`py-5 ${styles.page} mt-4 mt-lg-0 mt-md-5 mt-sm-5`}>
             <Row>
-                <Col md={6} className="d-flex flex-column flex-md-row">
-                    <div className={styles.thumbnailOuter}>
-                        <div className={`d-flex d-md-block gap-2 mb-3 mb-md-0 ${styles.thumbnailBox}`}>
+                <Col md={6} className="d-flex flex-column flex-lg-row">
+                    <div className={`order-2 order-lg-1 mt-3 mt-lg-0 ${styles.thumbnailOuter}`}>
+                        <div className={`d-flex d-lg-block gap-2  mb-3 mb-lg-0 ${styles.thumbnailBox}`}>
                             {product.images?.map((img, index) => (
                                 <img
                                     key={index}
                                     src={img}
-                                    className={`${styles.thumbnail} mb-md-2 ${selectedImage === img ? styles.thumbnailActive : ""
+                                    className={`${styles.thumbnail} mb-lg-2 ${selectedImage === img ? styles.thumbnailActive : ""
                                         }`}
                                     loading="lazy"
                                     onMouseOver={() => setSelectedImage(img)}
@@ -108,7 +108,9 @@ const ProductPage = () => {
                         </div>
                     </div>
 
-                    <div className={`flex-grow-1 ms-md-3 ${styles.mainImgWrapper}`}>
+                    <div className="order-1  order-lg-2 ms-lg-3 position-relative" style={{
+                        maxWidth: "500px",
+                    }}>
                         <div
                             className={`${styles.wishlistIcon} ${pulse ? styles.pulse : ""}`}
                             onClick={(e) => {
@@ -136,23 +138,25 @@ const ProductPage = () => {
 
                         <img
                             src={selectedImage}
-                            className={`${styles.mainImg} shadow-sm`}
+                            className={styles.mainImg}
                             loading="lazy"
                         />
                     </div>
+
                 </Col>
 
-                <Col md={6} className="d-flex flex-column justify-content-between">
-                    <h2 className={`mt-1 ${styles.brandName}`}>{product.attributes?.brand}</h2>
-                    <h2 className={`mt-1 ${styles.productName}`}>{product.name}</h2>
-                    <h4 className={styles.productPrice}>₹{product.price}</h4>
-
+                <Col md={6} className="d-flex flex-column justify-content-md-start">
+                    <h2 className={`mb-0 ${styles.brandName}`}>{product.attributes?.brand}</h2>
+                    <h2 className={`${styles.productName}`}>{product.name}</h2>
                     {product.stock > 0 && product.stock < 5 && (
                         <p className={styles.limitedStock}>
                             Only {product.stock} left — hurry!
                         </p>
                     )}
 
+                    <h4 className={`mb-2 mt-0 mb-sm-2 mb-xl-4 ${styles.productPrice}`}>₹{product.price}</h4>
+
+                 
                     <p className={styles.productDescription}>{product.description}</p>
 
                     <div className={styles.attributeSection}>
@@ -174,7 +178,7 @@ const ProductPage = () => {
                         <button
                             type="button"
                             variant="secondary"
-                            className={styles.addBtn}
+                            className={`${styles.addBtn}`}
                             disabled
                             style={{ opacity: 0.7, cursor: "not-allowed" }}
                         >
@@ -184,7 +188,7 @@ const ProductPage = () => {
                         <button
                             type="button"
                             variant="outline-dark"
-                            className={styles.cartBtn}
+                            className={`${styles.cartBtn}`}
                             onClick={() => navigate("/cart")}
                         >
                             Go to Cart
@@ -202,7 +206,7 @@ const ProductPage = () => {
                 </Col>
             </Row>
 
-            <Container className="pt-5 ps-0 mt-5">
+            <Container className="ps-0 mt-0 mt-md-5 mt-lg-5  pt-lg-5">
                 <h4 className={styles.highlightHeading}>Product Highlights</h4>
 
                 <div className={styles.highlights}>

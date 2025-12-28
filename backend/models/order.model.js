@@ -50,12 +50,11 @@ const orderSchema = new mongoose.Schema(
 
     isPaid: {
       type: Boolean,
-      default: true,
+      default: false,
     },
 
     paidAt: {
       type: Date,
-      default: Date.now,
     },
 
     status: {
@@ -66,6 +65,21 @@ const orderSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+orderSchema.pre("save", function (next) {
+  
+  if (
+    this.isModified("status") &&
+    this.status === "Delivered" &&
+    this.paymentResult?.status === "COD" &&
+    !this.isPaid
+  ) {
+    this.isPaid = true;
+    this.paidAt = new Date();
+  }
+
+  next();
+});
 
 const Order = mongoose.model("Order", orderSchema);
 

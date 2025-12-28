@@ -38,19 +38,30 @@ useEffect(()=>{
   
   return (
     <Container className={`${styles.cartContainer} mt-lg-0 mt-md-4 mt-sm-3`}>
-      {cart.map((item) => (
-        item.product && (
+      {cart.map((item) => {
+        if (!item.product) return null;
+
+        return (
           <CartCard
             key={item.product._id}
             item={item}
             isUpdating={updatingId === item.product._id}
-            
-            onIncrease={(e) => { e.stopPropagation(); updateQty(item.product._id, item.quantity + 1); }}
-            onDecrease={(e) => { e.stopPropagation(); updateQty(item.product._id, item.quantity - 1); }}
-            onRemove={(e) => { e.stopPropagation(); removeItem(item.product._id); }}
+            onIncrease={(e) => {
+              e.stopPropagation();
+              updateQty(item.product._id, item.quantity + 1);
+            }}
+            onDecrease={(e) => {
+              e.stopPropagation();
+              updateQty(item.product._id, item.quantity - 1);
+            }}
+            onRemove={(e) => {
+              e.stopPropagation();
+              removeItem(item.product._id);
+            }}
           />
-        )
-      ))}
+        );
+      })}
+
 
       <Card className={styles.totalCard}>
         <h3 className={styles.totalText}>
