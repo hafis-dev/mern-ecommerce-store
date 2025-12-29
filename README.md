@@ -1,6 +1,7 @@
 # 🛒 ShopX – MERN E‑Commerce Application
 
-A **full-stack MERN e-commerce application** built with modern web technologies, featuring a user-friendly shopping experience and an admin dashboard for product and order management.
+A **full-stack MERN e-commerce application** built with modern web technologies, featuring a user-friendly shopping experience, **secure online payments**, and an admin dashboard for product and order management.
+
 
 ---
 ## 📚 Table of Contents
@@ -31,7 +32,7 @@ A **full-stack MERN e-commerce application** built with modern web technologies,
 * Browse products with filters & sorting
 * Product details with image gallery
 * Wishlist & cart management
-* Secure checkout process
+* Secure checkout with **Stripe Online Payment** & **Cash on Delivery (COD)**
 * Order history & order cancellation
 * Profile management
 
@@ -41,6 +42,7 @@ A **full-stack MERN e-commerce application** built with modern web technologies,
 * Product management (CRUD)
 * Category & sub-category handling
 * Order management
+* View order payment method (Online / COD)
 
 ### ⚙️ General Features
 
@@ -69,10 +71,11 @@ A **full-stack MERN e-commerce application** built with modern web technologies,
 * Express.js
 * MongoDB + Mongoose
 * JWT Authentication
+* Stripe Payment Gateway
+* Stripe Webhooks (checkout.session.completed)
 * Multer (memoryStorage for image uploads)
 * Cloudinary (image uploads)
 * Twilio (OTP / SMS notifications)
-
 
 ### Deployment
 
@@ -136,6 +139,10 @@ TWILIO_SID=your_twilio_account_sid
 TWILIO_AUTH_TOKEN=your_twilio_auth_token
 TWILIO_PHONE_NUMBER=your_twilio_phone_number
 
+# Stripe
+STRIPE_SECRET_KEY=your_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=your_webhook_secret
+
 ```
 
 ### Frontend (`client/.env`)
@@ -189,6 +196,15 @@ npm run dev
 <p align="center">
   <img src="https://github.com/user-attachments/assets/b09c0968-8827-44f6-8ad7-a7b39a5528ce" width="48%" />
   <img src="https://github.com/user-attachments/assets/127e2c37-d7dc-4a8e-ba88-3567263f1589" width="48%" />
+</p>
+
+### Stripe Secure Checkout
+<p align="center">
+   <img src="https://github.com/user-attachments/assets/49a9d6a9-cacf-44de-a0a4-1d5df47ec2a7" width="48%" />
+</p>
+
+<p align="center">
+  <i>Stripe-hosted secure checkout page (Test Mode)</i>
 </p>
 
 ---
