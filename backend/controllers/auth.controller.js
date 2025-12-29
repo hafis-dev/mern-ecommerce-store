@@ -16,7 +16,6 @@ const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^[0-9]{10}$/;
 
-
 export const registerUser = async (req, res) => {
   const { username, email, phone, password } = req.body;
 
@@ -42,7 +41,11 @@ export const registerUser = async (req, res) => {
       message: "Phone number must be 10 digits",
     });
   }
-
+  if (password.length < 6) {
+    return res.status(400).json({
+      message: "Password must be at least 6 characters long",
+    });
+  }
   try {
     const existingUser = await User.findOne({
       $or: [{ email }, { phone }],
@@ -89,7 +92,6 @@ export const registerUser = async (req, res) => {
   }
 };
 
-
 export const loginUser = async (req, res) => {
   try {
     const { emailOrPhone, password, rememberMe } = req.body;
@@ -110,7 +112,11 @@ export const loginUser = async (req, res) => {
         message: "Enter a valid email or 10-digit phone number",
       });
     }
-
+    if (password.length < 6) {
+      return res.status(400).json({
+        message: "Password must be at least 6 characters",
+      });
+    }
     const user = await User.findOne({
       $or: [{ email: identifier }, { phone: identifier }],
     });
@@ -147,7 +153,6 @@ export const loginUser = async (req, res) => {
   }
 };
 
-
 export const refreshToken = async (req, res) => {
   const token = req.cookies.refreshToken;
 
@@ -177,7 +182,6 @@ export const refreshToken = async (req, res) => {
   }
 };
 
-
 export const logoutUser = (req, res) => {
   res.clearCookie("refreshToken", {
     httpOnly: true,
@@ -188,7 +192,6 @@ export const logoutUser = (req, res) => {
 
   return res.status(200).json({ message: "Logged out successfully" });
 };
-
 
 export const forgotPassword = async (req, res) => {
   const { emailOrPhone } = req.body;
@@ -237,7 +240,6 @@ export const forgotPassword = async (req, res) => {
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
-
 
 export const resetPassword = async (req, res) => {
   const { emailOrPhone, otp, newPassword } = req.body;

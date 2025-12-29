@@ -220,8 +220,9 @@ const ProductPage = () => {
                     </p>
                     <p className={styles.highlightItem}>
                         <FontAwesomeIcon icon={faCreditCard} />{" "}
-                        <strong>Online Payment Only</strong>
+                        <strong>Multiple Payment Options (Online & COD)</strong>
                     </p>
+
                     <p className={styles.highlightItem}>
                         <FontAwesomeIcon icon={faRotateLeft} />{" "}
                         <strong>Easy Return & Exchange</strong>

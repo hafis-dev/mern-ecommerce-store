@@ -39,9 +39,8 @@ const LoginPage = () => {
             return toast.error("Enter a valid email or 10-digit phone number");
         }
 
-        if (!password) {
-            return toast.error("Password is required");
-        }
+        if (!password || password.length < 6)
+            return toast.error("Password must be at least 6 characters");
 
         try {
             const res = await loginUser({
