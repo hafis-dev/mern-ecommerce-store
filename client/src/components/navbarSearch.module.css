@@ -16,7 +16,12 @@
     background-color: var(--c2);
     color: var(--c6);
 }
-
+/* styles.module.css */
+.searchInput::placeholder {
+    color: var(--c4) !important;
+    font-size: 14px;
+    font-weight: 500;
+}
 .searchButton {
     background-color: var(--c6);
     color: var(--c1);
