@@ -104,7 +104,7 @@ ecommerce/
 │   ├── package.json
 │   └── vite.config.js
 │
-├── backend/                # Node.js + Express backend
+├── server/                # Node.js + Express backend
 │   ├── controllers/
 │   ├── models/
 │   ├── routes/
@@ -165,7 +165,7 @@ cd mern-ecommerce-store.git
 ### 2️⃣ Backend setup
 
 ```bash
-cd backend
+cd server
 npm install
 npm run dev
 ```
@@ -226,8 +226,8 @@ This project is licensed under the **MIT License**.
 ## 👨‍💻 Author
 
 **Muhammed Hafis**  
-- GitHub: https://github.com/hafis-dev  
-- LinkedIn: https://www.linkedin.com/in/muhammed-hafis-58496029b/
+- GitHub: https://github.com/muhammed-hafis
+- LinkedIn: https://www.linkedin.com/in/muhammed-hafis01/
 
 ---
 
