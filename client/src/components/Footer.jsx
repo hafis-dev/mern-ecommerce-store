@@ -8,9 +8,9 @@ import {
     faLocationDot,
     faPhone,
     faQuestionCircle,
-    faShieldHalved
+    faShieldHalved,
 } from "@fortawesome/free-solid-svg-icons";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faGithub,faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 import { Link } from "react-router-dom";
 
@@ -111,17 +111,36 @@ const Footer = () => {
                     <Col className="text-center">
                         <small className={styles.bottomLine}>
                             © {new Date().getFullYear()} ShopX — All Rights Reserved
-                            <span className="ms-2">
+                            <span className="ms-2 d-inline-flex align-items-center gap-1">
                                 |
                                 <a
                                     href="https://github.com/hafis-dev/mern-ecommerce-store"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={styles.linkItem}
+                                    aria-label="GitHub"
                                 >
-                                    <FontAwesomeIcon icon={faGithub} className={`${styles.githubIcon} ms-2`} />
+                                    <FontAwesomeIcon
+                                        icon={faGithub}
+                                        className={styles.socialIcon}
+                                    />
+                                </a>
+
+                                <a
+                                    href="https://www.linkedin.com/in/muhammed-hafis01/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={styles.linkItem}
+                                    aria-label="LinkedIn"
+                                >
+                                    <FontAwesomeIcon
+                                        icon={faLinkedin}
+                                        className={styles.socialIcon}
+                                    />
                                 </a>
                             </span>
+
+
                         </small>
                     </Col>
                 </Row>
