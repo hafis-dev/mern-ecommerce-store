@@ -47,12 +47,21 @@ export const addToCart = async (req, res) => {
 
 export const getCart = async (req, res) => {
   try {
-    const cart = await Cart.findOne({ user: req.user._id }).populate(
+    let cart = await Cart.findOne({ user: req.user._id }).populate(
       "items.product",
-      "name price images stock"
+      "name price images stock",
     );
 
     if (!cart) return res.json({ items: [] });
+
+    const filteredItems = cart.items.filter(
+      (item) => item.product && item.product.stock > 0,
+    );
+
+    if (filteredItems.length !== cart.items.length) {
+      cart.items = filteredItems;
+      await cart.save();
+    }
 
     return res.json(cart);
   } catch (err) {
@@ -60,6 +69,7 @@ export const getCart = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
 
 
 export const updateCartItem = async (req, res) => {
