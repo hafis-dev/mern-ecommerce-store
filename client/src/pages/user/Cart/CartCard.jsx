@@ -1,14 +1,17 @@
 import { Row, Col, Image, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faHeart } from "@fortawesome/free-solid-svg-icons";
 import styles from "./cartCard.module.css";
 import { useNavigate } from "react-router-dom";
+import { useWishlist } from "../../../context/Wishlist/useWishlist";
 
 const CartCard = ({ item, onIncrease, onDecrease, onRemove, onClick,isUpdating }) => {
     const product = item.product || {};
     const imgSrc = product.images?.[0] || "https://via.placeholder.com/75";
     const navigate = useNavigate();
     const isMaxStock = item.quantity >= (product.stock || 0);
+    const { wishlistIds, toggleWishlist } = useWishlist();
+    const isInWishlist = wishlistIds.includes(product._id);
 
     return (
         <Container fluid className="p-0 mb-3">
@@ -74,7 +77,17 @@ const CartCard = ({ item, onIncrease, onDecrease, onRemove, onClick,isUpdating }
 
 
                 
-                <Col xs={2} className="d-flex justify-content-end pe-2">
+                <Col xs={2} className="d-flex justify-content-end pe-2 gap-2">
+                    <button
+                        className={`${styles.trashBtn} ${isInWishlist ? styles.wishlistActive : styles.wishlistBtn}`}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            toggleWishlist(product._id);
+                        }}
+                        title={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
+                    >
+                        <FontAwesomeIcon icon={faHeart} className={styles.wishlistIcon} />
+                    </button>
                     <button
                         className={styles.trashBtn}
                         onClick={(e) => {

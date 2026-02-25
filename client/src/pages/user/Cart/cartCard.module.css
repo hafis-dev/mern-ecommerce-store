@@ -106,3 +106,24 @@
 .trashIcon:hover {
     color: var(--c5);
 }
+
+.wishlistBtn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.wishlistIcon {
+    color: var(--c4);
+    font-size: 18px;
+    transition: 0.2s ease;
+}
+
+.wishlistIcon:hover {
+    color: var(--c5);
+}
+
+.wishlistActive .wishlistIcon {
+    color: #e74c3c;
+}
