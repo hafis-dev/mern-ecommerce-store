@@ -1,12 +1,25 @@
 import { Row, Col, Image, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import styles from "./wishlistCard.module.css";
+import { useCart } from "../../../context/Cart/useCart";
+import { toast } from "react-toastify";
 
 const WishlistCard = ({ product, onRemove, onClick }) => {
     if (!product) return null;
 
     const imgSrc = product.images?.[0] || "https://via.placeholder.com/75";
+    const { addItem } = useCart();
+
+    const handleAddToCart = (e) => {
+        e.stopPropagation();
+        if (product.stock <= 0) {
+            toast.error("Product out of stock");
+            return;
+        }
+        addItem(product._id, 1);
+        toast.success("Added to cart");
+    };
 
     return (
         <Container fluid className="p-0 mb-3">
@@ -41,7 +54,19 @@ const WishlistCard = ({ product, onRemove, onClick }) => {
                     </div>
                 </Col>
 
-                <Col xs={2} className="d-flex justify-content-end pe-2">
+                <Col xs={2} className="d-flex justify-content-end pe-2 gap-2">
+                    <button
+                        className={`${styles.cartBtn} ${product.stock <= 0 ? styles.disabledBtn : ""}`}
+                        aria-label="Add to cart"
+                        title={product.stock <= 0 ? "Out of stock" : "Add to cart"}
+                        onClick={handleAddToCart}
+                        disabled={product.stock <= 0}
+                    >
+                        <FontAwesomeIcon
+                            icon={faShoppingCart}
+                            className={styles.cartIcon}
+                        />
+                    </button>
                     <button
                         className={styles.trashBtn}
                         aria-label="Remove from wishlist"

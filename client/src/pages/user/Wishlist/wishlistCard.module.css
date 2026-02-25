@@ -58,3 +58,29 @@
 .trashIcon:hover {
     color: var(--c5) ;
 }
+
+.cartBtn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.cartIcon {
+    color: var(--c4);
+    font-size: 18px;
+    transition: 0.2s ease;
+}
+
+.cartBtn:hover:not(:disabled) .cartIcon {
+    color: var(--c5);
+}
+
+.disabledBtn {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.disabledBtn .cartIcon {
+    color: var(--c4);
+}
